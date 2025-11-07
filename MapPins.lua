@@ -2163,7 +2163,7 @@ ebonheart_base={{.540,.091,57746,1}},
 deshaan_base={
 {.18,.48,187890},--Hlaalu Councilor Clue (Deshaan)
 {.528,.571,197843},--Mercymother Elite Clue
-{.261,.552,43661},{.186,.474,43662},{.465,.407,43663},{.758,.561,43664},{.901,.551,43665},{.792,.509,43666},{.352,.640,44934},{.476,.420,57748,1},{.787,.408,57751,1},{.238,.481,57755,1},{.148,.496,57772,1},{.637,.550,57817,1},{.485,.615,139426,4}},
+{.261,.552,43661},{.186,.474,43662},{.465,.407,43663},{.758,.561,43664},{.901,.551,43665},{.796,.511,43666},{.352,.640,44934},{.476,.420,57748,1},{.787,.408,57751,1},{.238,.481,57755,1},{.148,.496,57772,1},{.637,.550,57817,1},{.485,.615,139426,4}},
 shadowfen_base={{.483,.701,153647,"shield"},{.369,.150,43667},{.708,.392,43668},{.704,.701,43669},{.609,.611,43670},{.406,.469,43671},{.238,.564,43672},{.642,.455,44943},{.751,.430,57758,1},{.358,.265,57775,1},{.795,.852,57789,1},{.400,.695,57803,1},{.580,.679,57820,1},{.888,.686,139428,4}},
 eastmarch_base={{.431,.587,153643,"2haxe"},{.441,.374,43673},{.313,.458,43674},{.430,.591,43675},{.366,.598,43676},{.736,.660,43677},{.605,.539,43678},{.713,.583,44935},{.680,.612,57761,1},{.379,.604,57778,1},{.353,.288,57801,1},{.530,.414,57807,1},{.452,.497,57823,1},{.392,.686,139440,4}},
 therift_base={
@@ -2254,7 +2254,7 @@ local UnknownPOI={
 [48]={"Corelanya Manor Wayshrine",1},
 [49]={"Shell-Tide Village Wayshrine",1},
 [50]={"Sunport Wayshrine",1},
-[51]={"Tide-Born Foundry",8,{215872,7}},
+[51]={"Tide-Born Foundry",8,{215479,5}},
 [52]={"Swencoast Cottage",2},
 [53]={"Tidal Fishing Camp",2},
 [54]={"Xi-Tak Ruins",2},
@@ -2274,8 +2274,8 @@ local UnknownPOI={
 [71]={"Stone Cove Wayshrine",1},
 [72]={"Ghishzor",18},
 [73]={"Sunport Rampart Camp",26},
-[74]={"Salt-Air Station",8,{215112,3}},--+
---[75]={"Fellowship Forge",8,{215492,3}},--fix
+[74]={"Salt-Air Station",8,{215112,3}},
+[75]={"Fellowship Forge",8,{215872,7}},
 [76]={"Coldharbour's Shattered Jaws",2},
 [77]={"Leviathan's End",2},
 [78]={"Bismuth Grotto",2},
@@ -6745,7 +6745,7 @@ local CustomPins={	--Types
 		},
 	[10]={section=true,name="World_achievements",id={},pin={},texture="/esoui/art/progression/progression_indexicon_world_up.dds",
 		[42]={name="pinType_I_like_M'aiq",done=false,ach=872,maxDistance=0.05,level=101,texture="/esoui/art/icons/achievement_066.dds",k=1},
-		[43]={name="pinType_Lightbringer",done=false,maxDistance=0.05,level=101,texture="/esoui/art/miscellaneous/help_icon.dds",k=1.25},
+		[43]={name="pinType_Lightbringer",done=false,ach=873,maxDistance=0.05,level=101,texture="/esoui/art/miscellaneous/help_icon.dds",k=1.25},
 		[44]={name="pinType_Peacemaker",done=false,ach=716,maxDistance=0.05,level=101,texture="/esoui/art/icons/ability_healer_017.dds",k=1},
 		},
 	[11]={section=true,name="Orsinium",id={},pin={},texture="/esoui/art/treeicons/tutorial_idexicon_wrothgar_up.dds",	--"/esoui/art/icons/store_orsiniumdlc_collectable.dds",
