@@ -8174,7 +8174,7 @@ local function OnLoad(eventCode,addonName)
 	AddPinFilter()
 	OnMapChanged()
 	CALLBACK_MANAGER:RegisterCallback("OnWorldMapChanged", OnMapChanged)
-
+--[[
 	SLASH_COMMANDS["/loc"]=function()
 		local x,y=GetMapPlayerPosition("player")
 		local texture = GetMapTileTexture()
@@ -8200,7 +8200,7 @@ local function OnLoad(eventCode,addonName)
 		local formattedCoords = string.format("%.3f,%.3f", x, y)
 			formattedCoords = formattedCoords:gsub("0%.", ".")
 		StartChatInput(fileName .. '={' .. formattedCoords .. '},')
-end
+end--]]
 --	SLASH_COMMANDS["/mpdm"]=function() SavedGlobal.dm=not SavedGlobal.dm d("Map Pins developer mode is now "..(SavedGlobal.dm and "Enabled" or "Disabled")) end
 	SLASH_COMMANDS["/pinsize"]=function(n)
 		n=tonumber(n)
