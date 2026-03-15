@@ -6918,9 +6918,9 @@ local CustomPins={	--Types
 local PinsAva={[1]=true,[2]=true,[3]=true,[4]=true,[5]=true,[6]=true,[7]=true,[8]=true,[17]=true,[21]=true}
 local PinsNirn={[1]=true,[2]=true,[3]=true,[4]=true,[5]=true,[6]=true,[7]=true,[8]=true,[9]=true,[10]=true,[11]=true,[12]=true,[13]=true,[14]=true,[15]=true,[16]=true,[17]=true,[18]=true,[19]=true,[20]=true,[22]=true,[23]=true,[24]=true,[26]=true,[27]=true,[28]=true,[29]=true,[30]=true}
 local PinsImperial={[3]=true,[5]=true,[7]=true,[8]=true,[17]=true,[25]=true}
---	/script local name,_,_,icon=GetAchievementInfo(3295) StartChatInput(icon)
---	/script StartChatInput(ZO_AchievementsContentsCategoriesScrollChildZO_IconHeader12Icon:GetTextureFileName())
---	/script StartChatInput(GetCollectibleIcon(912))
+--	/script local name,_,_,icon=GetAchievementInfo(3295) CHAT_ROUTER:AddSystemMessage(icon)
+--	/script CHAT_ROUTER:AddSystemMessage(ZO_AchievementsContentsCategoriesScrollChildZO_IconHeader12Icon:GetTextureFileName())
+--	/script CHAT_ROUTER:AddSystemMessage(GetCollectibleIcon(912))
 --	/script d("|t26:26:/esoui/art/icons/achievement_u46_zone_flavor3.dds|t")
 
 local function GetSetDescription(setData)
@@ -6949,7 +6949,7 @@ local function GetSetDescription(setData)
 end
 
 local function GetFishingAchievement(subzone)
---	/script local AchName=GetAchievementCriterion(2295,7) StartChatInput(AchName)
+--	/script local AchName=GetAchievementCriterion(2295,7) CHAT_ROUTER:AddSystemMessage(AchName)
 	local id=FishingZones[subzone] or FishingZones[GetCurrentMapZoneIndex()]
 	if id then
 		local total={Lake=0,Foul=0,River=0,Salt=0,Oily=0,Mystic=0,Running=0}
@@ -6971,6 +6971,28 @@ local function GetFishingAchievement(subzone)
 	return false
 end
 
+
+local currentLoadingCoroutine = nil
+local currentLoadingMap = ""
+
+-- Helper to stop any existing loading process
+local function AbortPinLoading(i)
+    EVENT_MANAGER:UnregisterForUpdate(AddonName.."_PinLoader_"..i)
+    currentLoadingCoroutine = nil
+end
+-- Create Pin that does only whats needed
+local function customCreatePin(pinType, pinTag, xLoc, yLoc)
+    local pin, pinKey = PinManager:AcquireObject()
+    pin:SetData(pinType, pinTag)
+    pin:SetOriginalPosition(xLoc, yLoc)
+    pin:SetLocation(xLoc, yLoc)
+        
+    local customPinData = PinManager.customPins[pinType]
+    if customPinData then
+        PinManager:MapPinLookupToPinKey(customPinData.pinTypeString, pinType, pinTag, pinKey)
+    end
+end
+
 --Callbacks
 local MapPinCallback={
 	[5]=function(i,subzone)
@@ -6979,7 +7001,7 @@ local MapPinCallback={
 			for _, pinData in pairs(mapData) do
 				local AchName, _, done=GetLoreBookInfo(1, pinData[3], pinData[4])
 				if done==CustomPins[i].done then
-					PinManager:CreatePin(_G[CustomPins[i].name],{i,pinData[3], pinData[4]},pinData[1],pinData[2])
+					customCreatePin(_G[CustomPins[i].name],{i,pinData[3], pinData[4]},pinData[1],pinData[2])
 				end
 			end
 		end
@@ -7000,7 +7022,7 @@ local MapPinCallback={
 							or {[1]=i,[2]=itemData.slotIndex,texture="/"..AddonName.."/Treasure_2.dds"}	--Treasure map
 							CustomPins[i].tint=type(pinData[4])=="string" and ZO_ColorDef:New(1,.3,.3,1) or nil
 							pinTag.icon=itemData.iconFile
-							PinManager:CreatePin(_G[CustomPins[i].name],pinTag,pinData[1],pinData[2])
+							customCreatePin(_G[CustomPins[i].name],pinTag,pinData[1],pinData[2])
 							if LastZone~=subzone then
 								LastZone=subzone
 								d('You can find "'..itemData.name..'" in this zone')
@@ -7023,10 +7045,10 @@ local MapPinCallback={
 					if math.abs(pinData[1]-x)<ChestsRange*mult and math.abs(pinData[2]-y)<ChestsRange*mult then
 						if chType==2 and FindersKeepers then
 							CustomPins[i].tint=ZO_ColorDef:New(.6,.6,1,.8)
-							PinManager:CreatePin(id,{i,pinData[1], pinData[2]},pinData[1],pinData[2])
+							customCreatePin(id,{i,pinData[1], pinData[2]},pinData[1],pinData[2])
 						elseif chType==1 then
 							CustomPins[i].tint=ZO_ColorDef:New(1,1,1,.8)
-							PinManager:CreatePin(id,{i,pinData[1], pinData[2]},pinData[1],pinData[2])
+							customCreatePin(id,{i,pinData[1], pinData[2]},pinData[1],pinData[2])
 						end
 					end
 				end
@@ -7038,7 +7060,7 @@ local MapPinCallback={
 			CustomPins[i].tint=ZO_ColorDef:New(.4,1,.4,.8)
 			for chest, pinData in pairs(mapData) do
 				if math.abs(pinData[1]-x)<ChestsRange*mult and math.abs(pinData[2]-y)<ChestsRange*mult then
-					PinManager:CreatePin(id,{i,pinData[1], pinData[2]},pinData[1],pinData[2])
+					customCreatePin(id,{i,pinData[1], pinData[2]},pinData[1],pinData[2])
 				end
 			end
 			CustomPins[i].tint=ZO_ColorDef:New(1,1,1,.8)
@@ -7061,15 +7083,15 @@ local MapPinCallback={
 							pinTag.name=data[1]
 						end
 					end
-					local id=_G[CustomPins[i].name] PinManager:CreatePin(id,pinTag,normalizedX,normalizedY)
+					local id=_G[CustomPins[i].name] customCreatePin(id,pinTag,normalizedX,normalizedY)
 					local size=(BUI and BUI.name=="BanditsUserInterface" and BUI.init.MiniMap) and 40*BUI.Vars.PinScale/100 or 40 ZO_MapPin.PIN_DATA[id].size=size
 				elseif data[2]==25 then	--Mundus
 					local pinTag={[1]=i,name=GetAbilityName(data[3]),texture="/esoui/art/icons/poi/poi_mundus_complete.dds"} pinTag.desc=MundusDescription[ data[3] ]
-					local id=_G[CustomPins[i].name] PinManager:CreatePin(id,pinTag,normalizedX,normalizedY)
+					local id=_G[CustomPins[i].name] customCreatePin(id,pinTag,normalizedX,normalizedY)
 					local size=(BUI and BUI.name=="BanditsUserInterface" and BUI.init.MiniMap) and 40*BUI.Vars.PinScale/100 or 40 ZO_MapPin.PIN_DATA[id].size=size
 				elseif data[2]==8 and data[3] then	--Crafting station known
 					local pinTag={[1]=i,texture="/esoui/art/icons/mapkey/mapkey_crafting.dds"} pinTag.name,pinTag.desc=GetSetDescription(data[3])
-					local id=_G[CustomPins[i].name] PinManager:CreatePin(id,pinTag,normalizedX,normalizedY)
+					local id=_G[CustomPins[i].name] customCreatePin(id,pinTag,normalizedX,normalizedY)
 					local size=(BUI and BUI.name=="BanditsUserInterface" and BUI.init.MiniMap) and 40*BUI.Vars.PinScale/100 or 40 ZO_MapPin.PIN_DATA[id].size=size
 				end
 			end
@@ -7081,7 +7103,7 @@ local MapPinCallback={
 		if mapData then
 			for i1,pinData in ipairs(mapData) do
 				if pinData[3]==level/10+2 and not (SavedVars.TimeBreachClosed[subzone] and SavedVars.TimeBreachClosed[subzone][i1]) then
-					PinManager:CreatePin(_G[CustomPins[i].name],{i,pinData[3], pinData[4]},pinData[1],pinData[2])
+					customCreatePin(_G[CustomPins[i].name],{i,pinData[3], pinData[4]},pinData[1],pinData[2])
 				end
 			end
 		end
@@ -7091,39 +7113,73 @@ local MapPinCallback={
 		if mapData then
 			for i1,pinData in pairs(mapData) do
 				CustomPins[i].texture=ShrineIcon[ pinData[3] ]
-				PinManager:CreatePin(_G[CustomPins[i].name],{[1]=i,texture=ShrineIcon[ pinData[3] ]},pinData[1],pinData[2])
+				customCreatePin(_G[CustomPins[i].name],{[1]=i,texture=ShrineIcon[ pinData[3] ]},pinData[1],pinData[2])
 			end
 		end
 	end,
 	[17]=function(i,subzone)
-		local mapData=nil
-		local notDone=true
-		local function createFishingPins()
-			if mapData and notDone then
-				for i1,pinData in pairs(mapData) do
-					if notDone[ pinData[3] ] then
-						CustomPins[i].texture=FishIcon[ pinData[3] ]
-						PinManager:CreatePin(_G[CustomPins[i].name],{[1]=i,texture=FishIcon[ pinData[3] ]},pinData[1],pinData[2])
+		if currentLoadingCoroutine ~= nil then
+			if currentLoadingMap == subzone then return end
+			AbortPinLoading(i)
+		end
+		currentLoadingMap = subzone
+
+		local workQueue = {}
+		local subzonesToProcess = {}
+
+		--Add the map we want target 
+		if subzone == "u48_overland_base" then
+			table.insert(subzonesToProcess, "u48_overland_base_east")
+			table.insert(subzonesToProcess, "u48_overland_base_west")
+		else
+			table.insert(subzonesToProcess, subzone)
+		end
+		-- Add data(pins) to workQueue so we have 1 big table to process
+		for _, name in ipairs(subzonesToProcess) do
+			local mapData = FishingNodes[name]
+			local achStatus = GetFishingAchievement(name)
+			if mapData and achStatus then
+				for ii = 1, #mapData do
+					local pinData = mapData[ii]
+					if achStatus[pinData[3]] then
+						workQueue[#workQueue+1] = pinData
 					end
 				end
 			end
 		end
-		if subzone == "u48_overland_base" then --this handles the u48 issue where both Fishing Achievements share the same zone (by gamersa22)
-			subzone = "u48_overland_base_east" 
-			mapData=FishingNodes[subzone]
-			notDone=GetFishingAchievement(subzone)
-			createFishingPins()
-			subzone = "u48_overland_base_west" 
+		local pinIndex = 1
+		local frameBudget = 0.1
+
+		currentLoadingCoroutine = function()
+			local startTime = GetGameTimeSeconds()
+			while pinIndex <= #workQueue do
+				local pinData = workQueue[pinIndex]
+					CustomPins[i].texture=FishIcon[ pinData[3] ]
+					customCreatePin(_G[CustomPins[i].name],{[1]=i,texture=FishIcon[ pinData[3] ]},pinData[1],pinData[2])
+					pinIndex = pinIndex + 1
+				if pinIndex % 10 == 0 then
+					if (GetGameTimeSeconds() - startTime) > frameBudget then
+						return
+					end
+				end
+			end
+			AbortPinLoading(i)
 		end
-		mapData=FishingNodes[subzone]
-		notDone=GetFishingAchievement(subzone)
-		createFishingPins()
+
+		-- Start Coroutine
+		EVENT_MANAGER:RegisterForUpdate(AddonName.."_PinLoader_"..i, 0, function(i)
+			if currentLoadingCoroutine then
+				currentLoadingCoroutine()
+			else
+				AbortPinLoading(i)
+			end
+		end)
 	end,
 	[21]=function(i,subzone)
 		local mapData=Volendrung[subzone]
 		if mapData then
 			for i1,pinData in pairs(mapData) do
-				PinManager:CreatePin(_G[CustomPins[i].name],{[1]=i,name="Volendrung"..i1},pinData[1],pinData[2])
+				customCreatePin(_G[CustomPins[i].name],{[1]=i,name="Volendrung"..i1},pinData[1],pinData[2])
 			end
 		end
 	end,
@@ -7133,7 +7189,7 @@ local MapPinCallback={
 			mapData=mapData[i]
 			if mapData then
 				for i1,pinData in pairs(mapData) do
-					PinManager:CreatePin(_G[CustomPins[i].name],{[1]=i,name=pinData[3]},pinData[1],pinData[2])
+					customCreatePin(_G[CustomPins[i].name],{[1]=i,name=pinData[3]},pinData[1],pinData[2])
 				end
 			end
 		end
@@ -7145,7 +7201,7 @@ local MapPinCallback={
 			if mapData then
 				for i1,pinData in pairs(mapData) do
 					CustomPins[i].tint=ZO_ColorDef:New(unpack(AllianceColors[ pinData[3] ]))
-					PinManager:CreatePin(_G[CustomPins[i].name],{[1]=i,name="ImperialCityRespawn"..i1},pinData[1],pinData[2])
+					customCreatePin(_G[CustomPins[i].name],{[1]=i,name="ImperialCityRespawn"..i1},pinData[1],pinData[2])
 				end
 			end
 		end
@@ -7165,7 +7221,7 @@ local MapPinCallback={
 						Completed=(c1+c2+c3)>=(r1+r2+r3)
 					end
 					if not Completed then
-						PinManager:CreatePin(_G[CustomPins[i].name],{i,pinData[3],pinData[4]},pinData[1],pinData[2])
+						customCreatePin(_G[CustomPins[i].name],{i,pinData[3],pinData[4]},pinData[1],pinData[2])
 					end
 				end
 			end
@@ -7178,7 +7234,7 @@ local MapPinCallback={
 			if mapData then
 				for i1,pinData in pairs(mapData) do
 					if GetNumAntiquitiesRecovered(pinData[3])<1 then	--and not DoesAntiquityHaveLead(pinData[3]) then
-						PinManager:CreatePin(_G[CustomPins[i].name],{[1]=i,name=ZO_CachedStrFormat("<<C:1>>",GetAntiquityName(pinData[3]))},pinData[1],pinData[2])
+						customCreatePin(_G[CustomPins[i].name],{[1]=i,name=ZO_CachedStrFormat("<<C:1>>",GetAntiquityName(pinData[3]))},pinData[1],pinData[2])
 					end
 				end
 			end
@@ -7190,7 +7246,7 @@ local MapPinCallback={
 			mapData=mapData[i]
 			if mapData then
 				for i1,pinData in pairs(mapData) do
-					PinManager:CreatePin(_G[CustomPins[i].name],{[1]=i,name="Random encounter"},pinData[1],pinData[2])
+					customCreatePin(_G[CustomPins[i].name],{[1]=i,name="Random encounter"},pinData[1],pinData[2])
 				end
 			end
 		end
@@ -7202,17 +7258,17 @@ local MapPinCallback={
 			if mapData then
 				for i1,pinData in pairs(mapData) do
 					if pinData[3]==1 then
-						PinManager:CreatePin(_G[CustomPins[i].name],{[1]=i,name="Oblivion portal"},pinData[1],pinData[2])
+						customCreatePin(_G[CustomPins[i].name],{[1]=i,name="Oblivion portal"},pinData[1],pinData[2])
 					elseif pinData[3]==2 then
-						PinManager:CreatePin(_G[CustomPins[i].name],{[1]=i,name="Dark Fissures"},pinData[1],pinData[2])
+						customCreatePin(_G[CustomPins[i].name],{[1]=i,name="Dark Fissures"},pinData[1],pinData[2])
 					elseif pinData[3]==3 then
-						PinManager:CreatePin(_G[CustomPins[i].name],{[1]=i,name="Celestial Rift"},pinData[1],pinData[2])
+						customCreatePin(_G[CustomPins[i].name],{[1]=i,name="Celestial Rift"},pinData[1],pinData[2])
 					elseif pinData[3]==4 then
-						PinManager:CreatePin(_G[CustomPins[i].name],{[1]=i,name="Shadow Fissures"},pinData[1],pinData[2])
+						customCreatePin(_G[CustomPins[i].name],{[1]=i,name="Shadow Fissures"},pinData[1],pinData[2])
 					elseif pinData[3]==5 then
-						PinManager:CreatePin(_G[CustomPins[i].name],{[1]=i,name="Lava Lasher"},pinData[1],pinData[2])
+						customCreatePin(_G[CustomPins[i].name],{[1]=i,name="Lava Lasher"},pinData[1],pinData[2])
 					elseif pinData[3]==6 then
-						PinManager:CreatePin(_G[CustomPins[i].name],{[1]=i,name="Soul Reaper"},pinData[1],pinData[2])
+						customCreatePin(_G[CustomPins[i].name],{[1]=i,name="Soul Reaper"},pinData[1],pinData[2])
 					end
 				end
 			end
@@ -7230,7 +7286,7 @@ local function MapPinAddCallback(i)
 		UpdatingMapPin[i]=true
 		EVENT_MANAGER:RegisterForEvent(AddonName.."_MapPin_"..i,EVENT_PLAYER_ACTIVATED,
 			function()
-				EVENT_MANAGER:UnregisterForEvent(AddonName.."_Pin_"..i,EVENT_PLAYER_ACTIVATED)
+				EVENT_MANAGER:UnregisterForEvent(AddonName.."_MapPin_"..i,EVENT_PLAYER_ACTIVATED)
 				UpdatingMapPin[i]=false MapPinAddCallback(i)
 			end)
 		return
@@ -7245,8 +7301,10 @@ local function MapPinAddCallback(i)
 --	pl("Map pin "..i.." updating")
 
 	local subzone = GetMapTileTexture():match("[^\\/]+$"):lower():gsub("%.dds$", ""):gsub("_[0-9]+$", "")
+	-- Main Callback
 	if MapPinCallback[i] then
 		MapPinCallback[i](i,subzone)
+	-- if missing we do this
 	elseif i<=4 then
 		local mapData
 		if i==1 or i==2 then mapData=Bosses[subzone] elseif i==3 or i==4 then mapData=SkyShards[subzone] end
@@ -7260,7 +7318,7 @@ local function MapPinAddCallback(i)
 					AchName,Completed,Required=GetAchievementCriterion(pinData[3],pinData[4])
 				end
 				if (Completed==Required)==CustomPins[i].done then
-					PinManager:CreatePin(_G[CustomPins[i].name],{i,pinData[3],pinData[4],pinData[5]},pinData[1],pinData[2])
+					customCreatePin(_G[CustomPins[i].name],{i,pinData[3],pinData[4],pinData[5]},pinData[1],pinData[2])
 				end
 			end
 		end
@@ -7280,7 +7338,7 @@ local function MapPinAddCallback(i)
 					local HaveItem=AchievementItems[ pinData[3] ] and AchievementItems[ pinData[3] ][ pinData[4] ] and true or false
 					if Completed==CustomPins[i].done and HaveItem==CustomPins[i].done then
 --						if HaveItem~=CustomPins[i].done then CustomPins[11].tint=ZO_ColorDef:New(1,.1,.4,.8) else CustomPins[11].tint=ZO_ColorDef:New(1,1,1,1) end
-						PinManager:CreatePin(_G[CustomPins[i].name],{i,pinData[3], pinData[4]},pinData[1],pinData[2])
+						customCreatePin(_G[CustomPins[i].name],{i,pinData[3], pinData[4]},pinData[1],pinData[2])
 					end
 				end
 			end
@@ -7439,15 +7497,27 @@ local function ScanInventory()
 end
 
 --Events
+--[[
 local function OnBackpackChanged(bagId,_,slotData)
 --	d("Bag changed: "..bagId..(slotData and " Item type: "..tostring(slotData.itemType or "")))
 	if bagId~=BAG_BACKPACK or UpdatingMapPin[6] or not slotData or slotData.itemType~=ITEMTYPE_TROPHY then return end
 	UpdatingMapPin[6]=true
 	zo_callLater(function()
 		UpdatingMapPin[6]=false
-		PinManager:RefreshCustomPins(_G[CustomPins[6].name])
+		ZO_WorldMap_RefreshCustomPinsOfType(_G[CustomPins[6].name])
 		if COMPASS_PINS then COMPASS_PINS:RefreshPins(CustomPins[6].name) end
 	end,1000)
+end
+--]]
+--Events (quick fix)
+local function OnBackpackChanged(bagId,_,slotData)
+    if bagId ~= BAG_BACKPACK or UpdatingMapPin[6] then return end
+    UpdatingMapPin[6] = true
+    zo_callLater(function()
+        UpdatingMapPin[6] = false
+        PinManager:RefreshCustomPins(_G[CustomPins[6].name])
+        if COMPASS_PINS then COMPASS_PINS:RefreshPins(CustomPins[6].name) end
+    end, 1000)
 end
 
 local function OnLootReceived(_, receivedBy, itemName, quantity, itemSound, lootType, self, _, questItemIcon, itemId)
@@ -7672,7 +7742,7 @@ local function OnInteract(_,result,TargetName)
 			end
 		end
 	end
---	StartChatInput(TargetName)
+--	CHAT_ROUTER:AddSystemMessage(TargetName)
 end
 
 local function TrackChestsRange()
@@ -8174,7 +8244,7 @@ local function OnLoad(eventCode,addonName)
 	AddPinFilter()
 	OnMapChanged()
 	CALLBACK_MANAGER:RegisterCallback("OnWorldMapChanged", OnMapChanged)
---[[
+
 	SLASH_COMMANDS["/loc"]=function()
 		local x,y=GetMapPlayerPosition("player")
 		local texture = GetMapTileTexture()
@@ -8184,11 +8254,11 @@ local function OnLoad(eventCode,addonName)
 			--fileName = fileName:gsub("_base$", "")
 		local xStr = string.gsub(math.floor(x*1000)/1000, "^0%.", ".")
 		local yStr = string.gsub(math.floor(y*1000)/1000, "^0%.", ".")
-		StartChatInput(fileName .. '={{'..xStr..','..yStr..','..LastAchivement..'}},')
+		CHAT_ROUTER:AddSystemMessage(fileName .. '={{'..xStr..','..yStr..','..LastAchivement..'}},')
 	end
 	SLASH_COMMANDS["/loc1"]=function()
 		local x,y=GetMapPlayerPosition("player")
-		StartChatInput('{'..string.gsub(math.floor(x*1000)/1000,"[0][.]",".")..","..string.gsub(math.floor(y*1000)/1000,"[0][.]",".")..","..LastAchivement..'},')
+		CHAT_ROUTER:AddSystemMessage('{'..string.gsub(math.floor(x*1000)/1000,"[0][.]",".")..","..string.gsub(math.floor(y*1000)/1000,"[0][.]",".")..","..LastAchivement..'},')
 	end
 	SLASH_COMMANDS["/loc2"]=function()
 		local texturePath = GetMapTileTexture()
@@ -8199,8 +8269,8 @@ local function OnLoad(eventCode,addonName)
 		local x, y = GetMapPlayerWaypoint()
 		local formattedCoords = string.format("%.3f,%.3f", x, y)
 			formattedCoords = formattedCoords:gsub("0%.", ".")
-		StartChatInput(fileName .. '={' .. formattedCoords .. '},')
-end--]]
+		CHAT_ROUTER:AddSystemMessage(fileName .. '={' .. formattedCoords .. '},')
+end
 --	SLASH_COMMANDS["/mpdm"]=function() SavedGlobal.dm=not SavedGlobal.dm d("Map Pins developer mode is now "..(SavedGlobal.dm and "Enabled" or "Disabled")) end
 	SLASH_COMMANDS["/pinsize"]=function(n)
 		n=tonumber(n)
@@ -8363,7 +8433,7 @@ end
 /script d(string.match(GetMapTileTexture(), "%w+/%w+/%w+/(%w+_%w+)"))
 /script d("|t26:26:/MapPins/Chest_1.dds|t")
 /script MP_MakeBase()
-/script Link=("|H1:item:%d:370:50:0:0:0:0:0:0:0:0:0:0:0:0:1:0:0:0:10000:0|h|h"):format(130803) local _,name=GetItemLinkSetInfo(Link) StartChatInput(name)
+/script Link=("|H1:item:%d:370:50:0:0:0:0:0:0:0:0:0:0:0:0:1:0:0:0:10000:0|h|h"):format(130803) local _,name=GetItemLinkSetInfo(Link) CHAT_ROUTER:AddSystemMessage(name)
 /script d(ZO_WorldMap_GetPinManager():IsCustomPinEnabled(201))
 /script PinManager:RefreshCustomPins()
 /script for pin,data in pairs(ZO_MapPin.PIN_DATA) do local texture=data.texture d(pin.." ("..tostring(data.size)..") |t18:18:"..tostring(texture).."|t"..tostring(texture)) end
@@ -8382,7 +8452,7 @@ end
 
 /script for i=1,GetNumSkillLines(5) do if GetSkillAbilityId(5,i,1,false)==103478 then PsijicSkillLine=i end end d(GetSkillLineXPInfo(5,PsijicSkillLine))
 
-/script local x,y=GetMapPlayerWaypoint() StartChatInput('{'..math.floor(x*1000)/1000 ..","..math.floor(y*1000)/1000 ..'},')
+/script local x,y=GetMapPlayerWaypoint() CHAT_ROUTER:AddSystemMessage('{'..math.floor(x*1000)/1000 ..","..math.floor(y*1000)/1000 ..'},')
 
 /script for _, itemData in pairs(SHARED_INVENTORY:GenerateFullSlotData(nil, BAG_BACKPACK)) do
 	if itemData and itemData.itemType==ITEMTYPE_TROPHY then d(itemData.name.." "..itemData.stackCount) end
@@ -8396,7 +8466,7 @@ if id~=7 and Name~="" then d('['..i..']={"'..Name..'",'..id..','..poiType..' Kno
 end end
 
 /script d(GetPOIMapInfo(GetCurrentMapZoneIndex(), 7))
-/script StartChatInput(GetZoneId(GetCurrentMapZoneIndex()))
-/script local i,zone=1,GetCurrentMapZoneIndex() local id=GetPOIType(zone, i) local Name=GetPOIInfo(zone, i) StartChatInput('['..i..']={"'..Name..'",'..id..'},')
+/script CHAT_ROUTER:AddSystemMessage(GetZoneId(GetCurrentMapZoneIndex()))
+/script local i,zone=1,GetCurrentMapZoneIndex() local id=GetPOIType(zone, i) local Name=GetPOIInfo(zone, i) CHAT_ROUTER:AddSystemMessage('['..i..']={"'..Name..'",'..id..'},')
 
 --]]
