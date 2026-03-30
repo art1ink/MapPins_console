@@ -713,7 +713,7 @@ hallsofregulation_2_base={{.728,.402,2016,1}},
 }
 end
 local BossesAchievements={[4272]=true,[4271]=true,[4265]=true,[4264]=true,[4262]=true,[4261]=true,[4260]=true,[4259]=true,[4258]=true,[4257]=true,[4003]=true,[4002]=true,[4001]=true,[4000]=true,[3959]=true,[3958]=true,[3957]=true,[3956]=true,[3955]=true,[3954]=true,[3660]=true,[3659]=true,[3658]=true,[3657]=true,[3625]=true,[3624]=true,[3623]=true,[3622]=true,[3621]=true,[3620]=true,[3490]=true,[3489]=true,[3284]=true,[3283]=true,[3282]=true,[3281]=true,[3280]=true,[3279]=true,[3278]=true,[3277]=true,[3276]=true,[3275]=true,[2996]=true,[2997]=true,[2971]=true,[2714]=true,[2715]=true,[2717]=true,[2718]=true,[2440]=true,[2442]=true,[2444]=true,[2445]=true,[744]=true,[734]=true,[741]=true,[742]=true,[733]=true,[732]=true,[377]=true,[738]=true,[739]=true,[740]=true,[1238]=true,[1239]=true,[1052]=true,[2095]=true,[2096]=true,[2181]=true,[2182]=true,[2007]=true,[300]=true,[470]=true,[1235]=true,[1236]=true,[1855]=true,[1846]=true,[1057]=true,[1058]=true,[1059]=true,[1061]=true,[1062]=true,[1063]=true,[1064]=true,[1425]=true,[1857]=true,[1691]=true,[1523]=true,[1856]=true,[1854]=true,[368]=true,[370]=true,[374]=true,[376]=true,[390]=true,[396]=true,}
-local SkyShards
+local SkyShards={}
 local function Load_SkyShards()
 SkyShards={
 u48_overland_base={--Seasons of the Worm Cult (Western and Eastern Solstice) by art1ink
@@ -7989,32 +7989,7 @@ local PinTooltipCreator={
 	end
 }
 
-local function load_Vars()
-Load_Bosses()
-Load_SkyShards()
-Load_Lorebooks()
-Load_TreasureMaps()
-Load_UnknownPOI()
-Load_ChestData()
-Load_Achievements()
-Load_FishingNodes()
-end
-local function OnLoad(eventCode,addonName)
-	if addonName~=AddonName then return end
-	EVENT_MANAGER:UnregisterForEvent(AddonName,EVENT_ADD_ON_LOADED)
-	SavedVars=ZO_SavedVars:New("MP_SavedVars",2,nil,DefaultVars)
-	CustomChestData=ZO_SavedVars:NewAccountWide("MP_ChestData",2,nil,{})
-	CustomThievesTrove=ZO_SavedVars:NewAccountWide("MP_ThievesTrove",2,nil,{})
---	CustomQuestData=ZO_SavedVars:NewAccountWide("MP_QuestData",1,nil,{})
-	SavedGlobal=ZO_SavedVars:NewAccountWide("MP_SavedGlobal",1,nil,DefaultGlobal)
-	PinManager=ZO_WorldMap_GetPinManager()
---	CustomPins_init()
-	RegisterEvents()
-
-	--APIVersion: 101032
-	SavedVars[4]=false
-	zo_callLater(function()
-	load_Vars()
+local function CreateFilter()
 	local function AddPin(pin,pinLayout)
 		local TooltipCreator=(not PinTooltipSupres[pin] and PinTooltipCreator or nil)
 		local name=pinLayout.name
@@ -8049,7 +8024,43 @@ local function OnLoad(eventCode,addonName)
 	AddPinFilter()
 	OnMapChanged()
 	CALLBACK_MANAGER:RegisterCallback("OnWorldMapChanged", OnMapChanged)
+end
+
+local function OnLoad(eventCode,addonName)
+	if addonName~=AddonName then return end
+	EVENT_MANAGER:UnregisterForEvent(AddonName,EVENT_ADD_ON_LOADED)
+	SavedVars=ZO_SavedVars:New("MP_SavedVars",2,nil,DefaultVars)
+	CustomChestData=ZO_SavedVars:NewAccountWide("MP_ChestData",2,nil,{})
+	CustomThievesTrove=ZO_SavedVars:NewAccountWide("MP_ThievesTrove",2,nil,{})
+--	CustomQuestData=ZO_SavedVars:NewAccountWide("MP_QuestData",1,nil,{})
+	SavedGlobal=ZO_SavedVars:NewAccountWide("MP_SavedGlobal",1,nil,DefaultGlobal)
+	PinManager=ZO_WorldMap_GetPinManager()
+--	CustomPins_init()
+	RegisterEvents()
+
+	--APIVersion: 101032
+	SavedVars[4]=false
+	zo_callLater(function()
+		local loadIndex=0
+		EVENT_MANAGER:RegisterForUpdate(AddonName.."_DelayedVarLoading", 5, function()
+			loadIndex=loadIndex+1
+			if loadIndex==1 then Load_Bosses() return end
+			if loadIndex==2 then Load_SkyShards() return end
+			if loadIndex==3 then Load_Lorebooks() return end
+			if loadIndex==4 then Load_TreasureMaps() return end
+			if loadIndex==5 then Load_UnknownPOI() return end
+			if loadIndex==6 then Load_ChestData() return end
+			if loadIndex==7 then Load_Achievements() return end
+			if loadIndex==8 then Load_FishingNodes() return end
+			if loadIndex==9 then 
+				EVENT_MANAGER:UnregisterForUpdate(AddonName.."_DelayedVarLoading") 
+				CreateFilter()
+				return 
+			end
+		end)
+	
 	end,250)
+	
 	SLASH_COMMANDS["/loc"]=function()
 		local x,y=GetMapPlayerPosition("player")
 		local texture = GetMapTileTexture()
