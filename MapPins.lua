@@ -7842,112 +7842,10 @@ end
 --Initialization
 local panelToFilter = {}
 local function AddPinFilter()	
-										  
-															  
-									  
-																																													   
-										   
-					   
-														  
-							   
-					
-											
-					 
-	   
-	  
-	 
-	
-
 	local function GetCroppedAchievementInfo(id)
 		local name,_,_,icon=GetAchievementInfo(id)
 		local pos=string.find(name,"<<player")
 		return pos and table.concat({string.sub(name,0,pos-1), string.match(string.sub(name,pos), "<<player{([%D]+)/[%D]+}>>([%D]*)")}) or name, icon
-	end
-
-	local function GetFilterToolTip(i)
-		if not i or i == 0 then return "" end--for when we go over a filter thats not ours
-																													
-																																	 
-													   
-							   
-		local tooltipText=""
-		if CustomPins[i].name=="pinType_Unknown_POI" then
-			tooltipText=zo_iconFormat("/esoui/art/icons/poi/poi_areaofinterest_incomplete.dds",24,24).." "..GetString(SI_GAMEPAD_PLAYER_PROGERSS_BAR_UNKNOWN_ZONE).."\n"	--Unknown POI
-			..zo_iconFormat("/esoui/art/icons/poi/poi_crafting_incomplete.dds",24,24).." "..GetString(SI_SPECIALIZEDITEMTYPE213).."\n"	--Crafting station description
-			..zo_iconFormat("/esoui/art/icons/poi/poi_mundus_incomplete.dds",24,24).." "..GetString(SI_ZONECOMPLETIONTYPE12)	--Mundus description
-		elseif CustomPins[i].name=="pinType_Shrines" then
-			tooltipText=zo_iconFormat(ShrineIcon[1],24,24).." "..GetString(SI_MONSTERSOCIALCLASS42).."\n"..zo_iconFormat(ShrineIcon[2],24,24).." "..GetString(SI_MONSTERSOCIALCLASS45)	--Vampire, Werewolf
-		elseif CustomPins[i].name=="pinType_Fishing_Nodes" then
-			tooltipText=zo_iconFormat(FishIcon[1],24,24).." "..Loc("Foul").."\n"
-			..zo_iconFormat(FishIcon[2],24,24).." "..Loc("River").."\n"
-			..zo_iconFormat(FishIcon[3],24,24).." "..Loc("Salt").."\n"
-			..zo_iconFormat(FishIcon[4],24,24).." "..Loc("Lake")
-		elseif CustomPins[i].name=="pinType_Portals" then
-			tooltipText=zo_iconFormat("/esoui/art/icons/poi/poi_portal_complete.dds",24,24).." "..Loc("Celestial_Rifts").."\n"
-			..zo_iconFormat("/esoui/art/icons/poi/poi_portal_complete.dds",24,24).." "..Loc("Dark_Fissures").."\n"
-			..zo_iconFormat("/esoui/art/icons/poi/poi_portal_complete.dds",24,24).." "..Loc("Oblivion_Portals").."\n"
-			..zo_iconFormat("/esoui/art/icons/poi/poi_portal_complete.dds",24,24).." "..Loc("Shadow_Fissures").."\n"
-			..zo_iconFormat("/esoui/art/icons/poi/poi_portal_complete.dds",24,24).." "..Loc("Lava_Lashers").."\n"
-			..zo_iconFormat("/esoui/art/icons/poi/poi_portal_complete.dds",24,24).." "..Loc("Soul_Reaper")
-		elseif CustomPins[i].name=="pinType_Clockwork_City" then
-			--tooltipText=function()
-				local text=""
-				for i,data in ipairs(PrecursorTooltip) do
-					local _,c,r=GetAchievementCriterion(1958,data.v)
-					local HaveItem=AchievementItems[1958] and AchievementItems[1958][data.v] and true or false
-					local info="\n["..(c==r and "|c33EE33" or HaveItem and "|cEEEE22" or "|cEEEEEE")..data.v.."|r] "
-					text=text..info..data.desc
-				end
-				tooltipText = zo_strformat("|t24:24:<<2>>|t <<1>>", GetCroppedAchievementInfo(1958))
---					.."\n|t300:8:/EsoUI/Art/Miscellaneous/horizontalDivider.dds|t"
-					..text
-			--end
-		elseif CustomPins[i].name=="pinType_Greymoor" then
-			--tooltipText=function()
-				local text1=""
-				for i,data in ipairs(MiningSampleTooltip) do
-					local _,c,r=GetAchievementCriterion(2759,data.v)
-					local HaveItem=AchievementItems[2759] and AchievementItems[2759][data.v] and true or false
-					local info="\n["..(c==r and "|c33EE33" or HaveItem and "|cEEEE22" or "|cEEEEEE")..data.v.."|r] "
-					text1=text1..info..data.desc
-				end
-				local text2=""
-				for i,data in ipairs(InstrumentsTooltip) do
-					local _,c,r=GetAchievementCriterion(2669,data.v)
-					local HaveItem=AchievementItems[2669] and AchievementItems[2669][data.v] and true or false
-					local info="\n["..(c==r and "|c33EE33" or HaveItem and "|cEEEE22" or "|cEEEEEE")..data.v.."|r] "
-					text2=text2..info..data.desc
-				end
-				tooltipText=zo_strformat("|t24:24:<<2>>|t <<1>>", GetCroppedAchievementInfo(CustomPins[69].ach))
-					..text1
-					 .."\n|t300:8:/EsoUI/Art/Miscellaneous/horizontalDivider.dds|t\n"
-					 ..zo_strformat("|t24:24:<<2>>|t <<1>>", GetCroppedAchievementInfo(CustomPins[68].ach))
-					 ..text2
-			--end
-		else
-			for _,pin in pairs(CustomPins[i].pin) do
-				if tooltipText~="" then tooltipText=tooltipText.."\n" end
-				if CustomPins[pin].name=="pinType_Lightbringer" then
-					tooltipText=tooltipText
-					..zo_strformat("|t24:24:<<2>>|t <<1>>\n", GetCroppedAchievementInfo(873))--Lightbringer
-					..zo_strformat("|t24:24:<<2>>|t <<1>>\n", GetCroppedAchievementInfo(871))--Give to Poor
-					..zo_strformat("|t24:24:<<2>>|t <<1>>", GetCroppedAchievementInfo(869))--Crime Pays
-				else
-					local name=CustomPins[pin].ach and GetCroppedAchievementInfo(CustomPins[pin].ach) or Loc(string.gsub(CustomPins[pin].name,"pinType_",""))
-					tooltipText=tooltipText..zo_iconFormat((CustomPins[pin].def_texture and CustomPins[pin].def_texture or CustomPins[pin].texture),24,24).." "..name	--string.gsub(name,"_"," ")
-									   
-				end
-			end
-		end	
-		return tooltipText
-	end
-
-	local function AddToolTipCheckbox(checkbox,i)
-		local tooltipText = GetFilterToolTip(i)	
-		if tooltipText~="" then
-			checkbox:SetHandler("OnMouseEnter", function(self) ZO_Tooltips_ShowTextTooltip(self, LEFT, type(tooltipText)=="string" and tooltipText or tooltipText()) end)
-			checkbox:SetHandler("OnMouseExit", ZO_Tooltips_HideTextTooltip)
-		end
 	end
 	local function SetNameForMapPinGroup(i)
 		local mapPinGroup = _G[CustomPins[i].name]
@@ -7957,29 +7855,7 @@ local function AddPinFilter()
 		return mapPinGroup
 	end
 	local function FilterCallback()
-	end
-	
-	if WORLD_MAP_FILTERS then	
-	for i=1,30 do
-		if CustomPins[i] then	
-			local mapPinGroup = SetNameForMapPinGroup(i)	
-			local function AddCheckBox(panel, filter)
-				panelToFilter[panel] = filter
-				panel:AddPinFilterCheckBox(mapPinGroup, FilterCallback)
-				local checkbox = panel:FindCheckBox(mapPinGroup)
-				if checkbox then
-					AddToolTipCheckbox(checkbox,i)
-				end
-			end
-			local self = WORLD_MAP_FILTERS
-			if PinsNirn[i] then	AddCheckBox(self.pvePanel, "pve") end
-			if PinsAva[i] then AddCheckBox(self.pvpPanel, "pvp") end
-			if PinsImperial[i] then AddCheckBox(self.imperialPvPPanel, "imperialPvP") end
-		end
-	end
-	end
-	
-	if GAMEPAD_WORLD_MAP_FILTERS then
+	end	
 	for i=30,1,-1 do --revesed else they apear backwars in filter list
 		if CustomPins[i] then	
 			local mapPinGroup = SetNameForMapPinGroup(i)
@@ -7996,7 +7872,6 @@ local function AddPinFilter()
 			if PinsAva[i] then AddCheckBox(self.pvpPanel, "pvp") end
 			if PinsImperial[i] then AddCheckBox(self.imperialPvPPanel, "imperialPvP") end
 		end 
-	end
 	end
 end
 
@@ -8039,9 +7914,6 @@ local function OnMapChanged()
 	currentFilter = panelToFilter[filters]
 	for i=1,30 do
 		if CustomPins[i] then
-			if WORLD_MAP_FILTERS then
-				WORLD_MAP_FILTERS.currentPanel:SetPinFilter(_G[CustomPins[i].name], SavedVars[i] ~= false)
-			end
 			if GAMEPAD_WORLD_MAP_FILTERS then
 				GAMEPAD_WORLD_MAP_FILTERS.currentPanel:SetPinFilter(_G[CustomPins[i].name], SavedVars[i] ~= false)
 			end
@@ -8106,115 +7978,17 @@ local PinTooltipCreator={
 			icon=CustomPins[21].texture
 			name="Volendrung spawn location"
 		end
-		name=(pinTag[3] and "["..pinTag[3].."] " or "")..name
-		if IsInGamepadPreferredMode() then
-			ZO_MapLocationTooltip_Gamepad:LayoutIconStringLine(ZO_MapLocationTooltip_Gamepad.tooltip, icon, zo_strformat("<<1>>", name), ZO_MapLocationTooltip_Gamepad.tooltip:GetStyle("mapLocationTooltipWayshrineHeader"))
-			if desc then
-				ZO_MapLocationTooltip_Gamepad:LayoutIconStringLine(ZO_MapLocationTooltip_Gamepad.tooltip, nil, zo_strformat("<<1>>", desc), ZO_MapLocationTooltip_Gamepad.tooltip:GetStyle("mapRecallCost"))
-			end
-			if desc1 then
-				ZO_MapLocationTooltip_Gamepad:LayoutIconStringLine(ZO_MapLocationTooltip_Gamepad.tooltip, nil, zo_strformat("<<1>>", desc1), ZO_MapLocationTooltip_Gamepad.tooltip:GetStyle("mapRecallCost"))
-			end
-		else
-			InformationTooltip:AddLine(zo_strformat("<<1>> <<2>>",zo_iconFormat(icon,24,24), name), "ZoFontGameOutline", ZO_SELECTED_TEXT:UnpackRGB())
-			if desc then
-				ZO_Tooltip_AddDivider(InformationTooltip)
-				InformationTooltip:AddLine(zo_strformat("<<1>>", desc), "", ZO_HIGHLIGHT_TEXT:UnpackRGB())
-			end
-			if desc1 then
-				ZO_Tooltip_AddDivider(InformationTooltip)
-				InformationTooltip:AddLine(zo_strformat("<<1>>", desc1), "", ZO_HIGHLIGHT_TEXT:UnpackRGB())
-			end
+		name=(pinTag[3] and "["..pinTag[3].."] " or "")..name		
+		ZO_MapLocationTooltip_Gamepad:LayoutIconStringLine(ZO_MapLocationTooltip_Gamepad.tooltip, icon, zo_strformat("<<1>>", name), ZO_MapLocationTooltip_Gamepad.tooltip:GetStyle("mapLocationTooltipWayshrineHeader"))
+		if desc then
+			ZO_MapLocationTooltip_Gamepad:LayoutIconStringLine(ZO_MapLocationTooltip_Gamepad.tooltip, nil, zo_strformat("<<1>>", desc), ZO_MapLocationTooltip_Gamepad.tooltip:GetStyle("mapRecallCost"))
 		end
+		if desc1 then
+			ZO_MapLocationTooltip_Gamepad:LayoutIconStringLine(ZO_MapLocationTooltip_Gamepad.tooltip, nil, zo_strformat("<<1>>", desc1), ZO_MapLocationTooltip_Gamepad.tooltip:GetStyle("mapRecallCost"))
+		end		
 	end
 }
-local function MakeMapFiltersScroll()
---local WORLD_MAP_FILTERS = ZO_InitializingObject:Subclass()  -- Add this line into the MakeMapFiltersScroll function.
- 	if WORLD_MAP_FILTERS.pvePanel then
-		if WORLD_MAP_FILTERS.pvePanel.checkBoxPool then
-			WORLD_MAP_FILTERS.pvePanel.checkBoxPool.parent=ZO_WorldMapFiltersPvEContainerScrollChild or WINDOW_MANAGER:CreateControlFromVirtual("ZO_WorldMapFiltersPvEContainer",ZO_WorldMapFiltersPvE,"ZO_ScrollContainer"):GetNamedChild("ScrollChild")
-			for i,control in pairs(WORLD_MAP_FILTERS.pvePanel.checkBoxPool.m_Active) do
-				control:SetParent(WORLD_MAP_FILTERS.pvePanel.checkBoxPool.parent)
-			end
-			if ZO_WorldMapFiltersPvECheckBox1 then
-				local valid,point,control,relPoint,x,y=ZO_WorldMapFiltersPvECheckBox1:GetAnchor(0)
-				if control==WORLD_MAP_FILTERS.pvePanel.control then
-					ZO_WorldMapFiltersPvECheckBox1:SetAnchor(point,ZO_WorldMapFiltersPvEContainerScrollChild,relPoint,x,y)
-				end
-			end
-		end
-		if WORLD_MAP_FILTERS.pvePanel.comboBoxPool then
-			WORLD_MAP_FILTERS.pvePanel.comboBoxPool.parent=ZO_WorldMapFiltersPvEContainerScrollChild or WINDOW_MANAGER:CreateControlFromVirtual("ZO_WorldMapFiltersPvEContainer",ZO_WorldMapFiltersPvE,"ZO_ScrollContainer"):GetNamedChild("ScrollChild")
-			for i,control in pairs(WORLD_MAP_FILTERS.pvePanel.comboBoxPool.m_Active) do
-				control:SetParent(WORLD_MAP_FILTERS.pvePanel.comboBoxPool.parent)
-			end
-			if ZO_WorldMapFiltersPvEComboBox1 then
-				local valid,point,control,relPoint,x,y=ZO_WorldMapFiltersPvEComboBox1:GetAnchor(0)
-				if control==WORLD_MAP_FILTERS.pvePanel.control then
-					ZO_WorldMapFiltersPvEComboBox1:SetAnchor(point,ZO_WorldMapFiltersPvEContainerScrollChild,relPoint,x,y)
-				end
-			end
-		end
-		if ZO_WorldMapFiltersPvEContainer then ZO_WorldMapFiltersPvEContainer:SetAnchorFill() end
-	end
 
-	if WORLD_MAP_FILTERS.pvpPanel then
-		if WORLD_MAP_FILTERS.pvpPanel.checkBoxPool then
-			WORLD_MAP_FILTERS.pvpPanel.checkBoxPool.parent=ZO_WorldMapFiltersPvPContainerScrollChild or WINDOW_MANAGER:CreateControlFromVirtual("ZO_WorldMapFiltersPvPContainer",ZO_WorldMapFiltersPvP,"ZO_ScrollContainer"):GetNamedChild("ScrollChild")
-			for i,control in pairs(WORLD_MAP_FILTERS.pvpPanel.checkBoxPool.m_Active) do
-				control:SetParent(WORLD_MAP_FILTERS.pvpPanel.checkBoxPool.parent)
-			end
-			if ZO_WorldMapFiltersPvPCheckBox1 then
-				local valid,point,control,relPoint,x,y=ZO_WorldMapFiltersPvPCheckBox1:GetAnchor(0)
-				if control==WORLD_MAP_FILTERS.pvpPanel.control then
-					ZO_WorldMapFiltersPvPCheckBox1:SetAnchor(point,ZO_WorldMapFiltersPvPContainerScrollChild,relPoint,x,y)
-				end
-			end
-		end
-		if WORLD_MAP_FILTERS.pvpPanel.comboBoxPool then
-			WORLD_MAP_FILTERS.pvpPanel.comboBoxPool.parent=ZO_WorldMapFiltersPvPContainerScrollChild or WINDOW_MANAGER:CreateControlFromVirtual("ZO_WorldMapFiltersPvPContainer",ZO_WorldMapFiltersPvP,"ZO_ScrollContainer"):GetNamedChild("ScrollChild")
-			for i,control in pairs(WORLD_MAP_FILTERS.pvpPanel.comboBoxPool.m_Active) do
-				control:SetParent(WORLD_MAP_FILTERS.pvpPanel.comboBoxPool.parent)
-			end
-			if ZO_WorldMapFiltersPvPComboBox1 then
-				local valid,point,control,relPoint,x,y=ZO_WorldMapFiltersPvPComboBox1:GetAnchor(0)
-				if control==WORLD_MAP_FILTERS.pvpPanel.control then
-					ZO_WorldMapFiltersPvPComboBox1:SetAnchor(point,ZO_WorldMapFiltersPvPContainerScrollChild,relPoint,x,y)
-				end
-			end
-		end
-		if ZO_WorldMapFiltersPvPContainer then ZO_WorldMapFiltersPvPContainer:SetAnchorFill() end
-	end
-
-	if WORLD_MAP_FILTERS.imperialPvPPanel then
-		if WORLD_MAP_FILTERS.imperialPvPPanel.checkBoxPool then
-			WORLD_MAP_FILTERS.imperialPvPPanel.checkBoxPool.parent=ZO_WorldMapFiltersImperialPvPContainerScrollChild or WINDOW_MANAGER:CreateControlFromVirtual("ZO_WorldMapFiltersImperialPvPContainer",ZO_WorldMapFiltersImperialPvP,"ZO_ScrollContainer"):GetNamedChild("ScrollChild")
-			for i,control in pairs(WORLD_MAP_FILTERS.imperialPvPPanel.checkBoxPool.m_Active) do
-				control:SetParent(WORLD_MAP_FILTERS.imperialPvPPanel.checkBoxPool.parent)
-			end
-			if ZO_WorldMapFiltersImperialPvPCheckBox1 then
-				local valid,point,control,relPoint,x,y=ZO_WorldMapFiltersImperialPvPCheckBox1:GetAnchor(0)
-				if control==WORLD_MAP_FILTERS.imperialPvPPanel.control then
-					ZO_WorldMapFiltersImperialPvPCheckBox1:SetAnchor(point,ZO_WorldMapFiltersImperialPvPContainerScrollChild,relPoint,x,y)
-				end
-			end
-		end
-		if WORLD_MAP_FILTERS.imperialPvPPanel.comboBoxPool then
-			WORLD_MAP_FILTERS.imperialPvPPanel.comboBoxPool.parent=ZO_WorldMapFiltersImperialPvPContainerScrollChild or WINDOW_MANAGER:CreateControlFromVirtual("ZO_WorldMapFiltersImperialPvPContainer",ZO_WorldMapFiltersImperialPvP,"ZO_ScrollContainer"):GetNamedChild("ScrollChild")
-			for i,control in pairs(WORLD_MAP_FILTERS.imperialPvPPanel.comboBoxPool.m_Active) do
-				control:SetParent(WORLD_MAP_FILTERS.imperialPvPPanel.comboBoxPool.parent)
-			end
-			if ZO_WorldMapFiltersImperialPvPComboBox1 then
-				local valid,point,control,relPoint,x,y=ZO_WorldMapFiltersImperialPvPComboBox1:GetAnchor(0)
-				if control==WORLD_MAP_FILTERS.imperialPvPPanel.control then
-					ZO_WorldMapFiltersImperialPvPComboBox1:SetAnchor(point,ZO_WorldMapFiltersImperialPvPContainerScrollChild,relPoint,x,y)
-				end
-			end
-		end
-		if ZO_WorldMapFiltersImperialPvPContainer then ZO_WorldMapFiltersImperialPvPContainer:SetAnchorFill() end
-	end
-
-end
 local function load_Vars()
 Load_Bosses()
 Load_SkyShards()
@@ -8236,7 +8010,6 @@ local function OnLoad(eventCode,addonName)
 	PinManager=ZO_WorldMap_GetPinManager()
 --	CustomPins_init()
 	RegisterEvents()
-	if IsConsoleUI() == false then MakeMapFiltersScroll() end
 
 	--APIVersion: 101032
 	SavedVars[4]=false
@@ -8248,8 +8021,6 @@ local function OnLoad(eventCode,addonName)
 		pinLayout.size=pinLayout.size or SavedGlobal.pinsize*pinLayout.k
 		PinManager:AddCustomPin(name,function() MapPinAddCallback(pin) end,nil,pinLayout,TooltipCreator)
 		local id=_G[name]
---		ZO_WorldMap_SetCustomPinEnabled(id,true) PinManager:RefreshCustomPins(id)
---		AddCompassCustomPin(id,pin)
 		return id
 	end
 
