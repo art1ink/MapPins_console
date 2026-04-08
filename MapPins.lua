@@ -7882,7 +7882,7 @@ local function AddPinFilter()
 end
 
 local filterIdToFilterIndex ={}
-
+local currentFilter=""
 local function OnMapChanged()
 	local orgGetPinFilter = ZO_WorldMapFilterPanel_Shared.GetPinFilter
 	function ZO_WorldMapFilterPanel_Shared.GetPinFilter(...)
