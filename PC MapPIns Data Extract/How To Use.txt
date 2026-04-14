@@ -5,6 +5,7 @@ WHAT DOES IT DO
 HOW TO USE
  - Put PC MapPins.lua into this folder and run the MapPinsDataEncoder.exe
  - If MapIdMap is out of date use the script found in file to extract them to a save
+   file then just copy paste them into MapIdMap.lua
  - If an Id was found in MapPins thats not in MapIdMap.lua then errorOutput.txt 
    will be made.
  - The Encoded Strings are in the CombinedMapData.lua file.
