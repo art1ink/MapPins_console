@@ -2200,3 +2200,418 @@ end
 end
 
 EVENT_MANAGER:RegisterForEvent("MapPins",EVENT_ADD_ON_LOADED,OnLoad)
+--[[
+
+local grid = {}
+local gridSize = 10 -- 10x10 grid
+
+local function GetGridIndex(x, y)
+    local ix = math.floor(x * gridSize)
+    local iy = math.floor(y * gridSize)
+    return ix .. "_" .. iy
+end
+
+-- Inside your data loading/rendering loop
+local index = GetGridIndex(normalizedX, normalizedY)
+if not grid[index] then grid[index] = {} end
+table.insert(grid[index], nodeData)
+
+local activeGhostPins = {} -- Key: NodeId, Value: PinHandle (from AddCustomPin)
+local ghostPoolSize = 10
+
+local function UpdateGhostPins(top10Nodes)
+    local newSelection = {}
+    
+    for _, node in ipairs(top10Nodes) do
+        newSelection[node.id] = true
+        
+        -- If this node is NOT already a ghost pin, create it
+        if not activeGhostPins[node.id] then
+            -- Note: Use a transparent texture or no texture since Composite handles visuals
+            local pin = WORLD_MAP_PINS:AddCustomPin("MyGhostPinType", node.id, node.x, node.y)
+            activeGhostPins[node.id] = pin
+        end
+    end
+
+    -- Cleanup: Remove pins that are no longer in the Top 10
+    for nodeId, pin in pairs(activeGhostPins) do
+        if not newSelection[nodeId] then
+            -- This relies on your custom pin cleanup logic
+            WORLD_MAP_PINS:RemoveCustomPin("MyGhostPinType", nodeId)
+            activeGhostPins[nodeId] = nil
+        end
+    end
+end
+
+local function GetNearbyNodes(cx, cy)
+    local found = {}
+    local gx = math.floor(cx * GRID_SIZE)
+    local gy = math.floor(cy * GRID_SIZE)
+
+    for i = -1, 1 do
+        for j = -1, 1 do
+            local key = (gx + i) .. "_" .. (gy + j)
+            if spatialHash[key] then
+                for _, node in ipairs(spatialHash[key]) do
+                    table.insert(found, node)
+                end
+            end
+        end
+    end
+    return found
+end
+
+local activeGhosts = {} -- Index (1-10) = NodeData
+
+local function UpdateGhostPins()
+    local cx, cy = ZO_WorldMap_GetPanAndZoom():GetNormalizedCenter()
+    local nearby = GetNearbyNodes(cx, cy)
+    
+    -- 1. Sort by distance to crosshair
+    table.sort(nearby, function(a, b)
+        return zo_distance(cx, cy, a.x, a.y) < zo_distance(cx, cy, b.x, b.y)
+    end)
+
+    local targetNodes = {}
+    for i = 1, math.min(10, #nearby) do
+        targetNodes[i] = nearby[i]
+    end
+
+    local usedSlots = {}
+    local nodesNeedSlot = {}
+
+    -- 2. Identify which target nodes are already assigned
+    for _, targetNode in ipairs(targetNodes) do
+        local found = false
+        for slotIdx = 1, 10 do
+            if activeGhosts[slotIdx] == targetNode then
+                usedSlots[slotIdx] = true
+                found = true
+                break
+            end
+        end
+        if not found then
+            table.insert(nodesNeedSlot, targetNode)
+        end
+    end
+
+    -- 3. Update empty slots with new nodes
+    for slotIdx = 1, 10 do
+        if not usedSlots[slotIdx] and #nodesNeedSlot > 0 then
+            local newNode = table.remove(nodesNeedSlot, 1)
+            activeGhosts[slotIdx] = newNode
+            
+            -- Refresh this specific Pin Type in PinManager
+            -- This triggers your AddGhostCallback(slotIdx)
+            ZO_WorldMap_RefreshCustomPins("Ghost_Pins_" .. slotIdx)
+        elseif not usedSlots[slotIdx] then
+            -- Optional: Hide pin if no node is available for this slot
+            activeGhosts[slotIdx] = nil
+            ZO_WorldMap_RefreshCustomPins("Ghost_Pins_" .. slotIdx)
+        end
+    end
+end
+
+function AddGhostCallback(index)
+    local node = activeGhosts[index]
+    if node then
+        -- Create the pin at the node's location
+        -- The pinTag can be the node itself for the tooltip to read
+        ZO_WorldMap_AddCustomPin("Ghost_Pins_" .. index, node.pinTag, node.x, node.y)
+    end
+end
+
+-- Performance Locals
+local floor = math.floor
+local insert = table.insert
+local GRID_SIZE = 10
+
+-- The hashing map will be a simple integer-keyed table
+local hashingMap = {} 
+
+-- Example of how you'd populate during the callback
+local function AddNodeToSystem(node, compositeCtrl, textureIndex)
+    -- 1. Draw to the Composite (The visual layer)
+    -- This part happens once per map change
+    compositeCtrl:AddSection(textureIndex, node.x, node.y)
+
+    -- 2. Add to Hash (The interaction layer)
+    -- node.pinTag should contain: { name, icon, quantity, quality, etc }
+    local hKey = (floor(node.x * GRID_SIZE) * 1000) + floor(node.y * GRID_SIZE)
+    
+    if not hashingMap[hKey] then 
+        hashingMap[hKey] = {} 
+    end
+    insert(hashingMap[hKey], node)
+end
+
+
+function AddGhostCallback(index)
+    local node = activeGhosts[index]
+    if node then
+        -- Update the layout dynamically to match the node's specific texture
+        local layout = {
+            level = 50,
+            texture = node.texturePath, -- Dynamically use one of your 70 textures
+            size = 32,
+        }
+        ZO_WorldMap_AddCustomPin("Ghost_Slot_" .. index, node.pinTag, node.x, node.y, layout)
+    end
+end
+
+
+-- Localize for performance and ESO environment
+local floor = math.floor
+local insert = table.insert
+local zo_dist = zo_distance -- ESO built-in distance function
+local WM = GetWindowManager()
+
+-- Configuration
+local GRID_SIZE = 10
+local GHOST_POOL_COUNT = 10
+local hashingMap = {}
+local activeGhosts = {} -- Index [1-10] = NodeData (PinTag)
+
+-----------------------------------------------------------
+-- 1. SPATIAL HASHING LOGIC
+-----------------------------------------------------------
+
+local function GetSpatialKeys(x, y)
+    -- Apply requested -0.5 offset and scale
+    local sx = (x * GRID_SIZE) - 0.5
+    local sy = (y * GRID_SIZE) - 0.5
+
+    -- Determine 2x2 grid search area (quadrants)
+    local x0, x1 = floor(sx), floor(sx + 1)
+    local y0, y1 = floor(sy), floor(sy + 1)
+
+    -- Return the 4 XXYY keys (X * 1000 + Y)
+    return {
+        (x0 * 1000) + y0,
+        (x1 * 1000) + y0,
+        (x0 * 1000) + y1,
+        (x1 * 1000) + y1
+    }
+end
+
+-----------------------------------------------------------
+-- 2. MAP CHANGE CALLBACK (Population)
+-----------------------------------------------------------
+
+function MyAddon:OnMapChanged(pinType)
+    -- Clear current hashing map
+    for k in pairs(hashingMap) do hashingMap[k] = nil end
+    
+    local mapId = GetMapTileTexture() -- Or your preferred Map ID method
+    local mapData = self:GetData(mapId)
+    if not mapData then return end
+
+    -- Helper to process node into Hash and Composites
+    local function processNode(node)
+        -- 1. Add to your Texture Composite Controls here
+        -- self.composites[node.type]:Add(node.x, node.y)
+
+        -- 2. Hash it: Use floor(x*10) * 1000 + floor(y*10) for XXYY
+        local hKey = (floor(node.x * GRID_SIZE) * 1000) + floor(node.y * GRID_SIZE)
+        hashingMap[hKey] = hashingMap[hKey] or {}
+        insert(hashingMap[hKey], node)
+    end
+
+    -- Handle your 2 data structures (I=1 or I=2)
+    if pinType == 1 then
+        for _, node in pairs(mapData) do processNode(node) end
+    elseif pinType == 2 then
+        for _, nType in pairs(mapData) do
+            for _, node in pairs(nType) do processNode(node) end
+        end
+    end
+end
+
+-----------------------------------------------------------
+-- 3. GHOST PIN POOL MANAGEMENT
+-----------------------------------------------------------
+
+function MyAddon:UpdateGhostPins()
+    -- Get current map view center (Crosshair position)
+    local cx, cy = ZO_WorldMap_GetPanAndZoom():GetNormalizedCenter()
+    
+    -- 1. Get nearby nodes via Hash
+    local nearby = {}
+    local potentialKeys = GetSpatialKeys(cx, cy)
+    
+    for i = 1, #potentialKeys do
+        local key = potentialKeys[i]
+        if hashingMap[key] then
+            for _, node in ipairs(hashingMap[key]) do
+                insert(nearby, node)
+            end
+        end
+    end
+
+    -- 2. Sort by distance to center
+    table.sort(nearby, function(a, b)
+        return zo_dist(cx, cy, a.x, a.y) < zo_dist(cx, cy, b.x, b.y)
+    end)
+
+    -- 3. Select top 10 targets
+    local targetNodes = {}
+    for i = 1, math.min(GHOST_POOL_COUNT, #nearby) do
+        targetNodes[i] = nearby[i]
+    end
+
+    -- 4. Diffing the Pool (Sync current slots with targets)
+    local usedSlots = {}
+    local nodesNeedSlot = {}
+
+    for _, targetNode in ipairs(targetNodes) do
+        local assigned = false
+        for slotIdx = 1, GHOST_POOL_COUNT do
+            if activeGhosts[slotIdx] == targetNode then
+                usedSlots[slotIdx] = true
+                assigned = true
+                break
+            end
+        end
+        if not assigned then insert(nodesNeedSlot, targetNode) end
+    end
+
+    -- 5. Update Pins
+    for slotIdx = 1, GHOST_POOL_COUNT do
+        if not usedSlots[slotIdx] then
+            local newNode = table.remove(nodesNeedSlot, 1)
+            activeGhosts[slotIdx] = newNode -- Could be nil if no nodes left
+            
+            -- Triggers the Refresh/AddCustomPin cycle
+            ZO_WorldMap_RefreshCustomPins("Ghost_Slot_" .. slotIdx)
+        end
+    end
+end
+
+-----------------------------------------------------------
+-- 4. PIN MANAGER REGISTRATION
+-----------------------------------------------------------
+
+function MyAddon:RegisterPinSlots()
+    local function PinCallback(index)
+        return function(pinManager)
+            local node = activeGhosts[index]
+            if node then
+                -- node.pinTag contains your tooltip data/icons
+                pinManager:AddCustomPin("Ghost_Slot_" .. index, node.pinTag, node.x, node.y)
+            end
+        end
+    end
+
+    for i = 1, GHOST_POOL_COUNT do
+        local pinType = "Ghost_Slot_" .. i
+        -- Custom Layout for the ghost (usually a transparent texture)
+        local layout = { level = 50, texture = "MyAddon/Art/Empty.dds", size = 32 }
+        
+        ZO_WorldMap_AddCustomPinType(pinType, PinCallback(i), nil, layout, {
+            creator = function(pin) 
+                -- Logic for tooltips using the pinTag
+                local data = pin:GetPinTag()
+                -- Initialize your tooltip here
+            end 
+        })
+    end
+end]
+
+local spatialHash = {}
+local GRID_SIZE = 10
+
+local function GetHashKey(x, y)
+    local gx = math.floor(x * GRID_SIZE)
+    local gy = math.floor(y * GRID_SIZE)
+    -- Ensure bounds 0-9
+    gx = math.max(0, math.min(gx, GRID_SIZE - 1))
+    gy = math.max(0, math.min(gy, GRID_SIZE - 1))
+    return gx .. "_" .. gy
+end
+
+-- Call this inside your TextureComposite loop
+local function AddToHash(node)
+    local key = GetHashKey(node.x, node.y)
+    if not spatialHash[key] then spatialHash[key] = {} end
+    table.insert(spatialHash[key], node)
+end
+
+local function GetNearbyNodes(cx, cy)
+    local found = {}
+    local gx = math.floor(cx * GRID_SIZE)
+    local gy = math.floor(cy * GRID_SIZE)
+
+    for i = -1, 1 do
+        for j = -1, 1 do
+            local key = (gx + i) .. "_" .. (gy + j)
+            if spatialHash[key] then
+                for _, node in ipairs(spatialHash[key]) do
+                    table.insert(found, node)
+                end
+            end
+        end
+    end
+    return found
+end
+
+local activeGhosts = {} -- Index (1-10) = NodeData
+
+local function UpdateGhostPins()
+    local cx, cy = ZO_WorldMap_GetPanAndZoom():GetNormalizedCenter()
+    local nearby = GetNearbyNodes(cx, cy)
+    
+    -- 1. Sort by distance to crosshair
+    table.sort(nearby, function(a, b)
+        return zo_distance(cx, cy, a.x, a.y) < zo_distance(cx, cy, b.x, b.y)
+    end)
+
+    local targetNodes = {}
+    for i = 1, math.min(10, #nearby) do
+        targetNodes[i] = nearby[i]
+    end
+
+    local usedSlots = {}
+    local nodesNeedSlot = {}
+
+    -- 2. Identify which target nodes are already assigned
+    for _, targetNode in ipairs(targetNodes) do
+        local found = false
+        for slotIdx = 1, 10 do
+            if activeGhosts[slotIdx] == targetNode then
+                usedSlots[slotIdx] = true
+                found = true
+                break
+            end
+        end
+        if not found then
+            table.insert(nodesNeedSlot, targetNode)
+        end
+    end
+
+    -- 3. Update empty slots with new nodes
+    for slotIdx = 1, 10 do
+        if not usedSlots[slotIdx] and #nodesNeedSlot > 0 then
+            local newNode = table.remove(nodesNeedSlot, 1)
+            activeGhosts[slotIdx] = newNode
+            
+            -- Refresh this specific Pin Type in PinManager
+            -- This triggers your AddGhostCallback(slotIdx)
+            ZO_WorldMap_RefreshCustomPins("Ghost_Pins_" .. slotIdx)
+        elseif not usedSlots[slotIdx] then
+            -- Optional: Hide pin if no node is available for this slot
+            activeGhosts[slotIdx] = nil
+            ZO_WorldMap_RefreshCustomPins("Ghost_Pins_" .. slotIdx)
+        end
+    end
+end
+
+function AddGhostCallback(index)
+    local node = activeGhosts[index]
+    if node then
+        -- Create the pin at the node's location
+        -- The pinTag can be the node itself for the tooltip to read
+        ZO_WorldMap_AddCustomPin("Ghost_Pins_" .. index, node.pinTag, node.x, node.y)
+    end
+end
+
+--]]
