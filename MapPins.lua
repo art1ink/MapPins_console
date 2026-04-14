@@ -7882,42 +7882,33 @@ local function AddPinFilter()
 end
 
 local filterIdToFilterIndex ={}
-local currentFilter=""
+local orgGetPinFilter = ZO_WorldMapFilterPanel_Shared.GetPinFilter
+function ZO_WorldMapFilterPanel_Shared.GetPinFilter(...)
+	local current, mapPinGroup = ...
+	local i = filterIdToFilterIndex[mapPinGroup] 
+	if i then
+		return SavedVars[i]
+	else
+		return orgGetPinFilter(...)
+	end
+end
+local orgSetPinFilter = ZO_WorldMapFilterPanel_Shared.SetPinFilter
+function ZO_WorldMapFilterPanel_Shared.SetPinFilter(...)
+	local current, mapPinGroup, shown = ...
+	local i = filterIdToFilterIndex[mapPinGroup] 
+	if i then
+		SavedVars[i] = shown
+		for pin,id in pairs(CustomPins[i].id) do
+			PinManager:SetCustomPinEnabled(id, shown)
+			AddCompassCustomPin(id,pin)
+			PinManager:RefreshCustomPins(id)
+		end
+	else
+		return orgSetPinFilter(...)
+	end
+end
+--update the Filters
 local function OnMapChanged()
-	local orgGetPinFilter = ZO_WorldMapFilterPanel_Shared.GetPinFilter
-	function ZO_WorldMapFilterPanel_Shared.GetPinFilter(...)
-		local current, mapPinGroup = ...
-		local i = filterIdToFilterIndex[mapPinGroup] 
-		if i then
-			return SavedVars[i]
-		else
-			return orgGetPinFilter(...)
-		end
-	end
-	local orgSetPinFilter = ZO_WorldMapFilterPanel_Shared.SetPinFilter
-	function ZO_WorldMapFilterPanel_Shared.SetPinFilter(...)
-		local current, mapPinGroup, shown = ...
-		local i = filterIdToFilterIndex[mapPinGroup] 
-		if i then
-			local filter = panelToFilter[current]
-			if filter then
-				SavedVars[i] = shown
-				if filter == currentFilter then
-					for pin,id in pairs(CustomPins[i].id) do
-						PinManager:SetCustomPinEnabled(id, shown)
-						
-						AddCompassCustomPin(id,pin)
-						PinManager:RefreshCustomPins(id)
-					end
-				end
-			end
-		else
-			return orgSetPinFilter(...)
-		end
-	end
-
-	local filters = ((IsInGamepadPreferredMode() or IsConsoleUI()) and GAMEPAD_WORLD_MAP_FILTERS or WORLD_MAP_FILTERS).currentPanel
-	currentFilter = panelToFilter[filters]
 	for i=1,30 do
 		if CustomPins[i] then
 			if GAMEPAD_WORLD_MAP_FILTERS then
@@ -7925,7 +7916,6 @@ local function OnMapChanged()
 			end
 		end
 	end	
-	RegisterEvents()
 end
 
 
@@ -8026,10 +8016,7 @@ local function CreateFilter()
 			end
 			if not SavedVars[i] then SavedVars[i] = false end
 		end
-	end
-	AddPinFilter()
-	OnMapChanged()
-	CALLBACK_MANAGER:RegisterCallback("OnWorldMapChanged", OnMapChanged)
+	end	
 end
 
 local function OnLoad(eventCode,addonName)
@@ -8038,14 +8025,9 @@ local function OnLoad(eventCode,addonName)
 	SavedVars=ZO_SavedVars:New("MP_SavedVars",2,nil,DefaultVars)
 	CustomChestData=ZO_SavedVars:NewAccountWide("MP_ChestData",2,nil,{})
 	CustomThievesTrove=ZO_SavedVars:NewAccountWide("MP_ThievesTrove",2,nil,{})
---	CustomQuestData=ZO_SavedVars:NewAccountWide("MP_QuestData",1,nil,{})
 	SavedGlobal=ZO_SavedVars:NewAccountWide("MP_SavedGlobal",1,nil,DefaultGlobal)
 	PinManager=ZO_WorldMap_GetPinManager()
---	CustomPins_init()
-	RegisterEvents()
 
-	--APIVersion: 101032
-	SavedVars[4]=false
 	zo_callLater(function()
 		local loadIndex=0
 		EVENT_MANAGER:RegisterForUpdate(AddonName.."_DelayedVarLoading", 5, function()
@@ -8061,6 +8043,10 @@ local function OnLoad(eventCode,addonName)
 			if loadIndex==9 then 
 				EVENT_MANAGER:UnregisterForUpdate(AddonName.."_DelayedVarLoading") 
 				CreateFilter()
+				AddPinFilter()
+				OnMapChanged()
+				CALLBACK_MANAGER:RegisterCallback("OnWorldMapChanged", OnMapChanged)
+				RegisterEvents()
 				return 
 			end
 		end)
