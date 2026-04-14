@@ -456,23 +456,32 @@ local function DecodeData(TableType, mapId)
       		end
         end
 	elseif "UnknownPOI" == TableType then
+		-- splits up [1@Sunport@,7[2@Warm-Stone Village@,2 into parts PT1: 1@Sunport@,7 PT2: 2@Warm-Stone Village@,2
     	for entry in StrGM(segment, "([^%[]+)") do
       		local tableIndexEnd = Find(entry,"@")
       		local tableIndex = ToNum(Sub(entry,1,tableIndexEnd-1))
           	result[tableIndex] ={}
-            -- Grab map data [1@Sunport@,7[2@Warm-Stone Village@,2
-			for mapContent in StrGM(Sub(entry,tableIndexEnd+1), "([^@]+)") do                                         
-            	if Sub(mapContent, 1, 1) == "," then mapContent = Sub(mapContent, 2) end
+            -- splits 1@Sunport@,7 into 1 Sunport ,7
+			for mapContent in StrGM(Sub(entry,tableIndexEnd+1), "([^@]+)") do      		
             	TblIst(result[tableIndex],ToNum(mapContent) or mapContent)
-			end
-            local index = Find(result[tableIndex][2],",")
+			end	
+            local index = Find(result[tableIndex][2],"|")
             if index then 
             	result[tableIndex][3]={}
-            	for subTable in StrGM(Sub(result[tableIndex][2],index+2), "([^,]+)") do
-           			TblIst(result[tableIndex][3],ToNum(subTable) or subTable)             
+            	for subTable in StrGM(Sub(result[tableIndex][2],index+1), "([^,]+)") do
+           			TblIst(result[tableIndex][3],ToNum(subTable) or subTable)
             	end
-                result[tableIndex][2] = ToNum(Sub(result[tableIndex][2],1,index-1))
-            end
+                result[tableIndex][2] = ToNum(Sub(result[tableIndex][2],2,index-2)) or Sub(result[tableIndex][2],2,index-2)
+			else
+				index = Find(result[tableIndex][2],",")
+				if index then
+					local data = result[tableIndex][2]
+					result[tableIndex][2] = nil
+					for subTable in StrGM(data, "([^,]+)") do			
+						TblIst(result[tableIndex],ToNum(subTable) or subTable)        				
+					end
+				end
+            end	
   		end
    	end    
     return result
@@ -1203,6 +1212,7 @@ local MapPinCallback={
 				local normalizedX,normalizedY,poiType,_,_,_,known=GetPOIMapInfo(zoneIndex, poiIndex)
 				local pinTag={[1]=i,name=data[1]}
 				if data[2]==25 then	--Mundus
+					pinTag.name=GetAbilityName(data[3])
 					pinTag.desc=MundusDescription[ data[3] ]
 				elseif data[2]==8 and data[3] then	--Crafting station unknown
 					pinTag.name,pinTag.desc=GetSetDescription(data[3])
