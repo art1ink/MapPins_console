@@ -5,7 +5,6 @@
 --Slash commands: /pinsize 16-40 - sets a size of the pins. /loc - receives current player map and coords. /loc2 - receives player waypoint coords.
 --Full instruction how you can help to add new pins is here (ru, en version): https://forum.bandits-clan.ru/topic/75303-map-pins-collecting-data/?tab=comments#comment-1198876
 --Thanks for help to: GaelicCat, Gamer1986PAN, Runs, Gandalf, Kibert, Bence, Daniel, Kelly, Danzio, demidaddy, Teva, Akotar, Zym, SuppeFuss165, remosito, Telmatoscopus and other players.
-local totalPins={}
 local AddonName="MapPins_console"
 local Localization={
 	en={
@@ -1115,8 +1114,6 @@ local function customCreatePin(pinType, pinTag, xLoc, yLoc)
     pin:SetData(pinType, pinTag)
     pin:SetOriginalPosition(xLoc, yLoc)
     pin:SetLocation(xLoc, yLoc)
-	if not totalPins[pinType] then totalPins[pinType]=0 end
-      totalPins[pinType] = totalPins[pinType] +1
     local customPinData = PinManager.customPins[pinType]
     if customPinData then
         PinManager:MapPinLookupToPinKey(customPinData.pinTypeString, pinType, pinTag, pinKey)
@@ -1200,29 +1197,28 @@ local MapPinCallback={
 		local zoneIndex=GetCurrentMapZoneIndex()
 		local mapData=DecodeData("UnknownPOI",GetZoneId(zoneIndex))
 		if mapData then
+			local id=_G[CustomPins[i].name]
+			local size=(BUI and BUI.name=="BanditsUserInterface" and BUI.init.MiniMap) and 40*BUI.Vars.PinScale/100 or 40 			
 			for poiIndex, data in pairs(mapData) do
 				local normalizedX,normalizedY,poiType,_,_,_,known=GetPOIMapInfo(zoneIndex, poiIndex)
+				local pinTag={[1]=i,name=data[1]}
+				if data[2]==25 then	--Mundus
+					pinTag.desc=MundusDescription[ data[3] ]
+				elseif data[2]==8 and data[3] then	--Crafting station unknown
+					pinTag.name,pinTag.desc=GetSetDescription(data[3])
+				end
 				if not known and (normalizedX>0 or normalizedY>0) then	--poiType==MAP_PIN_TYPE_INVALID then
-					local pinTag={[1]=i,name=data[1],texture=UnknownPOItexture[data[2]]}
-					if data[2]==25 then	--Mundus
-						pinTag.desc=MundusDescription[ data[3] ]
-					elseif data[2]==8 then	--Crafting station unknown
-						if data[3] then
-							pinTag.name,pinTag.desc=GetSetDescription(data[3])
-						else
-							pinTag.name=data[1]
-						end
-					end
-					local id=_G[CustomPins[i].name] customCreatePin(id,pinTag,normalizedX,normalizedY)
-					local size=(BUI and BUI.name=="BanditsUserInterface" and BUI.init.MiniMap) and 40*BUI.Vars.PinScale/100 or 40 ZO_MapPin.PIN_DATA[id].size=size
+					 pinTag.texture=UnknownPOItexture[data[2]]			
+					 customCreatePin(id,pinTag,normalizedX,normalizedY)
+					 ZO_MapPin.PIN_DATA[id].size=size
 				elseif data[2]==25 then	--Mundus
-					local pinTag={[1]=i,name=GetAbilityName(data[3]),texture="/esoui/art/icons/poi/poi_mundus_complete.dds"} pinTag.desc=MundusDescription[ data[3] ]
-					local id=_G[CustomPins[i].name] customCreatePin(id,pinTag,normalizedX,normalizedY)
-					local size=(BUI and BUI.name=="BanditsUserInterface" and BUI.init.MiniMap) and 40*BUI.Vars.PinScale/100 or 40 ZO_MapPin.PIN_DATA[id].size=size
+					pinTag.texture="/esoui/art/icons/poi/poi_mundus_complete.dds" 
+					customCreatePin(id,pinTag,normalizedX,normalizedY)
+					ZO_MapPin.PIN_DATA[id].size=size
 				elseif data[2]==8 and data[3] then	--Crafting station known
-					local pinTag={[1]=i,texture="/esoui/art/icons/mapkey/mapkey_crafting.dds"} pinTag.name,pinTag.desc=GetSetDescription(data[3])
-					local id=_G[CustomPins[i].name] customCreatePin(id,pinTag,normalizedX,normalizedY)
-					local size=(BUI and BUI.name=="BanditsUserInterface" and BUI.init.MiniMap) and 40*BUI.Vars.PinScale/100 or 40 ZO_MapPin.PIN_DATA[id].size=size
+					pinTag.texture="/esoui/art/icons/mapkey/mapkey_crafting.dds"
+					customCreatePin(id,pinTag,normalizedX,normalizedY)
+					ZO_MapPin.PIN_DATA[id].size=size	
 				end
 			end
 		end
@@ -1407,8 +1403,7 @@ local MapPinCallback={
 		end
 	end,
 }
-local dgddgdg=""
-local highPin={}
+
 local function MapPinAddCallback(i)
 --	d("["..tostring(i).."] id="..tostring(PinId[i]).." enabled:"..tostring(PinManager:IsCustomPinEnabled(PinId[i])))
 	if not CustomPins[i] then d("MapPins: "..tostring(i).." is wrong pin type.") return end
@@ -1434,19 +1429,6 @@ local function MapPinAddCallback(i)
 --	pl("Map pin "..i.." updating")
 	
 	local subzone = GetMapTileTexture():match("[^\\/]+$"):lower():gsub("%.dds$", ""):gsub("_[0-9]+$", "")
-	if dgddgdg ~= subzone then 
-		for pinType , amount in pairs(totalPins) do
-			if not highPin[pinType] then
-				highPin[pinType] = amount
-				
-			elseif highPin[pinType] < amount then
-				highPin[pinType] = amount				
-			end	
-			totalPins[pinType]=nil		
-		end	
-	end
-
-	dgddgdg = subzone
 	-- Main Callback
 	if MapPinCallback[i] then
 		MapPinCallback[i](i,subzone)
@@ -1998,42 +1980,33 @@ local function AddPinFilter()
 end
 
 local filterIdToFilterIndex ={}
-local currentFilter=""
-local function OnMapChanged()
-	local orgGetPinFilter = ZO_WorldMapFilterPanel_Shared.GetPinFilter
-	function ZO_WorldMapFilterPanel_Shared.GetPinFilter(...)
-		local current, mapPinGroup = ...
-		local i = filterIdToFilterIndex[mapPinGroup] 
-		if i then
-			return SavedVars[i]
-		else
-			return orgGetPinFilter(...)
-		end
+local orgGetPinFilter = ZO_WorldMapFilterPanel_Shared.GetPinFilter
+function ZO_WorldMapFilterPanel_Shared.GetPinFilter(...)
+	local current, mapPinGroup = ...
+	local i = filterIdToFilterIndex[mapPinGroup] 
+	if i then
+		return SavedVars[i]		
+	else
+		return orgGetPinFilter(...)
 	end
-	local orgSetPinFilter = ZO_WorldMapFilterPanel_Shared.SetPinFilter
-	function ZO_WorldMapFilterPanel_Shared.SetPinFilter(...)
-		local current, mapPinGroup, shown = ...
-		local i = filterIdToFilterIndex[mapPinGroup] 
+end
+local orgSetPinFilter = ZO_WorldMapFilterPanel_Shared.SetPinFilter
+function ZO_WorldMapFilterPanel_Shared.SetPinFilter(...)
+	local current, mapPinGroup, shown = ...		
+	local i = filterIdToFilterIndex[mapPinGroup] 		
 		if i then
-			local filter = panelToFilter[current]
-			if filter then
-				SavedVars[i] = shown
-				if filter == currentFilter then
-					for pin,id in pairs(CustomPins[i].id) do
-						PinManager:SetCustomPinEnabled(id, shown)
-						
-						AddCompassCustomPin(id,pin)
-						PinManager:RefreshCustomPins(id)
-					end
-				end
-			end
-		else
-			return orgSetPinFilter(...)
+		SavedVars[i] = shown
+		for pin,id in pairs(CustomPins[i].id) do
+			PinManager:SetCustomPinEnabled(id, shown)		
+			AddCompassCustomPin(id,pin)
+			PinManager:RefreshCustomPins(id)
 		end
+	else
+		return orgSetPinFilter(...)
 	end
+end
 
-	local filters = ((IsInGamepadPreferredMode() or IsConsoleUI()) and GAMEPAD_WORLD_MAP_FILTERS or WORLD_MAP_FILTERS).currentPanel
-	currentFilter = panelToFilter[filters]
+local function OnMapChanged()
 	for i=1,30 do
 		if CustomPins[i] then
 			if GAMEPAD_WORLD_MAP_FILTERS then
@@ -2041,7 +2014,6 @@ local function OnMapChanged()
 			end
 		end
 	end	
-	RegisterEvents()
 end
 
 
@@ -2110,7 +2082,7 @@ local PinTooltipCreator={
 		end		
 	end
 }
-local abcc ={}
+
 local function CreateFilter()
 	local function AddPin(pin,pinLayout)
 		local TooltipCreator=(not PinTooltipSupres[pin] and PinTooltipCreator or nil)
@@ -2132,7 +2104,6 @@ local function CreateFilter()
 						local id=AddPin(i0,pinLayout)
 						filter.id[i0]=id PinId[i0]=id
 						table.insert(filter.pin,i0)
-						abcc[id]=pinLayout.name
 					end
 				end
 				PinManager:AddCustomPin(filter.name)
@@ -2140,14 +2111,13 @@ local function CreateFilter()
 			else
 				local id=AddPin(i,filter) filter.id[i]=id PinId[i]=id
 				filterIdToFilterIndex[id] = i
-				abcc[id]=filter.name
 			end
 			if not SavedVars[i] then SavedVars[i] = false end
 		end
 	end
 	AddPinFilter()
-	OnMapChanged()
-	--CALLBACK_MANAGER:RegisterCallback("OnWorldMapChanged", OnMapChanged)
+	--OnMapChanged()
+	CALLBACK_MANAGER:RegisterCallback("OnWorldMapChanged", OnMapChanged)
 end
 
 local function OnLoad(eventCode,addonName)
@@ -2156,23 +2126,13 @@ local function OnLoad(eventCode,addonName)
 	SavedVars=ZO_SavedVars:New("MP_SavedVars",2,nil,DefaultVars)
 	CustomChestData=ZO_SavedVars:NewAccountWide("MP_ChestData",2,nil,{})
 	CustomThievesTrove=ZO_SavedVars:NewAccountWide("MP_ThievesTrove",2,nil,{})
---	CustomQuestData=ZO_SavedVars:NewAccountWide("MP_QuestData",1,nil,{})
 	SavedGlobal=ZO_SavedVars:NewAccountWide("MP_SavedGlobal",1,nil,DefaultGlobal)
 	PinManager=ZO_WorldMap_GetPinManager()
---	CustomPins_init()
+	
 	RegisterEvents()
 
-	--APIVersion: 101032
-	SavedVars[4]=false
 	CreateFilter()
-	SLASH_COMMANDS["/pi"]=function()
-		local toatl =0
-		for pinType , amount in pairs(highPin) do
-			d("ID: "..abcc[pinType]..": "..amount)
-			toatl = toatl +  amount
-		end
-		d(toatl)
-	end
+
 	SLASH_COMMANDS["/loc"]=function()
 		local x,y=GetMapPlayerPosition("player")
 		local texture = GetMapTileTexture()
@@ -2230,171 +2190,3 @@ end
 end
 
 EVENT_MANAGER:RegisterForEvent("MapPins",EVENT_ADD_ON_LOADED,OnLoad)
-
---[[	Helper scripts
-/script zo_callLater(function()d(GetGameCameraInteractableActionInfo())end,1000)
---	/script MP_MakeBase()
-function MP_MakeBase()
-	--Chests
-	local count=0
-	for n=1,6 do
-		d("Chests: Working on base "..n)
---		if #AddChestData[n]["data"]>0 then
-			for zone in pairs(AddChestData[n]["data"]) do
-				for i,data in pairs(AddChestData[n]["data"][zone]) do
-					local confirm=true
-					local x,y=data[1],data[2]
-					if CustomChestData["data"][1][zone]==nil then CustomChestData["data"][1][zone]={} end
-					for ii,data in pairs(CustomChestData["data"][1][zone]) do
-						if math.abs(data[1]-x)<0.003 and math.abs(data[2]-y)<0.003 then
-							confirm=false --break
-						end
-					end
-					if confirm then
-						count=count+1
-						table.insert(CustomChestData["data"][1][zone],{x,y})
-					end
-				end
-			end
---		end
-	end
-	d("Chests added: "..count)
-
-	--Thieves troves
-	count=0
-	for n=1,6 do
-		d("Thieves troves: Working on base "..n)
---		if #AddThievesTrove[n]["data"]>0 then
-			for zone in pairs(AddThievesTrove[n]["data"]) do
-				for i,data in pairs(AddThievesTrove[n]["data"][zone]) do
-					local confirm=true
-					local x,y=data[1],data[2]
-					if CustomChestData["data"][2][zone]==nil then CustomChestData["data"][2][zone]={} end
-					for ii,data in pairs(CustomChestData["data"][2][zone]) do
-						if math.abs(data[1]-x)<0.003 and math.abs(data[2]-y)<0.003 then
-							confirm=false --break
-						end
-					end
-					if confirm then
-						count=count+1
-						table.insert(CustomChestData["data"][2][zone],{x,y})
-					end
-				end
-			end
---		end
-	end
-	d("Thieves trove added: "..count)
-end
-
-function MP_MakeBase()
---	local mapData=ChestData[subzone]
-	local delta=0.003
-	local x,y,confirm=0,0,false
-	d("Chest scan start")
-	for subzone,mapData in pairs(ChestData) do
-		if mapData then
-			local chData=mapData[2]
-			if chData then
-				for chest1, data1 in ipairs(chData) do
-					x,y=data1[1],data1[2]
-					for chest2, data2 in ipairs(chData) do
-						if chest1~=chest2 and math.abs(data1[1]-data2[1])<delta and math.abs(data1[2]-data2[2])<delta then
-							x=(x+data2[1])/2
-							y=(y+data2[2])/2
-							d(data2[1]..","..data2[2])
-							confirm=true
-						end
-					end
-					if confirm then d(data1[1]..","..data1[2].." ["..subzone.."] Change to {"..x..","..y.."}") end
-					confirm=false
-				end
-			end
-		end
-	end
-end
-
-/script d(GetAchievementCriterion(709,1))
-function MP_MakeBase()
-	local count=0
-	for base=1,4 do
-		for zone in pairs(MP_Data[base]) do
-			local subzone=string.match(zone, "%w+/%w+/%w+/(%w+_%w+)")
-			if not subzone then
-				d("Wrong zone: "..zone)
-			else
-				if not RawChestData[subzone] then RawChestData[subzone]={} end
-				for i,data in pairs(MP_Data[base][zone]) do
-					count=count+1
-					index=#RawChestData[subzone]+1
-					RawChestData[subzone][index]={tonumber(string.format("%.04f", data[1])),tonumber(string.format("%.04f", data[2]))}
-				end
-			end
-		end
-	end
-	d("Added :"..count)
-	count=0
-	for zone in pairs(RawChestData) do
-		for i,data in pairs(RawChestData[zone]) do
-			local x,y=data[1],data[2]
-			for ii,data in pairs(RawChestData[zone]) do
-				if i~=ii then
-					if math.abs(data[1]-x)<0.01 and math.abs(data[2]-y)<0.01 then
-						count=count+1
-						RawChestData[zone][ii]=nil
-					end
-				end
-			end
-		end
-	end
-	d("Removed :"..count)
-	count=0
-	for zone in pairs(RawChestData) do
-		count=count+1
-		ChestData[zone]=RawChestData[zone]
-	end
-	d("Zones added :"..count)
-end
-
-/script PingMap(MAP_PIN_TYPE_PLAYER_WAYPOINT, MAP_TYPE_LOCATION_CENTERED, .736,.674)
-/script local id=_G["pinType_Treasure_Maps"] local en=ZO_WorldMap_GetPinManager():IsCustomPinEnabled(id) d(en)
-/script ZO_WorldMap_GetPinManager():SetCustomPinEnabled(POI_TYPE_HOUSE,false)
-/script d(string.match(GetMapTileTexture(), "%w+/%w+/%w+/(%w+_%w+)"))
-/script d("|t26:26:/MapPins/Chest_1.dds|t")
-/script MP_MakeBase()
-/script Link=("|H1:item:%d:370:50:0:0:0:0:0:0:0:0:0:0:0:0:1:0:0:0:10000:0|h|h"):format(130803) local _,name=GetItemLinkSetInfo(Link) CHAT_ROUTER:AddSystemMessage(name)
-/script d(ZO_WorldMap_GetPinManager():IsCustomPinEnabled(201))
-/script PinManager:RefreshCustomPins()
-/script for pin,data in pairs(ZO_MapPin.PIN_DATA) do local texture=data.texture d(pin.." ("..tostring(data.size)..") |t18:18:"..tostring(texture).."|t"..tostring(texture)) end
-/script ZO_MapPin.PIN_DATA[170].size=16
-/script for id=1350,1400 do local AchName=GetAchievementCriterion(id,1) if string.match(AchName,"Explorer")~=nil then d("["..id.."] "..AchName) end end
-/script d(GetAchievementCriterion(556,1))
-function MP_MakeBase()
-	for id=1,2000 do
-		local AchName=GetAchievementCriterion(id,1)
-		if string.match(AchName,"Group Challenge")~=nil then
-			d("["..id.."] "..AchName)
-			AchivementBase[id]=AchName
-		end
-	end
-end
-
-/script for i=1,GetNumSkillLines(5) do if GetSkillAbilityId(5,i,1,false)==103478 then PsijicSkillLine=i end end d(GetSkillLineXPInfo(5,PsijicSkillLine))
-
-/script local x,y=GetMapPlayerWaypoint() CHAT_ROUTER:AddSystemMessage('{'..math.floor(x*1000)/1000 ..","..math.floor(y*1000)/1000 ..'},')
-
-/script for _, itemData in pairs(SHARED_INVENTORY:GenerateFullSlotData(nil, BAG_BACKPACK)) do
-	if itemData and itemData.itemType==ITEMTYPE_TROPHY then d(itemData.name.." "..itemData.stackCount) end
-	end
-
---	POI
-/script local zone=GetCurrentMapZoneIndex()
-for i=1,GetNumPOIs(zone) do local id=GetPOIType(zone, i) local Name=GetPOIInfo(zone, i)
-local _,_,poiType,_,_,_,known=GetPOIMapInfo(zone, i)
-if id~=7 and Name~="" then d('['..i..']={"'..Name..'",'..id..','..poiType..' Known:'..tostring(known)..'},')
-end end
-
-/script d(GetPOIMapInfo(GetCurrentMapZoneIndex(), 7))
-/script CHAT_ROUTER:AddSystemMessage(GetZoneId(GetCurrentMapZoneIndex()))
-/script local i,zone=1,GetCurrentMapZoneIndex() local id=GetPOIType(zone, i) local Name=GetPOIInfo(zone, i) CHAT_ROUTER:AddSystemMessage('['..i..']={"'..Name..'",'..id..'},')
-
---]]
