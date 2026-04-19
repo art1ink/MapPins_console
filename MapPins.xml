@@ -1,0 +1,10 @@
+<GuiXml>
+    <Controls>
+        <Control name="MapPinsControlTemplate" virtual="true">
+            <Dimensions x="512" y="512" />
+            <Controls>
+                <TextureComposite name="$(parent)Composite" anchorsFill="true" />
+            </Controls>
+        </Control>
+    </Controls>
+</GuiXml>
