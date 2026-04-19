@@ -7342,7 +7342,7 @@ local function MapPinAddCallback(i)
 			for _,pinData in pairs(mapData) do
 				local AchName,Completed,Required
 				if i==3 or i==4 then
-					Completed=GetSkyshardDiscoveryStatus(GetZoneSkyshardId(GetSkyshardAchievementZoneId(pinData[3]),pinData[4]))
+					Completed=GetSkyshardDiscoveryStatus(pinData[5] or GetZoneSkyshardId(GetSkyshardAchievementZoneId(pinData[3]),pinData[4]))
 					Required=2
 				else
 					AchName,Completed,Required=GetAchievementCriterion(pinData[3],pinData[4])
