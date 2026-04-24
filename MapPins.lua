@@ -399,7 +399,8 @@ local hashingMap = {} -- The hashing map will be a simple integer-keyed table
 local ghostPins = {} -- Index [1-10] = NodeData (PinTag)
 local containerTable={}
 local compositeTable={}
-local compositePinIOndex={}
+local compositePinSize={}
+local compositePinIndex={}
 local ctrWidth,ctrHeight=0,0
 
 local TblIst = table.insert
@@ -1072,7 +1073,12 @@ local PinsImperial={[3]=true,[5]=true,[7]=true,[8]=true,[17]=true,[25]=true}
 --	/script CHAT_ROUTER:AddSystemMessage(ZO_AchievementsContentsCategoriesScrollChildZO_IconHeader12Icon:GetTextureFileName())
 --	/script CHAT_ROUTER:AddSystemMessage(GetCollectibleIcon(912))
 --	/script d("|t26:26:/esoui/art/icons/achievement_u46_zone_flavor3.dds|t")
-
+local PinTooltipSupres={
+[7]=true,
+[16]=true,
+[17]=true,
+[77]=true,--Imperial City player respawns
+}
 local function GetSetDescription(setData)
 	if setData then
 		local itemLink=("|H1:item:%d:370:50:0:0:0:0:0:0:0:0:0:0:0:0:1:0:0:0:10000:0|h|h"):format(setData[1])
@@ -1141,20 +1147,47 @@ local function customCreatePin(pinType, pinTag, xLoc, yLoc)
         PinManager:MapPinLookupToPinKey(customPinData.pinTypeString, pinType, pinTag, pinKey)
     end
 end
-local function AddPinToTexture(i,pin,texturePath)	
-    -- 2. Define the icon properties
-    compositeTable[i]:AddSurface(0,1,0,1)-- UV coordinates (full texture)
-	local pinIndex = compositeTable[i]:GetNumSurfaces()
+local function AddPinToTexture(i,pin)	
+    -- update texture if needed
 	local texture = pin.pinTag.texture
-	pin.myi = i
 	if texture and compositeTable[i]:GetTextureFileName() ~=texture then compositeTable[i]:SetTexture(texture) end
-	compositePinIOndex[i][pinIndex] = pin
+    -- add texture
+	compositeTable[i]:AddSurface(0,1,0,1)-- UV coordinates (full texture)
+	-- set size / position - not fylly working
+	local pinIndex = compositeTable[i]:GetNumSurfaces()
+	compositePinIndex[i][pinIndex]={x=pin.x,y=pin.y}
 	compositeTable[i]:SetInsets(pinIndex, pin.x * ctrWidth, pin.x * ctrWidth, pin.y * ctrWidth, pin.y *ctrWidth)
+	-- need tooltip?
+	if PinTooltipSupres[i] then return end
     local hKey = (Mathfloor(pin.x * GRID_SIZE) * KEY_OFFSET) + Mathfloor(pin.y * GRID_SIZE) 
     if not hashingMap[hKey] then hashingMap[hKey] = {} end
     TblIst(hashingMap[hKey], pin)
 end
---Callbacks
+
+	
+local function CompOnMapSizeChange(width, height)
+	assert(width and height)
+	ctrWidth= width
+	ctrHeight = height
+	
+	for i, composite in pairs(compositeTable) do 
+		local size = compositePinSize[i] / GetUICustomScale()  
+		--Scale map pins at Votans Minimap depending on the MiniMap scaling
+		if VOTANS_MINIMAP and VOTANS_MINIMAP.scale and WORLD_MAP_MANAGER:IsInMode(MAP_MODE_VOTANS_MINIMAP) then
+			size = size * VOTANS_MINIMAP:CalculateScale("Others")
+		end
+		composite:SetDimensions(size, size)
+		for pinIndex, nodeId in pairs(compositePinIndex[i]) do
+			composite:SetInsets(pinIndex, nodeId.x * ctrWidth, nodeId.x * ctrWidth, nodeId.y * ctrWidth, nodeId.y * ctrWidth)
+		end
+	end
+	
+end
+
+ZO_PreHook(ZO_WorldMapPins_Manager, "UpdatePinsForMapSizeChange", function() 
+		CompOnMapSizeChange(ZO_WorldMapContainer:GetDimensions()) 
+	end)
+--Callbacksaw
 local MapPinCallback={
 	[5]=function(i,subzone)
 		local mapData=DecodeData("Lorebooks")
@@ -1185,8 +1218,8 @@ local MapPinCallback={
 							CustomPins[i].tint=type(pinData[4])=="string" and ZO_ColorDef:New(1,.3,.3,1) or nil
 							pinTag.icon=itemData.iconFile
 							
-							AddPinToTexture(i,{x=pinData[1], y=pinData[2], pinTag=pinTag})
-							--customCreatePin(_G[CustomPins[i].name],pinTag,pinData[1],pinData[2])
+							--AddPinToTexture(i,{x=pinData[1], y=pinData[2], pinTag=pinTag})
+							customCreatePin(_G[CustomPins[i].name],pinTag,pinData[1],pinData[2])
 							if LastZone~=subzone then
 								LastZone=subzone
 								d('You can find "'..itemData.name..'" in this zone')
@@ -1250,19 +1283,19 @@ local MapPinCallback={
 				end
 				if not known and (normalizedX>0 or normalizedY>0) then	--poiType==MAP_PIN_TYPE_INVALID then
 					pinTag.texture=UnknownPOItexture[data[2]]	
-					AddPinToTexture(i,{x=normalizedX, y=normalizedY, pinTag=pinTag})
-					--customCreatePin(id,pinTag,normalizedX,normalizedY)
-					--ZO_MapPin.PIN_DATA[id].size=size
+					--AddPinToTexture(i,{x=normalizedX, y=normalizedY, pinTag=pinTag})
+					customCreatePin(id,pinTag,normalizedX,normalizedY)
+					ZO_MapPin.PIN_DATA[id].size=size
 				elseif data[2]==25 then	--Mundus
 					pinTag.texture="/esoui/art/icons/poi/poi_mundus_complete.dds" 
-					AddPinToTexture(i,{x=normalizedX, y=normalizedY, pinTag=pinTag})
-					--customCreatePin(id,pinTag,normalizedX,normalizedY)
-					--ZO_MapPin.PIN_DATA[id].size=size
+					--AddPinToTexture(i,{x=normalizedX, y=normalizedY, pinTag=pinTag})
+					customCreatePin(id,pinTag,normalizedX,normalizedY)
+					ZO_MapPin.PIN_DATA[id].size=size
 				elseif data[2]==8 and data[3] then	--Crafting station known
 					pinTag.texture="/esoui/art/icons/mapkey/mapkey_crafting.dds"
-					AddPinToTexture(i,{x=normalizedX, y=normalizedY, pinTag=pinTag})
-					--customCreatePin(id,pinTag,normalizedX,normalizedY)
-					--ZO_MapPin.PIN_DATA[id].size=size	
+					--AddPinToTexture(i,{x=normalizedX, y=normalizedY, pinTag=pinTag})
+					customCreatePin(id,pinTag,normalizedX,normalizedY)
+					ZO_MapPin.PIN_DATA[id].size=size	
 				end
 			end
 		end
@@ -2041,37 +2074,29 @@ local function AddPinFilter()
 end
 
 local filterIdToFilterIndex ={}
-local orgGetPinFilter = ZO_WorldMapFilterPanel_Shared.GetPinFilter
-function ZO_WorldMapFilterPanel_Shared.GetPinFilter(...)
-	local current, mapPinGroup = ...
+
+ZO_PostHook(ZO_WorldMapFilterPanel_Shared, "GetPinFilter", function(self, mapPinGroup)
 	local i = filterIdToFilterIndex[mapPinGroup] 
-	if i then
-		return SavedVars[i]		
-	else
-		return orgGetPinFilter(...)
-	end
-end
-local orgSetPinFilter = ZO_WorldMapFilterPanel_Shared.SetPinFilter
-function ZO_WorldMapFilterPanel_Shared.SetPinFilter(...)
-	local current, mapPinGroup, shown = ...		
+	if i then return SavedVars[i] end	
+end)
+ZO_PostHook(ZO_WorldMapFilterPanel_Shared, "SetPinFilter", function(self, mapPinGroup, shown)
 	local i = filterIdToFilterIndex[mapPinGroup] 		
-		if i then
+	if i then
 		SavedVars[i] = shown
 		for pin,id in pairs(CustomPins[i].id) do
-			PinManager:SetCustomPinEnabled(id, shown)		
+			PinManager:SetCustomPinEnabled(id, shown)	
+			compositeTable[pin]:ClearAllSurfaces()
 			AddCompassCustomPin(id,pin)
 			PinManager:RefreshCustomPins(id)
 		end
-	else
-		return orgSetPinFilter(...)
 	end
-end
+end)
 
 local function OnMapChanged()	
 	-- clear pins from map
 	for i,composite in pairs(compositeTable) do
 		composite:ClearAllSurfaces()
-		ZO_ClearTable(compositePinIOndex[i])
+		ZO_ClearTable(compositePinIndex[i])
 	end
 	 for slotIdx = 1, GHOST_POOL_COUNT do
 		PinManager:SetCustomPinEnabled(ghostPins[slotIdx].id, false)
@@ -2092,7 +2117,7 @@ end
 local function GhostPinCallback(index)
     local node = ghostPins[index].pin
     if node then
-		ghostPins[index].texture = node.pinTag.texture or CustomPins[node.myi].texture, ghostPins[index].texture
+		ghostPins[index].texture = "black"
         customCreatePin(ghostPins[index].id, node.pinTag, node.x, node.y)
     end
 end
@@ -2101,7 +2126,11 @@ local function MakeCompositeControl(i)
    -- Create the layer and anchor it to the world map
     containerTable[i] = CreateControlFromVirtual("MapPinsContainer_"..i, ZO_WorldMapContainer, "MapPinsControlTemplate")
     compositeTable[i] = containerTable[i]:GetNamedChild("Composite")
-   compositePinIOndex[i]={}
+	local size =CustomPins[i].size or SavedGlobal.pinsize or 32
+	local scale = CustomPins[i].k or 1
+	size = size*scale
+	compositePinSize[i]=size
+	compositePinIndex[i]={}
     -- Sync dimensions with the actual map
     containerTable[i]:SetAnchorFill(ZO_WorldMapContainer)
 	 local texturePath=texturePath or CustomPins[i].def_texture or CustomPins[i].texture or "Nope"
@@ -2195,12 +2224,7 @@ local updatingGhost=false
 	updatingGhost=false
 end
 
-local PinTooltipSupres={
-[7]=true,
-[16]=true,
-[17]=true,
-[77]=true,--Imperial City player respawns
-}
+
 
 local PinTooltipCreator={
 	tooltip=1,
@@ -2242,7 +2266,8 @@ local PinTooltipCreator={
 			name, icon, _=GetLoreBookInfo(1, pinTag[2], pinTag[3])
 		elseif pinTag[1]==6 then
 			icon=pinTag.icon
-			name=GetItemName(BAG_BACKPACK,pinTag[2])
+			local _, iStack, _, _, _, _, _, _, _ = GetItemInfo(BAG_BACKPACK, pinTag[2])
+			name=GetItemName(BAG_BACKPACK,pinTag[2]) .. " (" .. tostring(iStack) .. ")"
 		elseif pinTag[1]==8 then
 			icon=pinTag.texture
 			name=pinTag.name
@@ -2265,7 +2290,7 @@ local function MakeGhost()
     for i =1,GHOST_POOL_COUNT  do
         ghostPins[i]={
             name="Ghost_Pins_"..i,
-            texture="/esoui/art/treeicons/tutorial_idexicon_blackwood_up.dds",     
+            texture="blank",     
             maxDistance=0.05,
             level=102,
             k=1.25,

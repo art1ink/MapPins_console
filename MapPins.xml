@@ -1,9 +1,11 @@
 <GuiXml>
     <Controls>
         <Control name="MapPinsControlTemplate" virtual="true">
-            <Dimensions x="512" y="512" />
             <Controls>
-                <TextureComposite name="$(parent)Composite" anchorsFill="true" />
+                 <TextureComposite name="$(parent)Composite" tier="HIGH">
+					 <Dimensions x="32" y="32" />
+                    <Anchor point="CENTER" relativePoint="TOPLEFT" />
+                </TextureComposite>
             </Controls>
         </Control>
     </Controls>
