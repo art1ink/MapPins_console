@@ -7884,20 +7884,12 @@ local function AddPinFilter()
 end
 
 local filterIdToFilterIndex ={}
-local orgGetPinFilter = ZO_WorldMapFilterPanel_Shared.GetPinFilter
-function ZO_WorldMapFilterPanel_Shared.GetPinFilter(...)
-	local current, mapPinGroup = ...
-	local i = filterIdToFilterIndex[mapPinGroup] 
-	if i then
-		return SavedVars[i]
-	else
-		return orgGetPinFilter(...)
-	end
-end
-local orgSetPinFilter = ZO_WorldMapFilterPanel_Shared.SetPinFilter
-function ZO_WorldMapFilterPanel_Shared.SetPinFilter(...)
-	local current, mapPinGroup, shown = ...
-	local i = filterIdToFilterIndex[mapPinGroup] 
+ZO_PostHook(ZO_WorldMapFilterPanel_Shared, "GetPinFilter", function(self, mapPinGroup)
+    local i = filterIdToFilterIndex[mapPinGroup] 
+	if i then return SavedVars[i] end
+end)
+ZO_PostHook(ZO_WorldMapFilterPanel_Shared, "SetPinFilter", function(self, mapPinGroup, shown)
+    local i = filterIdToFilterIndex[mapPinGroup] 
 	if i then
 		SavedVars[i] = shown
 		for pin,id in pairs(CustomPins[i].id) do
@@ -7905,19 +7897,16 @@ function ZO_WorldMapFilterPanel_Shared.SetPinFilter(...)
 			AddCompassCustomPin(id,pin)
 			PinManager:RefreshCustomPins(id)
 		end
-	else
-		return orgSetPinFilter(...)
 	end
-end
+end)
+
 --update the Filters
 local function OnMapChanged()
-	for i=1,30 do
-		if CustomPins[i] then
-			if GAMEPAD_WORLD_MAP_FILTERS then
-				GAMEPAD_WORLD_MAP_FILTERS.currentPanel:SetPinFilter(_G[CustomPins[i].name], SavedVars[i] ~= false)
-			end
+	for mapPinGroup,i in pairs(filterIdToFilterIndex) do
+		if GAMEPAD_WORLD_MAP_FILTERS then
+			GAMEPAD_WORLD_MAP_FILTERS.currentPanel:SetPinFilter(mapPinGroup, SavedVars[i] ~= false)
 		end
-	end	
+	end
 end
 
 
