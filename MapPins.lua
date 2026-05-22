@@ -397,7 +397,6 @@ local GHOST_POOL_COUNT = 10
 local KEY_OFFSET = 1000
 local hashingMap = {} -- The hashing map will be a simple integer-keyed table
 local ghostPins = {} -- Index [1-10] = NodeData (PinTag)
-local containerTable={}
 local compositeTable={}
 local compositePinSize={}
 local compositePinIndex={}
@@ -695,40 +694,79 @@ local UpdatingMapPin,UpdatingCompassPin,PinId={},{},{}
 local SavedVars,DefaultVars={},{[1]=true,[2]=true,[3]=true,[4]=false,[5]=true,[6]=false,[7]=true,[8]=true,[9]=false,[10]=false,[11]=false,[12]=false,[13]=false,[14]=false,[15]=false,[16]=false,[17]=false,[18]=false,[19]=false,[21]=true,TimeBreachClosed={}}
 local SavedGlobal,DefaultGlobal={},{pinsize=20}
 local ChestsRange,ChestsLooted,LastZone,LastAchivement,PsijicSkillLine=.08,0,0,0,4
-local ChronoglerTablet={[6771]=1,[141719]=2,[141720]=3,[141721]=4,[141722]=5,[141723]=6,[141724]=7,[141725]=8,[141726]=9,[141728]=11,[141727]=10,[141729]=12}
-local AncestralTombRubbing={[114287]=1,[114288]=2,[114289]=3,[114298]=4,[114299]=5,[114300]=6,[114301]=7,[114302]=8,[114303]=9,[114304]=10,[114305]=11,[114306]=12,[114307]=13,[114308]=14,[114309]=15,[114310]=16,[114311]=17,[114312]=18,[114313]=19,[114314]=20,[114315]=21,[114316]=22,[114317]=23,[114318]=24,[114319]=25,[114320]=26,[114321]=27,[114322]=28,[114323]=29,[114324]=30}
-local WrothgarRelics={[64578]=1,[64579]=2,[64580]=3,[64581]=4,[64582]=5,[64583]=6,[64584]=7,[64586]=8,[64587]=9,[64585]=10,[64589]=13,[64590]=14,[64591]=15,[64592]=16,[64594]=17,[64588]=18,[64593]=19,[64595]=20}
-local RelicsOfSummerset={[133605]=1,[133606]=2,[133607]=3,[133608]=4,[133609]=5,[133610]=6,[133611]=7,[133612]=8,[133613]=9,[133614]=10,[133615]=11,[133616]=12,[133617]=13,[133618]=14,[133619]=15,[133620]=16,[133621]=17,[133622]=18,[133623]=19,[133624]=20}
-local MuralMenderFragments={
-[147519]=2,--Riverhold Fragment
-[147520]=3,
-[147521]=4,--Khenarthia
-[147522]=5,--Dune
-[147523]=6,--Verkarth
-[147524]=7,--Merivale
-[147525]=8,
-[147526]=9,--Alabaster
-[147527]=10,--Senchal
-[147528]=11,
-[147529]=12,
-[147530]=13,
-[147531]=14,
-[147532]=15,
-[147533]=16,
+local AchievementIdForItems={
+	--AncestralTombRubbing
+	[1712]={[114287]=1,[114288]=2,[114289]=3,[114298]=4,[114299]=5,[114300]=6,[114301]=7,[114302]=8,[114303]=9,[114304]=10,[114305]=11,[114306]=12,[114307]=13,[114308]=14,[114309]=15,[114310]=16,[114311]=17,[114312]=18,[114313]=19,[114314]=20,[114315]=21,[114316]=22,[114317]=23,[114318]=24,[114319]=25,[114320]=26,[114321]=27,[114322]=28,[114323]=29,[114324]=30},
+	--WrothgarRelics
+	[1250]={[64578]=1,[64579]=2,[64580]=3,[64581]=4,[64582]=5,[64583]=6,[64584]=7,[64586]=8,[64587]=9,[64585]=10,[64589]=13,[64590]=14,[64591]=15,[64592]=16,[64594]=17,[64588]=18,[64593]=19,[64595]=20},
+	--RelicsOfSummerset
+	[2099]={[133605]=1,[133606]=2,[133607]=3,[133608]=4,[133609]=5,[133610]=6,[133611]=7,[133612]=8,[133613]=9,[133614]=10,[133615]=11,[133616]=12,[133617]=13,[133618]=14,[133619]=15,[133620]=16,[133621]=17,[133622]=18,[133623]=19,[133624]=20},
+	--PrecursorItems
+	[1958]={[129900]=1,[129901]=2,[129902]=3,[129903]=4,[129904]=5,[129905]=6,[129906]=7,[129907]=8,[129908]=9,[129909]=10,[129910]=11,[129911]=12,[129912]=13,[129913]=14},
+	--ChronoglerTablet
+	[2320]={[6771]=1,[141719]=2,[141720]=3,[141721]=4,[141722]=5,[141723]=6,[141724]=7,[141725]=8,[141726]=9,[141728]=11,[141727]=10,[141729]=12},
+	--MuralMenderFragments
+	[2463]={[147519]=2,[147520]=3,[147521]=4,[147522]=5,[147523]=6,[147524]=7,[147525]=8,[147526]=9,[147527]=10,[147528]=11,[147529]=12,[147530]=13,[147531]=14,[147532]=15,[147533]=16},
+	--PiecesOfHistory
+	[2534]={[7070]=1,[151942]=2,[151943]=3,[153466]=4,[153467]=5,[153468]=6,[153469]=7,[153470]=8,[153471]=9,[153472]=10,[153473]=11,[153474]=12},
+	--Instruments
+	[2669]={[156666]=2,[156797]=3,[156798]=4,[156799]=5,[156800]=6,[156801]=7,[156802]=8,[156803]=9,[156804]=10,[156805]=11,[156806]=12,[156807]=13,[156808]=14,[160510]=15,[160511]=16,[160512]=17,[160514]=18,[160515]=19,},
+	--MiningSampleCollector
+	[2759]={[7373]=1,[7375]=2,[7377]=3,[7385]=4,[7379]=5},
 }
-local PiecesOfHistory={
-[7070]=1,	--Nishozo
-[151942]=2,	--Amaffi
-[151943]=3,	--Oranu
-[153466]=4,	--Magpie
-[153467]=5,	--Bufasa
-[153468]=6,	--Seleiz
-[153469]=7,	--Hiijar
-[153470]=8,	--Grastia
-[153471]=9,	--Dancer
-[153472]=10,--Farro
-[153473]=11,--Kesta
-[153474]=12,--Jarro
+local AchievementIdToPinId={
+	[1712]=51,--AncestralTombRubbing
+	[1250]=47,--WrothgarRelics	
+	[2099]=53,--RelicsOfSummerset	
+	[1958]=56,--PrecursorItems	
+	[2320]=57,--ChronoglerTablet	
+	[2463]=63,--MuralMenderFragments	
+	[2534]=64,--PiecesOfHistory	
+	[2669]=68,--Instruments	
+	[2759]=69,--MiningSampleCollector
+}
+local PrecursorTooltip={
+	{v=1,desc="  Alik'r Desert: Yldzuun"},
+	{v=4,desc="  Alik'r Desert: Santaki"},
+	{v=6,desc="  Alik'r Desert: Aldunz"},
+	{v=2,desc="  Bangkorai: Klathzgar"},
+	{v=3,desc="  Rift: Avancheznel"},
+	{v=7,desc="  Eastmarch: Mzulft"},
+	{v=8,desc="  Stonefalls: Inner Sea Armature"},
+	{v=9,desc="  Deshaan: Mzithumz"},
+	{v=5,desc="  Deshaan: Lower Bthanual"},
+	{v=14,desc="Deshaan: Bthanual"},
+	{v=10,desc="Stros M'Kai: Bthzark"},
+	{v=11,desc="Brass Bortress: Mechanical Fundament"},
+	{v=12,desc="Clockwork Base"},
+	{v=13,desc="Brass Bortress: Machine District"}
+	}
+local InstrumentsTooltip={
+	{v=2,desc="  Nchuthnkarst: Lute of Blue Longing"},
+	{v=3,desc="  Blackreach: Chime of the Endless"},
+	{v=4,desc="  Shadowgreen: Tenderclaw "},
+	{v=5,desc="  Dragonhome: Shadow of Rahjin"},
+	{v=6,desc="  Chill Wind Depths: Lilytongue"},
+	{v=7,desc="  Labyrinthian: Sky talker"},
+	{v=8,desc="  Western Skryim: Long Fire"},
+	{v=9,desc="  Scraps: Hightmourn Dizi"},
+	{v=10,desc="Western Skryim: Jarlsbane"},
+	{v=11,desc="Western Skryim: King Thunder"},
+	{v=12,desc="Western Skryim: Jahar Fuso'ja"},
+	{v=13,desc="Blackreach: Pan Flute of Morachellis"},
+	{v=14,desc="Blackreach: Reman War Drum"},
+	{v=15,desc="Blackreach: Ateian Fife"},
+	{v=16,desc="Western Skryim: Shiek-of-Silk"},
+	{v=17,desc="Western Skryim: Kothringi Leviathan Bugle"},
+	{v=18,desc="Western Skryim: Lodestone"},
+	{v=19,desc="Western Skryim: Dozzen Talharpa"},
+	}
+local MiningSampleTooltip={
+	{v=1,desc="Kelbarn's Mining Samples"},
+	{v=2,desc="Inguya's Mining Samples"},
+	{v=3,desc="Reeh-La's Mining Samples"},
+	{v=4,desc="Adanzda's Mining Samples"},
+	{v=5,desc="Ghamborz's Mining Samples"},
 }
 local IsChest={["Chest"]=true,["Truhe^f"]=true,["coffre^m"]=true,["Сундук"]=true,["宝箱"]=true}
 local IsTimeBreach={["Time Breach"]=true,["Zeitriss^m"]=true,["Rupture temporelle^f"]=true,["Временная брешь"]=true,["時の裂け目"]=true}
@@ -875,86 +913,6 @@ local AllianceColors={
 [ALLIANCE_EBONHEART_PACT]={1,.2,.2,.8},
 [ALLIANCE_DAGGERFALL_COVENANT]={.2,.2,1,.8}
 }
-local PrecursorItems={
-[129900]=1,	--Left arm
-[129901]=2,	--Right arm
-[129902]=3,	--Left leg
-[129903]=4,	--Right leg
-[129904]=5,	--Pelvis
-[129905]=6,	--Chestpiece
-[129906]=7,	--Spine
-[129907]=8,	--Left hand
-[129908]=9,	--Right hand
-[129909]=10,--Dynamo
-[129910]=11,--Calculus
-[129911]=12,--Introspection
-[129912]=13,--Reason
-[129913]=14,--Staff
-}
-local PrecursorTooltip={
-	{v=1,desc="  Alik'r Desert: Yldzuun"},
-	{v=4,desc="  Alik'r Desert: Santaki"},
-	{v=6,desc="  Alik'r Desert: Aldunz"},
-	{v=2,desc="  Bangkorai: Klathzgar"},
-	{v=3,desc="  Rift: Avancheznel"},
-	{v=7,desc="  Eastmarch: Mzulft"},
-	{v=8,desc="  Stonefalls: Inner Sea Armature"},
-	{v=9,desc="  Deshaan: Mzithumz"},
-	{v=5,desc="  Deshaan: Lower Bthanual"},
-	{v=14,desc="Deshaan: Bthanual"},
-	{v=10,desc="Stros M'Kai: Bthzark"},
-	{v=11,desc="Brass Bortress: Mechanical Fundament"},
-	{v=12,desc="Clockwork Base"},
-	{v=13,desc="Brass Bortress: Machine District"}
-	}
-local Instruments={
-[156666]=2,	--Lute of Blue Longing
-[156797]=3,	--Chime of the Endless
-[156798]=4,	--Tenderclaw 
-[156799]=5,	--Shadow of Rahjin
-[156800]=6,	--Lilytongue
-[156801]=7,--Sky talker
-[156802]=8,	--Long Fire
-[156803]=9,	--Hightmourn Dizi
-[156804]=10,	--Jarlsbane
-[156805]=11,	--King Thunder
-[156806]=12,	--Jahar Fuso'ja
-[156807]=13,	--Pan Flute of Morachellis
-[156808]=14,	--Reman War Drum
-[160510]=15,	--Ateian Fife
-[160511]=16,	--Shiek-of-Silk
-[160512]=17,	--Kothringi Leviathan Bugle
-[160514]=18,	--Lodestone
-[160515]=19,	--Dozzen Talharpa
-}
-local InstrumentsTooltip={
-	{v=2,desc="  Nchuthnkarst: Lute of Blue Longing"},
-	{v=3,desc="  Blackreach: Chime of the Endless"},
-	{v=4,desc="  Shadowgreen: Tenderclaw "},
-	{v=5,desc="  Dragonhome: Shadow of Rahjin"},
-	{v=6,desc="  Chill Wind Depths: Lilytongue"},
-	{v=7,desc="  Labyrinthian: Sky talker"},
-	{v=8,desc="  Western Skryim: Long Fire"},
-	{v=9,desc="  Scraps: Hightmourn Dizi"},
-	{v=10,desc="Western Skryim: Jarlsbane"},
-	{v=11,desc="Western Skryim: King Thunder"},
-	{v=12,desc="Western Skryim: Jahar Fuso'ja"},
-	{v=13,desc="Blackreach: Pan Flute of Morachellis"},
-	{v=14,desc="Blackreach: Reman War Drum"},
-	{v=15,desc="Blackreach: Ateian Fife"},
-	{v=16,desc="Western Skryim: Shiek-of-Silk"},
-	{v=17,desc="Western Skryim: Kothringi Leviathan Bugle"},
-	{v=18,desc="Western Skryim: Lodestone"},
-	{v=19,desc="Western Skryim: Dozzen Talharpa"},
-	}
-local MiningSampleCollector={[7373]=1,[7375]=2,[7377]=3,[7385]=4,[7379]=5}
-local MiningSampleTooltip={
-	{v=1,desc="Kelbarn's Mining Samples"},
-	{v=2,desc="Inguya's Mining Samples"},
-	{v=3,desc="Reeh-La's Mining Samples"},
-	{v=4,desc="Adanzda's Mining Samples"},
-	{v=5,desc="Ghamborz's Mining Samples"},
-}
 local CustomPins={	--Types
 	[1]={name="pinType_Delve_bosses",done=false,id={},pin={},maxDistance=0.05,level=30,texture="/esoui/art/icons/poi/poi_groupboss_incomplete.dds",k=1.25},--tint=ZO_ColorDef:New(1,1,1,1),
 	[2]={name="pinType_Delve_bosses_done",done=true,id={},pin={},maxDistance=0.05,level=30,texture="/esoui/art/icons/poi/poi_groupboss_complete.dds",k=1.25},
@@ -1069,10 +1027,7 @@ local CustomPins={	--Types
 local PinsAva={[1]=true,[2]=true,[3]=true,[4]=true,[5]=true,[6]=true,[7]=true,[8]=true,[17]=true,[21]=true}
 local PinsNirn={[1]=true,[2]=true,[3]=true,[4]=true,[5]=true,[6]=true,[7]=true,[8]=true,[9]=true,[10]=true,[11]=true,[12]=true,[13]=true,[14]=true,[15]=true,[16]=true,[17]=true,[18]=true,[19]=true,[20]=true,[22]=true,[23]=true,[24]=true,[26]=true,[27]=true,[28]=true,[29]=true,[30]=true}
 local PinsImperial={[3]=true,[5]=true,[7]=true,[8]=true,[17]=true,[25]=true}
---	/script local name,_,_,icon=GetAchievementInfo(3295) CHAT_ROUTER:AddSystemMessage(icon)
---	/script CHAT_ROUTER:AddSystemMessage(ZO_AchievementsContentsCategoriesScrollChildZO_IconHeader12Icon:GetTextureFileName())
---	/script CHAT_ROUTER:AddSystemMessage(GetCollectibleIcon(912))
---	/script d("|t26:26:/esoui/art/icons/achievement_u46_zone_flavor3.dds|t")
+
 local PinTooltipSupres={
 [7]=true,
 [16]=true,
@@ -1130,7 +1085,16 @@ end
 
 local currentLoadingCoroutine = nil
 local currentLoadingMap = ""
-
+local function RefreshTextureComposite(id)
+	for pinID,i in pairs(PinId)
+		if pinID == id or id == nil then
+			compositeTable[i]:ClearAllSurfaces()
+			ZO_ClearTable(compositePinIndex[i])			
+			break
+		end
+	end
+	PinManager:RefreshCustomPins(id)
+end
 -- Helper to stop any existing loading process
 local function AbortPinLoading(i)
     EVENT_MANAGER:UnregisterForUpdate(AddonName.."_PinLoader_"..i)
@@ -1355,7 +1319,7 @@ local MapPinCallback={
 			end
 		end
 		local pinIndex = 1
-		local frameBudget = 0.1
+		local frameBudget = 0.01 -- 60 fps is 0.06
 
 		currentLoadingCoroutine = function()
 			local startTime = GetGameTimeSeconds()
@@ -1704,136 +1668,70 @@ local function ScanInventory()
 	for _, itemData in pairs(SHARED_INVENTORY:GenerateFullSlotData(nil, BAG_BACKPACK)) do
 		if itemData and itemData.itemType==ITEMTYPE_TROPHY then
 			local itemId=GetItemId(BAG_BACKPACK,itemData.slotIndex)
-			if AncestralTombRubbing[itemId] then AchievementItems[1712][ AncestralTombRubbing[itemId] ]=true
-			elseif WrothgarRelics[itemId] then AchievementItems[1250][ WrothgarRelics[itemId] ]=true
-			elseif RelicsOfSummerset[itemId] then AchievementItems[2099][ RelicsOfSummerset[itemId] ]=true
-			elseif PrecursorItems[itemId] then AchievementItems[1958][ PrecursorItems[itemId] ]=true
-			elseif ChronoglerTablet[itemId] then AchievementItems[2320][ ChronoglerTablet[itemId] ]=true
-			elseif MuralMenderFragments[itemId] then AchievementItems[2463][ MuralMenderFragments[itemId] ]=true
-			elseif PiecesOfHistory[itemId] then AchievementItems[2534][ PiecesOfHistory[itemId] ]=true
-			elseif Instruments[itemId] then AchievementItems[2669][ Instruments[itemId] ]=true
-			elseif MiningSampleCollector[itemId] then AchievementItems[2759][ MiningSampleCollector[itemId] ]=true
+			for acheveID,tbl in pairs(AchievementIdForItems) do
+				local part = tbl[itemId]
+				if part then
+					AchievementItems[acheveID][part]=true
+				end
 			end
 		end
 	end
 end
 
 --Events
---[[
-local function OnBackpackChanged(bagId,_,slotData)
---	d("Bag changed: "..bagId..(slotData and " Item type: "..tostring(slotData.itemType or "")))
-	if bagId~=BAG_BACKPACK or UpdatingMapPin[6] or not slotData or slotData.itemType~=ITEMTYPE_TROPHY then return end
-	UpdatingMapPin[6]=true
-	zo_callLater(function()
-		UpdatingMapPin[6]=false
-		ZO_WorldMap_RefreshCustomPinsOfType(_G[CustomPins[6].name])
-		if COMPASS_PINS then COMPASS_PINS:RefreshPins(CustomPins[6].name) end
-	end,1000)
-end
---]]
---Events (quick fix)
 local function OnBackpackChanged(bagId,_,slotData)
     if bagId ~= BAG_BACKPACK or UpdatingMapPin[6] then return end
     UpdatingMapPin[6] = true
     zo_callLater(function()
         UpdatingMapPin[6] = false
-        PinManager:RefreshCustomPins(_G[CustomPins[6].name])
+        RefreshTextureComposite(_G[CustomPins[6].name])
         if COMPASS_PINS then COMPASS_PINS:RefreshPins(CustomPins[6].name) end
     end, 1000)
 end
 
 local function OnLootReceived(_, receivedBy, itemName, quantity, itemSound, lootType, self, _, questItemIcon, itemId)
 	if lootType~=LOOT_TYPE_ITEM and lootType~=LOOT_TYPE_QUEST_ITEM then return end
-	--Ancestral Tombs
-	if AncestralTombRubbing[itemId] then
-		AchievementItems[1712][ AncestralTombRubbing[itemId] ]=true
-		PinManager:RefreshCustomPins(_G[CustomPins[51].name])
-		if COMPASS_PINS then COMPASS_PINS:RefreshPins(CustomPins[51].name) end
-	elseif WrothgarRelics[itemId] then
-		AchievementItems[1250][ WrothgarRelics[itemId] ]=true
-		PinManager:RefreshCustomPins(_G[CustomPins[47].name])
-		if COMPASS_PINS then COMPASS_PINS:RefreshPins(CustomPins[47].name) end
-	elseif RelicsOfSummerset[itemId] then
-		AchievementItems[2099][ RelicsOfSummerset[itemId] ]=true
-		PinManager:RefreshCustomPins(_G[CustomPins[53].name])
-		if COMPASS_PINS then COMPASS_PINS:RefreshPins(CustomPins[53].name) end
-	elseif PrecursorItems[itemId] then
-		AchievementItems[1958][ PrecursorItems[itemId] ]=true
-		PinManager:RefreshCustomPins(_G[CustomPins[56].name])
-		if COMPASS_PINS then COMPASS_PINS:RefreshPins(CustomPins[56].name) end
-	elseif ChronoglerTablet[itemId] then
-		AchievementItems[2320][ ChronoglerTablet[itemId] ]=true
-		PinManager:RefreshCustomPins(_G[CustomPins[57].name])
-		if COMPASS_PINS then COMPASS_PINS:RefreshPins(CustomPins[57].name) end
-	elseif MuralMenderFragments[itemId] then
-		AchievementItems[2463][ MuralMenderFragments[itemId] ]=true
-		PinManager:RefreshCustomPins(_G[CustomPins[63].name])
-		if COMPASS_PINS then COMPASS_PINS:RefreshPins(CustomPins[63].name) end
-	elseif PiecesOfHistory[itemId] then
-		AchievementItems[2534][ PiecesOfHistory[itemId] ]=true
-		PinManager:RefreshCustomPins(_G[CustomPins[64].name])
-		if COMPASS_PINS then COMPASS_PINS:RefreshPins(CustomPins[64].name) end
-	elseif Instruments[itemId] then
-		AchievementItems[2669][ Instruments[itemId] ]=true
-		PinManager:RefreshCustomPins(_G[CustomPins[68].name])
-		if COMPASS_PINS then COMPASS_PINS:RefreshPins(CustomPins[68].name) end
-	elseif MiningSampleCollector[itemId] then
-		AchievementItems[2759][ MiningSampleCollector[itemId] ]=true
-		PinManager:RefreshCustomPins(_G[CustomPins[69].name])
-		if COMPASS_PINS then COMPASS_PINS:RefreshPins(CustomPins[69].name) end
+	for acheveID,tbl in pairs(AchievementIdForItems) do
+		local part = tbl[itemId]
+		if part then
+			AchievementItems[acheveID][part]=true
+			RefreshTextureComposite(_G[CustomPins[AchievementIdToPinId[acheveID] ].name])
+			if COMPASS_PINS then COMPASS_PINS:RefreshPins(CustomPins[AchievementIdToPinId[acheveID] ].name) end
+		end
 	end
 end
 
 local function OnAchievementUpdate(achievementId,link)
 	LastAchivement=achievementId
---[[
-	if MP_dm and achievementId==1824 then
-		local x,y=GetMapPlayerPosition("player") x=math.floor(x*10000)/10000 y=math.floor(y*10000)/10000
-		local subzone = GetMapTileTexture():match("[^\\/]+$"):lower():gsub("%.dds$", ""):gsub("_[0-9]+$", "")
-		local action,name,blockedNode,isOwned=GetGameCameraInteractableActionInfo()
-		if not The36Lessons[subzone] then
-			d("Book added: "..name)
-			The36Lessons[subzone]={{x,y,achievementId,name}}
-		else
-			local known=false
-			for i,data in pairs(The36Lessons[subzone]) do
-				if math.abs(data[1]-x)<0.01 and math.abs(data[2]-y)<0.01 then known=true end
-			end
-			if not known then
-				d("Book added: "..name)
-				table.insert(The36Lessons[subzone],{x,y,achievementId,name})
-			end
-		end
-	end
---]]
+
 	local function RefreshPins(name)
 		EVENT_MANAGER:RegisterForUpdate("CallLater_"..name, 1000,
 		function()
 			EVENT_MANAGER:UnregisterForUpdate("CallLater_"..name)
-			PinManager:RefreshCustomPins(name)
+			RefreshTextureComposite(_G[name])
 			if COMPASS_PINS then COMPASS_PINS:RefreshPins(name) end
 		end)
 	end
 	if SkyShardsAchievements[achievementId] then
-		RefreshPins(_G[CustomPins[3].name])
+		RefreshPins(CustomPins[3].name)
 	elseif FishingAchievements[achievementId] and SavedVars[17] then
-		RefreshPins(_G[CustomPins[17].name])
+		RefreshPins(CustomPins[17].name)
 	elseif AchievementsId[achievementId] then
-		RefreshPins(_G[CustomPins[AchievementsId[achievementId] ].name])
+		RefreshPins(CustomPins[AchievementsId[achievementId] ].name)
 	elseif BossesAchievements[achievementId] then
 		local AchName=GetAchievementCriterion(achievementId,1)
 		if string.match(AchName,"Explorer") or string.match(AchName,"Group Challenge") then
-			RefreshPins(_G[CustomPins[1].name])
+			RefreshPins(CustomPins[1].name)
 		end
 	end
 end
 local function OnSkyshardsUpdated()
-    PinManager:RefreshCustomPins(_G[CustomPins[3].name])
+    RefreshTextureComposite(_G[CustomPins[3].name])
     if COMPASS_PINS then COMPASS_PINS:RefreshPins(CustomPins[3].name) end
 end
 local function OnBookLearned(_,categoryIndex)
 	if categoryIndex==1 then
-	PinManager:RefreshCustomPins(_G[CustomPins[5].name])
+	RefreshTextureComposite(_G[CustomPins[5].name])
 	if COMPASS_PINS then COMPASS_PINS:RefreshPins(CustomPins[5].name) end
 	end
 end
@@ -1957,7 +1855,7 @@ local function OnInteract(_,result,TargetName)
 					if math.abs(data[1]-x)<delta and math.abs(data[2]-y)<delta then
 						if not SavedVars.TimeBreachClosed[zone] then SavedVars.TimeBreachClosed[zone]={} end
 						SavedVars.TimeBreachClosed[zone][i]=true
-						PinManager:RefreshCustomPins(_G[CustomPins[15].name])
+						RefreshTextureComposite(_G[CustomPins[15].name])
 						if COMPASS_PINS then COMPASS_PINS:RefreshPins(CustomPins[15].name) end
 					end
 				end
@@ -1969,7 +1867,7 @@ end
 
 local function TrackChestsRange()
 --	if IsUnitInCombat('player') then return end
-	PinManager:RefreshCustomPins(PinId[7])
+	RefreshTextureComposite(PinId[7])
 end
 
 local function ResizePins(minimap)
@@ -1981,59 +1879,59 @@ end
 local function RegisterEvents()
 	EVENT_MANAGER:RegisterForEvent(AddonName,EVENT_ACHIEVEMENT_UPDATED,function(_,achievementId,link) OnAchievementUpdate(achievementId)end)
 	EVENT_MANAGER:RegisterForEvent(AddonName,EVENT_ACHIEVEMENT_AWARDED,function(_,_,_,achievementId,link) OnAchievementUpdate(achievementId)end)
-	if SavedVars[3] then
+	--if SavedVars[3] then
         EVENT_MANAGER:RegisterForEvent(AddonName, EVENT_SKYSHARDS_UPDATED, OnSkyshardsUpdated)
-    else
-        EVENT_MANAGER:UnregisterForEvent(AddonName, EVENT_SKYSHARDS_UPDATED)
-    end
-	if SavedVars[5] then
+    --else
+    --    EVENT_MANAGER:UnregisterForEvent(AddonName, EVENT_SKYSHARDS_UPDATED)
+   -- end
+	--if SavedVars[5] then
 		EVENT_MANAGER:RegisterForEvent(AddonName,EVENT_LORE_BOOK_LEARNED, OnBookLearned)
-	else
+	--else
 		EVENT_MANAGER:UnregisterForEvent(AddonName,EVENT_LORE_BOOK_LEARNED)
-	end
-	if SavedVars[6] then
+	--end
+	--if SavedVars[6] then
 --		EVENT_MANAGER:RegisterForEvent(AddonName,EVENT_LOOT_RECEIVED, OnLootReceived)
 		zo_callLater(function()
 			SHARED_INVENTORY:RegisterCallback("SlotAdded", OnBackpackChanged)
 			SHARED_INVENTORY:RegisterCallback("SlotRemoved", OnBackpackChanged)
 		end, 2500)
-	else
-		SHARED_INVENTORY:UnregisterCallback("SlotAdded")
-		SHARED_INVENTORY:UnregisterCallback("SlotRemoved")
-	end
-	if SavedVars[11] or SavedVars[13] or SavedVars[14] or SavedVars[18] or SavedVars[19] or SavedVars[20] or SavedVars[22] then
+	--else
+	--	SHARED_INVENTORY:UnregisterCallback("SlotAdded")
+	--	SHARED_INVENTORY:UnregisterCallback("SlotRemoved")
+	--end
+	--if SavedVars[11] or SavedVars[13] or SavedVars[14] or SavedVars[18] or SavedVars[19] or SavedVars[20] or SavedVars[22] then
 		ScanInventory()
 		EVENT_MANAGER:RegisterForEvent(AddonName,EVENT_LOOT_RECEIVED, OnLootReceived)
-	else
-		EVENT_MANAGER:UnregisterForEvent(AddonName,EVENT_LOOT_RECEIVED)
-	end
-	if SavedVars[7] or SavedVars[15] then
+	--else
+	--	EVENT_MANAGER:UnregisterForEvent(AddonName,EVENT_LOOT_RECEIVED)
+	--end
+	--if SavedVars[7] or SavedVars[15] then
 		EVENT_MANAGER:RegisterForEvent(AddonName,EVENT_CLIENT_INTERACT_RESULT, OnInteract)
-	else
-		EVENT_MANAGER:UnregisterForEvent(AddonName,EVENT_CLIENT_INTERACT_RESULT)
-	end
-	if SavedVars[7] then
-		if BUI and BUI.name=="BanditsUserInterface" then
-			CALLBACK_MANAGER:RegisterCallback("BUI_MiniMap_Update", TrackChestsRange)
-		else
+	--else
+	--	EVENT_MANAGER:UnregisterForEvent(AddonName,EVENT_CLIENT_INTERACT_RESULT)
+	--end
+	--if SavedVars[7] then
+		--if BUI and BUI.name=="BanditsUserInterface" then
+		--	CALLBACK_MANAGER:RegisterCallback("BUI_MiniMap_Update", TrackChestsRange)
+		--else
 			WORLD_MAP_SCENE:RegisterCallback("StateChange", function(oldState, newState)
 				if newState==SCENE_SHOWING then TrackChestsRange() end
 			end)
-		end
-	else
-		CALLBACK_MANAGER:UnregisterCallback("BUI_MiniMap_Update")
-		WORLD_MAP_SCENE:UnregisterCallback("StateChange")
-	end
-	if SavedVars[8] and (BUI and BUI.name=="BanditsUserInterface") then
+		--end
+	--else
+	--	CALLBACK_MANAGER:UnregisterCallback("BUI_MiniMap_Update")
+	--	WORLD_MAP_SCENE:UnregisterCallback("StateChange")
+	--end-
+	--[[if SavedVars[8] and (BUI and BUI.name=="BanditsUserInterface") then
 		CALLBACK_MANAGER:RegisterCallback("BUI_MiniMap_Shown", ResizePins)
 	else
 		CALLBACK_MANAGER:UnregisterCallback("BUI_MiniMap_Shown")
-	end
-	if SavedVars[15] then
+	end--]]
+	--if SavedVars[15] then
 		for i=1,GetNumSkillLines(5) do
 			if GetSkillAbilityId(5,i,1,false)==103478 then PsijicSkillLine=i break end
 		end
-	end
+	--end
 --	EVENT_MANAGER:RegisterForEvent(AddonName,EVENT_QUEST_ADDED, OnQuestAdded)
 end
 
@@ -2085,9 +1983,9 @@ ZO_PostHook(ZO_WorldMapFilterPanel_Shared, "SetPinFilter", function(self, mapPin
 		SavedVars[i] = shown
 		for pin,id in pairs(CustomPins[i].id) do
 			PinManager:SetCustomPinEnabled(id, shown)	
-			compositeTable[pin]:ClearAllSurfaces()
+			--compositeTable[pin]:ClearAllSurfaces()
 			AddCompassCustomPin(id,pin)
-			PinManager:RefreshCustomPins(id)
+			RefreshTextureComposite(id)
 		end
 	end
 end)
@@ -2123,18 +2021,22 @@ local function GhostPinCallback(index)
 end
 
 local function MakeCompositeControl(i)
-   -- Create the layer and anchor it to the world map
-    containerTable[i] = CreateControlFromVirtual("MapPinsContainer_"..i, ZO_WorldMapContainer, "MapPinsControlTemplate")
-    compositeTable[i] = containerTable[i]:GetNamedChild("Composite")
+	local newComposite= CreateControl("MapPinsContainer_"..i, ZO_WorldMapContainer, CT_TEXTURECOMPOSITE)
+	newComposite:SetAnchor(CENTER, ZO_WorldMapContainer, TOPLEFT)
+	newComposite:SetDimensions(32, 32)
+	newComposite:SetDrawTier(DT_HIGH)
+	
+	local texturePath = CustomPins[i].def_texture or CustomPins[i].texture
+	if texturePath then newComposite:SetTexture(texturePath) end
+
+	compositeTable[i] = newComposite
+
 	local size =CustomPins[i].size or SavedGlobal.pinsize or 32
 	local scale = CustomPins[i].k or 1
 	size = size*scale
 	compositePinSize[i]=size
 	compositePinIndex[i]={}
-    -- Sync dimensions with the actual map
-    containerTable[i]:SetAnchorFill(ZO_WorldMapContainer)
-	 local texturePath=texturePath or CustomPins[i].def_texture or CustomPins[i].texture or "Nope"
-    compositeTable[i]:SetTexture(texturePath)
+
 end
 
 local function GetSpatialKeys(x, y)
@@ -2184,7 +2086,7 @@ local function GetNearbyPins()
     return targetNodes
 end
 local updatingGhost=false
- function UpdateGhostPins()
+local function UpdateGhostPins()
 	updatingGhost=true
     local targetPins = GetNearbyPins()
     local usedSlots = {}
@@ -2223,8 +2125,6 @@ local updatingGhost=false
     end
 	updatingGhost=false
 end
-
-
 
 local PinTooltipCreator={
 	tooltip=1,
@@ -2399,7 +2299,7 @@ end
 			for i,id in pairs(PinId) do
 				if ZO_MapPin.PIN_DATA[id] and CustomPins[i].k then ZO_MapPin.PIN_DATA[id].size=n*CustomPins[i].k end
 			end
-			PinManager:RefreshCustomPins()
+			RefreshTextureComposite()
 		end
 	end
 --[[	Helper scripts POI
