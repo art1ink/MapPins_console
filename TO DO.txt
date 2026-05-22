@@ -1,0 +1,3 @@
+Create 1 Mega DDS that holds all texture we use for achievements and the a like.
+Basically if its a texture we use it will be added, and there would be room for more.
+https://www.esoui.com/downloads/info2532-BlackBookBrowser.html
