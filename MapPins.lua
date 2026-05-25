@@ -5904,6 +5904,18 @@ reach_base={--Provided by Aquifolius
 {.384,.277,2964},	--Ритуальный камень в лагере Чёрной Луны
 }},
 --]]
+
+reach_base={--Provided by Aquifolius, updated by gamer_sa22
+[99]={{.817,.76,2927}},	--Red Eagle's Flight
+[100]={	--Offerings to the Old Spirits
+{.384,.277,2851,1},	--Black-Moon Ritual Stone
+{.462,.432,2851,2},	--Wildspear Ritual Stone
+{.556,.571,2851,3},	--Cinder-Heart Ritual Stone
+{.665,.701,2851,4}},--Shadowfeather Ritual Stone
+[101]={ --A friend in deed -
+{.380,.690,2964},{.669,.639,2964},{.803,.657,2964},{.437,.617,2964},{.382,.522,2964},{.387,.248,2964},{.373,.439,2964},{.600,.463,2964},{.370,.648,2964},
+}},
+
 --Instrumental Triumph
 nchuthnkarst_base={
 [68]={{.859,.555,2669,2}}},--Lute 156666
@@ -6900,6 +6912,9 @@ local CustomPins={	--Types
 	[22]={section=true,name="pinType_Greymoor",id={},pin={},texture="/esoui/art/treeicons/tutorial_indexicon_greymoor_up.dds",
 		[68]={name="pinType_Instrumental_Triumph",done=false,ach=2669,maxDistance=0.05,level=101,texture="/esoui/art/miscellaneous/help_icon.dds",k=1,def_texture="/esoui/art/icons/achievement_u26_skyrim_sounds_of_success.dds"},
 		[69]={name="Mining_Sample_Collector",done=false,ach=2759,maxDistance=0.05,level=101,texture="/esoui/art/icons/poi/poi_mine_compete.dds",k=1,def_texture="/esoui/art/icons/achievement_u26_skyrim_minerquest.dds"},
+		[99]={name="pinType_Red_Eagle's_Flight",done=false,ach=2927,maxDistance=0.05,level=101,texture="/esoui/art/icons/achievement_u28_jump_flavor.dds",k=1},
+		[100]={name="pinType_Offerings_to_the_Old_Spirits",done=false,ach=2851,maxDistance=0.05,level=101,texture="/esoui/art/icons/achievement_u28_reach_flavor.dds",k=1},
+		[101]={name="pinType_A_friend_in_deed",done=false,ach=2964,maxDistance=0.05,level=101,texture="/esoui/art/icons/ability_u26_vampire_infection_stage4.dds",k=1},
 		},
 	[23]={section=true,name="pinType_Antiquities",id={},pin={},texture="/esoui/art/icons/servicetooltipicons/servicetooltipicon_antiquities.dds", k=1.40,
 		[70]={name="pinType_Antiquity_Leads",done=false,maxDistance=0.05,level=101,texture="/esoui/art/icons/servicetooltipicons/servicetooltipicon_antiquities.dds", k=1.40},
@@ -6944,7 +6959,7 @@ local CustomPins={	--Types
 		[95]={name="pinType_Soul Shriven_on_Solstice",done=false,ach=4455,maxDistance=0.05,level=101,texture="/esoui/art/icons/u48_zone_flavor1.dds",k=1,def_texture="/esoui/art/icons/u48_zone_flavor1.dds"},
 		[96]={name="pinType_We_Were_Undaunted",done=false,ach=4456,maxDistance=0.05,level=101,texture="/esoui/art/icons/u48_zone_flavor2.dds",k=1,def_texture="/esoui/art/icons/u48_zone_flavor2.dds"},
 		[97]={name="pinType_The_Legend_of_Atlorn_the_Lost",done=false,ach=4457,maxDistance=0.05,level=101,texture="/esoui/art/icons/u48_zone_flavor3.dds",k=1,def_texture="/esoui/art/icons/u48_zone_flavor3.dds"},
-		[98]={name="pinType_Wanderers_of_Western_Solstice",done=false,ach=4432,maxDistance=0.05,level=101,texture="/esoui/art/miscellaneous/help_icon.dds",k=1,def_texture="/esoui/art/icons/achievement_u46_zone_flavor1.dds"},
+		--[98]={name="pinType_Wanderers_of_Western_Solstice",done=false,ach=4432,maxDistance=0.05,level=101,texture="/esoui/art/miscellaneous/help_icon.dds",k=1,def_texture="/esoui/art/icons/achievement_u46_zone_flavor1.dds"},
 		},
 	}
 local PinsAva={[1]=true,[2]=true,[3]=true,[4]=true,[5]=true,[6]=true,[7]=true,[8]=true,[17]=true,[21]=true}
