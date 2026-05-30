@@ -7796,10 +7796,16 @@ end
 --Initialization
 local panelToFilter = {}
 local function AddPinFilter()	
+	local function GetCroppedAchievementInfo(id)
+		local name,_,_,icon=GetAchievementInfo(id)
+		if name=="" or name == nil then return nil end
+		local pos=string.find(name,"<<player")
+		return pos and table.concat({string.sub(name,0,pos-1), string.match(string.sub(name,pos), "<<player{([%D]+)/[%D]+}>>([%D]*)")}) or name, icon
+	end
 	local function SetNameForMapPinGroup(i)
 		local mapPinGroup = _G[CustomPins[i].name]
 		local icon=zo_iconFormat((CustomPins[i].def_texture or CustomPins[i].texture),24,24)
-		local name= Loc(string.gsub(CustomPins[i].name,"pinType_",""))	
+		local name=GetCroppedAchievementInfo(i) or Loc(string.gsub(CustomPins[i].name,"pinType_",""))	
 		ZO_CreateStringId("SI_MAPFILTER" .. mapPinGroup, icon.." "..name)
 		return mapPinGroup
 	end
