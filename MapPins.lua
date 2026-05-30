@@ -7514,7 +7514,7 @@ local function ScanInventory()
 	for _, itemData in pairs(SHARED_INVENTORY:GenerateFullSlotData(nil, BAG_BACKPACK)) do
 		if itemData and itemData.itemType==ITEMTYPE_TROPHY then
 			local itemId=GetItemId(BAG_BACKPACK,itemData.slotIndex)
-			for achId,achTable in ipairs(TrophyTable)
+			for achId,achTable in ipairs(TrophyTable) do
 				if achTable[itemId] then 
 					AchievementItems[achId][achTable[itemId] ]=true
 					break
@@ -7550,7 +7550,7 @@ end
 
 local function OnLootReceived(_, receivedBy, itemName, quantity, itemSound, lootType, self, _, questItemIcon, itemId)
 	if lootType~=LOOT_TYPE_ITEM and lootType~=LOOT_TYPE_QUEST_ITEM then return end
-	for achId,achTable in ipairs(TrophyTable)
+	for achId,achTable in ipairs(TrophyTable) do
 		if achTable[itemId] then 
 			AchievementItems[achId][achTable[itemId] ]=true
 			PinManager:RefreshCustomPins(_G[CustomPins[achId].name])
