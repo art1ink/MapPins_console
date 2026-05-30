@@ -5,7 +5,7 @@
 --Slash commands: /pinsize 16-40 - sets a size of the pins. /loc - receives current player map and coords. /loc2 - receives player waypoint coords.
 --Full instruction how you can help to add new pins is here (ru, en version): https://forum.bandits-clan.ru/topic/75303-map-pins-collecting-data/?tab=comments#comment-1198876
 --Thanks for help to: GaelicCat, Gamer1986PAN, Runs, Gandalf, Kibert, Bence, Daniel, Kelly, Danzio, demidaddy, Teva, Akotar, Zym, SuppeFuss165, remosito, Telmatoscopus and other players.
-local AddonName="MapPins_console"
+local AddonName="MapPins"
 local Localization={
 	en={
 		--Water
@@ -1945,16 +1945,10 @@ end
 --Initialization
 local panelToFilter = {}
 local function AddPinFilter()	
-	local function GetCroppedAchievementInfo(id)
-		local name,_,_,icon=GetAchievementInfo(id)
-		if name=="" or name == nil then return nil end
-		local pos=string.find(name,"<<player")
-		return pos and table.concat({string.sub(name,0,pos-1), string.match(string.sub(name,pos), "<<player{([%D]+)/[%D]+}>>([%D]*)")}) or name, icon
-	end
 	local function SetNameForMapPinGroup(i)
 		local mapPinGroup = _G[CustomPins[i].name]
 		local icon=zo_iconFormat((CustomPins[i].def_texture and CustomPins[i].def_texture or CustomPins[i].texture),24,24)
-		local name=GetCroppedAchievementInfo(i) or Loc(string.gsub(CustomPins[i].name,"pinType_",""))	
+		local name=Loc(string.gsub(CustomPins[i].name,"pinType_",""))	
 		ZO_CreateStringId("SI_MAPFILTER" .. mapPinGroup, icon.." "..name)
 		return mapPinGroup
 	end
