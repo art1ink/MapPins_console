@@ -6831,7 +6831,16 @@ local TrophyTable={--AcheventID = Trophy Table
 [2669]=Instruments,
 [2759]=MiningSampleCollector,
 }
+local PortalsNames={
+[1]=Loc("Oblivion_Portals"),
+[2]=Loc("Dark_Fissures"),
+[3]=Loc("Celestial_Rifts"),
+[4]=Loc("Shadow_Fissures"),
+[5]=Loc("Lava_Lashers"),
+[6]=Loc("Soul_Reaper"),
+}
 
+local FILTER_COUNT=30 --Amount of filters
 local CustomPins={	--Types
 	[1]={name="pinType_Delve_bosses",done=false,id={},pin={},maxDistance=0.05,level=30,texture="/esoui/art/icons/poi/poi_groupboss_incomplete.dds",k=1.25},--tint=ZO_ColorDef:New(1,1,1,1),
 	[2]={name="pinType_Delve_bosses_done",done=true,id={},pin={},maxDistance=0.05,level=30,texture="/esoui/art/icons/poi/poi_groupboss_complete.dds",k=1.25},
@@ -7289,19 +7298,7 @@ local MapPinCallback={
 			mapData=mapData[i]
 			if mapData then
 				for i1,pinData in pairs(mapData) do
-					if pinData[3]==1 then
-						customCreatePin(_G[CustomPins[i].name],{[1]=i,name="Oblivion portal"},pinData[1],pinData[2])
-					elseif pinData[3]==2 then
-						customCreatePin(_G[CustomPins[i].name],{[1]=i,name="Dark Fissures"},pinData[1],pinData[2])
-					elseif pinData[3]==3 then
-						customCreatePin(_G[CustomPins[i].name],{[1]=i,name="Celestial Rift"},pinData[1],pinData[2])
-					elseif pinData[3]==4 then
-						customCreatePin(_G[CustomPins[i].name],{[1]=i,name="Shadow Fissures"},pinData[1],pinData[2])
-					elseif pinData[3]==5 then
-						customCreatePin(_G[CustomPins[i].name],{[1]=i,name="Lava Lasher"},pinData[1],pinData[2])
-					elseif pinData[3]==6 then
-						customCreatePin(_G[CustomPins[i].name],{[1]=i,name="Soul Reaper"},pinData[1],pinData[2])
-					end
+					PinManager:CreatePin(_G[CustomPins[i].name],{[1]=i,name=PortalsNames[pinData[3] ]},pinData[1],pinData[2])					
 				end
 			end
 		end
@@ -7354,7 +7351,7 @@ local function MapPinAddCallback(i)
 				end
 			end
 		end
-	elseif i>=30 then
+	elseif i>=FILTER_COUNT then
 		local mapData=Achievements[subzone]
 		if mapData then
 			mapData=mapData[i]
@@ -7525,19 +7522,6 @@ local function ScanInventory()
 end
 
 --Events
---[[
-local function OnBackpackChanged(bagId,_,slotData)
---	d("Bag changed: "..bagId..(slotData and " Item type: "..tostring(slotData.itemType or "")))
-	if bagId~=BAG_BACKPACK or UpdatingMapPin[6] or not slotData or slotData.itemType~=ITEMTYPE_TROPHY then return end
-	UpdatingMapPin[6]=true
-	zo_callLater(function()
-		UpdatingMapPin[6]=false
-		ZO_WorldMap_RefreshCustomPinsOfType(_G[CustomPins[6].name])
-		if COMPASS_PINS then COMPASS_PINS:RefreshPins(CustomPins[6].name) end
-	end,1000)
-end
---]]
---Events (quick fix)
 local function OnBackpackChanged(bagId,_,slotData)
     if bagId ~= BAG_BACKPACK or UpdatingMapPin[6] then return end
     UpdatingMapPin[6] = true
@@ -7810,7 +7794,7 @@ local function AddPinFilter()
 	end
 	local function FilterCallback()
 	end	
-	for i=30,1,-1 do --revesed else they apear backwars in filter list
+	for i=FILTER_COUNT,1,-1 do --revesed else they apear backwars in filter list
 		if CustomPins[i] then	
 			local mapPinGroup = SetNameForMapPinGroup(i)
 			local function AddCheckBox(panel, filter)
@@ -7835,13 +7819,14 @@ ZO_PostHook(ZO_WorldMapFilterPanel_Shared, "GetPinFilter", function(self, mapPin
 	if i then return SavedVars[i] end
 end)
 ZO_PostHook(ZO_WorldMapFilterPanel_Shared, "SetPinFilter", function(self, mapPinGroup, shown)
-    local i = filterIdToFilterIndex[mapPinGroup] 
+    local i = filterIdToFilterIndex[mapPinGroup] 	
 	if i then
 		SavedVars[i] = shown
 		for pin,id in pairs(CustomPins[i].id) do
 			PinManager:SetCustomPinEnabled(id, shown)
 			AddCompassCustomPin(id,pin)
 			PinManager:RefreshCustomPins(id)
+			MapPinAddCallback(pin)
 		end
 	end
 end)
@@ -7854,7 +7839,6 @@ local function OnMapChanged()
 		end
 	end
 end
-
 
 local PinTooltipSupres={
 [7]=true,
@@ -7895,7 +7879,7 @@ local PinTooltipCreator={
 		elseif pinTag[1]==76 then
 			icon=CustomPins[76].texture
 			name=pinTag.name
-		elseif pinTag[1]<=4 or pinTag[1]>=30 then	--Main tooltip for achievements
+		elseif pinTag[1]<=4 or pinTag[1]>=FILTER_COUNT then	--Main tooltip for achievements
 			name,desc,_,icon=GetAchievementInfo(pinTag[2])
 			if pinTag[3] then desc=GetAchievementCriterion(pinTag[2], pinTag[3]) end
 		elseif pinTag[1]==5 then
@@ -7928,12 +7912,12 @@ local function CreateFilter()
 		local TooltipCreator=(not PinTooltipSupres[pin] and PinTooltipCreator or nil)
 		local name=pinLayout.name
 		pinLayout.size=pinLayout.size or SavedGlobal.pinsize*pinLayout.k
-		PinManager:AddCustomPin(name,function() MapPinAddCallback(pin) end,nil,pinLayout,TooltipCreator)
+		PinManager:AddCustomPin(name,function()  end,nil,pinLayout,TooltipCreator)
 		local id=_G[name]
 		return id
 	end
 
-	for i=1,30 do
+	for i=1,FILTER_COUNT do
 		local filter=CustomPins[i]
 		if filter then
 			if filter.section then
@@ -7993,28 +7977,19 @@ local function OnLoad(eventCode,addonName)
 	
 	SLASH_COMMANDS["/loc"]=function()
 		local x,y=GetMapPlayerPosition("player")
-		local texture = GetMapTileTexture()
-	    local fileName = texture:match("[^\\/]+$"):lower()
-			fileName = fileName:gsub("%.dds$", "")
-			fileName = fileName:gsub("_[0-9]+$", "")
-			--fileName = fileName:gsub("_base$", "")
-		local xStr = string.gsub(math.floor(x*1000)/1000, "^0%.", ".")
-		local yStr = string.gsub(math.floor(y*1000)/1000, "^0%.", ".")
-		CHAT_ROUTER:AddSystemMessage(fileName .. '={{'..xStr..','..yStr..','..LastAchivement..'}},')
+	    local fileName =  GetMapTileTexture():match("[^\\/]+$"):lower():gsub("%.dds$", ""):gsub("_[0-9]+$", "")
+		local formattedCoords = string.format("%.3f,%.3f", x, y):gsub("0%.", ".")
+		CHAT_ROUTER:AddSystemMessage(fileName .. '={{'..formattedCoords..','..LastAchivement..'}},')
 	end
 	SLASH_COMMANDS["/loc1"]=function()
 		local x,y=GetMapPlayerPosition("player")
-		CHAT_ROUTER:AddSystemMessage('{'..string.gsub(math.floor(x*1000)/1000,"[0][.]",".")..","..string.gsub(math.floor(y*1000)/1000,"[0][.]",".")..","..LastAchivement..'},')
+		local formattedCoords = string.format("%.3f,%.3f", x, y):gsub("0%.", ".")
+		CHAT_ROUTER:AddSystemMessage('{'..formattedCoords..","..LastAchivement..'},')
 	end
 	SLASH_COMMANDS["/loc2"]=function()
-		local texturePath = GetMapTileTexture()
-		local fileName = texturePath:match("[^\\/]+$"):lower()
-			fileName = fileName:gsub("%.dds$", "")
-			fileName = fileName:gsub("_[0-9]+$", "")
-		--fileName = fileName:gsub("_base$", "")
 		local x, y = GetMapPlayerWaypoint()
-		local formattedCoords = string.format("%.3f,%.3f", x, y)
-			formattedCoords = formattedCoords:gsub("0%.", ".")
+		local fileName =  GetMapTileTexture():match("[^\\/]+$"):lower():gsub("%.dds$", ""):gsub("_[0-9]+$", "")
+		local formattedCoords = string.format("%.3f,%.3f", x, y):gsub("0%.", ".")
 		CHAT_ROUTER:AddSystemMessage(fileName .. '={' .. formattedCoords .. '},')
 end
 --	SLASH_COMMANDS["/mpdm"]=function() SavedGlobal.dm=not SavedGlobal.dm d("Map Pins developer mode is now "..(SavedGlobal.dm and "Enabled" or "Disabled")) end
