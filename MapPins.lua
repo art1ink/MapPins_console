@@ -7950,7 +7950,7 @@ local function OnLoad(eventCode,addonName)
 	CustomThievesTrove=ZO_SavedVars:NewAccountWide("MP_ThievesTrove",2,nil,{})
 	SavedGlobal=ZO_SavedVars:NewAccountWide("MP_SavedGlobal",1,nil,DefaultGlobal)
 	PinManager=ZO_WorldMap_GetPinManager()
-	if not SavedVars.show then SavedVars.show={} end
+	if not SavedVars.Show then SavedVars.Show={} end
 	zo_callLater(function()
 		local loadIndex=0
 		EVENT_MANAGER:RegisterForUpdate(AddonName.."_DelayedVarLoading", 5, function()
