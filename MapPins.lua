@@ -6409,7 +6409,7 @@ craglorn_base={{.177,.222,9},{.394,.383,9},{.242,.579,9},{.77,.687,9},{.654,.604
 }
 local PinManager,CompassPinManager
 local UpdatingMapPin,UpdatingCompassPin,PinId={},{},{}
-local SavedVars,DefaultVars={},{[1]=true,[2]=true,[3]=true,[4]=false,[5]=true,[6]=false,[7]=true,[8]=true,[9]=false,[10]=false,[11]=false,[12]=false,[13]=false,[14]=false,[15]=false,[16]=false,[17]=false,[18]=false,[19]=false,[21]=true,TimeBreachClosed={}}
+local SavedVars,DefaultVars={},{[1]=true,[2]=true,[3]=true,[4]=false,[5]=true,[6]=false,[7]=true,[8]=true,[9]=false,[10]=false,[11]=false,[12]=false,[13]=false,[14]=false,[15]=false,[16]=false,[17]=false,[18]=false,[19]=false,[21]=true,TimeBreachClosed={},Show={}}
 local SavedGlobal,DefaultGlobal={},{pinsize=20}
 local ChestsRange,ChestsLooted,LastZone,LastAchivement,PsijicSkillLine=.08,0,0,0,4
 local ChronoglerTablet={[6771]=1,[141719]=2,[141720]=3,[141721]=4,[141722]=5,[141723]=6,[141724]=7,[141725]=8,[141726]=9,[141728]=11,[141727]=10,[141729]=12}
@@ -7364,6 +7364,7 @@ local function MapPinAddCallback(i)
 					else
 						Completed=IsAchievementComplete(pinData[3])
 					end
+					if SavedVars.Show[i] then Completed=false end
 					local HaveItem=AchievementItems[ pinData[3] ] and AchievementItems[ pinData[3] ][ pinData[4] ] and true or false
 					if Completed==CustomPins[i].done and HaveItem==CustomPins[i].done then
 --						if HaveItem~=CustomPins[i].done then CustomPins[11].tint=ZO_ColorDef:New(1,.1,.4,.8) else CustomPins[11].tint=ZO_ColorDef:New(1,1,1,1) end
@@ -7949,7 +7950,7 @@ local function OnLoad(eventCode,addonName)
 	CustomThievesTrove=ZO_SavedVars:NewAccountWide("MP_ThievesTrove",2,nil,{})
 	SavedGlobal=ZO_SavedVars:NewAccountWide("MP_SavedGlobal",1,nil,DefaultGlobal)
 	PinManager=ZO_WorldMap_GetPinManager()
-
+	if not SavedVars.show then SavedVars.show={} end
 	zo_callLater(function()
 		local loadIndex=0
 		EVENT_MANAGER:RegisterForUpdate(AddonName.."_DelayedVarLoading", 5, function()
@@ -8001,6 +8002,16 @@ end
 				if ZO_MapPin.PIN_DATA[id] and CustomPins[i].k then ZO_MapPin.PIN_DATA[id].size=n*CustomPins[i].k end
 			end
 			PinManager:RefreshCustomPins()
+		end
+	end
+	SLASH_COMMANDS["/mpshow"]=function(n)
+		n=tonumber(n)
+		if n then	
+			if SavedVars.Show[n] then 
+				SavedVars.Show[n]=nil
+			else
+				SavedVars.Show[n]=true
+			end
 		end
 	end
 --[[	Helper scripts POI
