@@ -7913,7 +7913,7 @@ local function CreateFilter()
 		local TooltipCreator=(not PinTooltipSupres[pin] and PinTooltipCreator or nil)
 		local name=pinLayout.name
 		pinLayout.size=pinLayout.size or SavedGlobal.pinsize*pinLayout.k
-		PinManager:AddCustomPin(name,function()  end,nil,pinLayout,TooltipCreator)
+		PinManager:AddCustomPin(name,function() MapPinAddCallback(pin) end,nil,pinLayout,TooltipCreator)
 		local id=_G[name]
 		return id
 	end
