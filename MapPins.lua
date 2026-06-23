@@ -7115,7 +7115,7 @@ local MapPinCallback={
 			for poiIndex, data in pairs(mapData) do
 				local normalizedX,normalizedY,poiType,_,_,_,known=GetPOIMapInfo(zoneIndex, poiIndex)
 				if not known and (normalizedX>0 or normalizedY>0) then	--poiType==MAP_PIN_TYPE_INVALID then
-					local pinTag={[1]=i,name=data[1],texture=UnknownPOItexture[ data[2] ],[5]=normalizedX,[6]=normalizedY}
+					local pinTag={[1]=i,name=data[1],texture=UnknownPOItexture[ data[2] ]}
 					if data[2]==25 then	--Mundus
 						pinTag.desc=MundusDescription[ data[3] ]
 					elseif data[2]==8 then	--Crafting station unknown
@@ -7348,7 +7348,7 @@ local function MapPinAddCallback(i)
 					AchName,Completed,Required=GetAchievementCriterion(pinData[3],pinData[4])
 				end
 				if (Completed==Required)==CustomPins[i].done then
-					customCreatePin(_G[CustomPins[i].name],{i,pinData[3],pinData[4],pinData[5],pinData[1],pinData[2]},pinData[1],pinData[2])
+					customCreatePin(_G[CustomPins[i].name],{i,pinData[3],pinData[4],pinData[5]},pinData[1],pinData[2])
 				end
 			end
 		end
@@ -7892,15 +7892,11 @@ local PinTooltipCreator={
 			name=GetItemName(BAG_BACKPACK,pinTag[2]) .. " (" .. tostring(iStack) .. ")"
 		elseif pinTag[1]==8 then
 			icon=pinTag.texture
-			name=pinTag.name.."\n"..string.format("%.4f,%.4f", pinTag[5], pinTag[6]):gsub("0%.", ".")
+			name=pinTag.name
 			desc=pinTag.desc
 		elseif pinTag[1]==21 then
 			icon=CustomPins[21].texture
 			name="Volendrung spawn location"
-		end
-		if pinTag[1]==3 then
-		local lx,ly,_ = GetNormalizedPositionForSkyshardId(pinTag[4])
-		name=name.."\n"..pinTag[4].."\ncur: "..string.format("%.4f,%.4f", pinTag[5], pinTag[6]):gsub("0%.", ".").."\nnew: "..string.format("%.4f,%.4f", lx, ly):gsub("0%.", ".")
 		end
 		name=(pinTag[3] and "["..pinTag[3].."] " or "")..name		
 		ZO_MapLocationTooltip_Gamepad:LayoutIconStringLine(ZO_MapLocationTooltip_Gamepad.tooltip, icon, zo_strformat("<<1>>", name), ZO_MapLocationTooltip_Gamepad.tooltip:GetStyle("mapLocationTooltipWayshrineHeader"))
