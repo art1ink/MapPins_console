@@ -723,24 +723,24 @@ local SkyShards={}
 local function Load_SkyShards()
 SkyShards={
 u48_overland_base={--Seasons of the Worm Cult (Western and Eastern Solstice) by art1ink
-{.514,.430,4405,1,569},
+{.514,.429,4405,1,569},
 {.476,.711,4405,2,570},
-{.276,.458,4405,3,571},
-{.309,.597,4405,4,572},
-{.423,.366,4405,5,564},
-{.278,.502,4405,6,565},
-{.351,.693,4405,7,566},
-{.569,.616,4405,8,567},
-{.475,.561,4405,9,568},
-{.754,.359,4461,1,579},--10
-{.653,.419,4461,2,580},--11
-{.809,.503,4461,3,587},--12
-{.831,.638,4461,4,578},--13
-{.756,.685,4461,5,573},--14
-{.733,.572,4461,6,574},--15
-{.659,.366,4461,7,575},--16
-{.619,.506,4461,8,576},--17
-{.724,.686,4461,9,577}},--18
+{.272,.454,4405,3,571},
+{.309,.595,4405,4,572},
+{.423,.361,4405,5,564},
+{.275,.5,4405,6,565},
+{.35,.695,4405,7,566},
+{.573,.616,4405,8,567},
+{.476,.56,4405,9,568},
+{.659,.366,4461,1,579},--10
+{.619,.505,4461,2,580},--11
+{.724,.686,4461,3,587},--12
+{.733,.572,4461,4,578},--13
+{.755,.359,4461,5,573},--14
+{.654,.42,4461,6,574},--15
+{.809,.504,4461,7,575},--16
+{.831,.638,4461,8,576},--17
+{.757,.685,4461,9,577}},--18
 u48_base_calindvalegardenspd={{.367,.51,4461,6,574}},--15
 u46_base_lotwc={{.369,.792,4461,7,575}},--16
 u48_ssl_delve_base_1={{.205,.478,4461,8,576}},--17
@@ -7040,8 +7040,9 @@ local MapPinCallback={
 		local mapData=Lorebooks[subzone]
 		if mapData then
 			for _, pinData in pairs(mapData) do
-				local AchName, _, done=GetLoreBookInfo(1, pinData[3], pinData[4])
+				local AchName, iconLore, done=GetLoreBookInfo(1, pinData[3], pinData[4])
 				if done==CustomPins[i].done then
+					CustomPins[i].texture = iconLore
 					customCreatePin(_G[CustomPins[i].name],{i,pinData[3], pinData[4]},pinData[1],pinData[2])
 				end
 			end
@@ -7114,7 +7115,7 @@ local MapPinCallback={
 			for poiIndex, data in pairs(mapData) do
 				local normalizedX,normalizedY,poiType,_,_,_,known=GetPOIMapInfo(zoneIndex, poiIndex)
 				if not known and (normalizedX>0 or normalizedY>0) then	--poiType==MAP_PIN_TYPE_INVALID then
-					local pinTag={[1]=i,name=data[1],texture=UnknownPOItexture[ data[2] ]}
+					local pinTag={[1]=i,name=data[1],texture=UnknownPOItexture[ data[2] ],[5]=normalizedX,[6]=normalizedY}
 					if data[2]==25 then	--Mundus
 						pinTag.desc=MundusDescription[ data[3] ]
 					elseif data[2]==8 then	--Crafting station unknown
@@ -7347,7 +7348,7 @@ local function MapPinAddCallback(i)
 					AchName,Completed,Required=GetAchievementCriterion(pinData[3],pinData[4])
 				end
 				if (Completed==Required)==CustomPins[i].done then
-					customCreatePin(_G[CustomPins[i].name],{i,pinData[3],pinData[4],pinData[5]},pinData[1],pinData[2])
+					customCreatePin(_G[CustomPins[i].name],{i,pinData[3],pinData[4],pinData[5],pinData[1],pinData[2]},pinData[1],pinData[2])
 				end
 			end
 		end
@@ -7891,11 +7892,15 @@ local PinTooltipCreator={
 			name=GetItemName(BAG_BACKPACK,pinTag[2]) .. " (" .. tostring(iStack) .. ")"
 		elseif pinTag[1]==8 then
 			icon=pinTag.texture
-			name=pinTag.name
+			name=pinTag.name.."\n"..string.format("%.4f,%.4f", pinTag[5], pinTag[6]):gsub("0%.", ".")
 			desc=pinTag.desc
 		elseif pinTag[1]==21 then
 			icon=CustomPins[21].texture
 			name="Volendrung spawn location"
+		end
+		if pinTag[1]==3 then
+		local lx,ly,_ = GetNormalizedPositionForSkyshardId(pinTag[4])
+		name=name.."\n"..pinTag[4].."\ncur: "..string.format("%.4f,%.4f", pinTag[5], pinTag[6]):gsub("0%.", ".").."\nnew: "..string.format("%.4f,%.4f", lx, ly):gsub("0%.", ".")
 		end
 		name=(pinTag[3] and "["..pinTag[3].."] " or "")..name		
 		ZO_MapLocationTooltip_Gamepad:LayoutIconStringLine(ZO_MapLocationTooltip_Gamepad.tooltip, icon, zo_strformat("<<1>>", name), ZO_MapLocationTooltip_Gamepad.tooltip:GetStyle("mapLocationTooltipWayshrineHeader"))
