@@ -7995,14 +7995,36 @@ local function OnLoad(eventCode,addonName)
 		CHAT_ROUTER:AddSystemMessage(fileName .. '={' .. formattedCoords .. '},')
 end
 --	SLASH_COMMANDS["/mpdm"]=function() SavedGlobal.dm=not SavedGlobal.dm d("Map Pins developer mode is now "..(SavedGlobal.dm and "Enabled" or "Disabled")) end
+	local function SetPinSize(pinSize)
+		SavedGlobal.pinsize=pinSize
+		for i,id in pairs(PinId) do
+			if ZO_MapPin.PIN_DATA[id] and CustomPins[i].k then ZO_MapPin.PIN_DATA[id].size=pinSize*CustomPins[i].k end
+		end
+		PinManager:RefreshCustomPins()
+	end
+	if LibHarvensAddonSettings then 
+	LibHarvensAddonSettings:AddAddon("MapPins Pin Size"):AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Pin Size \n Small <- -> Large",
+		tooltip = "Default: "..DefaultGlobal.pinsize,
+		default = DefaultGlobal.pinsize, 
+        setFunction = function(value)
+           SetPinSize(value)
+        end,
+        getFunction = function()
+            return SavedGlobal.pinsize
+        end,
+        min = 16,
+        max = 40,
+        step = 1
+    })
+	end
 	SLASH_COMMANDS["/pinsize"]=function(n)
 		n=tonumber(n)
 		if n and n>=16 and n<=40 then
-			SavedGlobal.pinsize=n
-			for i,id in pairs(PinId) do
-				if ZO_MapPin.PIN_DATA[id] and CustomPins[i].k then ZO_MapPin.PIN_DATA[id].size=n*CustomPins[i].k end
-			end
-			PinManager:RefreshCustomPins()
+			SetPinSize(n)
+		else
+			CHAT_ROUTER:AddSystemMessage("Invaild Pin Size, 16 - 40 ")
 		end
 	end
 	SLASH_COMMANDS["/mpshow"]=function(n)
