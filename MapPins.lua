@@ -374,7 +374,7 @@ local Localization={
 		High_Isle="高岛",
 		Necrom="死灵之地",
 		Gold_Road="黄金大道",
-		Seasons_of_the_Worm_Cult="蠕虫教的四季",	
+		Seasons_of_the_Worm_Cult="蠕虫教的四季",
 		},
 	}
 local lang=GetCVar("language.2") if not Localization[lang] then lang="en" end
@@ -583,7 +583,7 @@ crimsoncove_base={
 {.546,.314,1051,3}},  -- Yiralai the Wicked
 crimsoncove02_base={
 {.871,.292,1051,7}, -- Viro Redhands
-{.687,.338,1051,1}}, -- Pilot Ostrala 
+{.687,.338,1051,1}}, -- Pilot Ostrala
 crowswood_base={{.37,.52,368,1},{.60,.41,368,2},{.29,.58,368,3},{.25,.86,368,4},{.56,.37,368,5},{.67,.57,379,1}},
 cryptoftheexiles_base={{.175,.592,541,1}},
 cryptwatchfort_base={{.461,.803,220,1}},
@@ -1137,7 +1137,7 @@ malsorrastomb_base={{.366,.410,686,13,272}},
 caveoftrophies_base={{.561,.743,686,14,273}},
 wailingmaw_base={{.767,.701,686,15,274}},
 villageofthelost_base={{.327,.500,686,16,275}},
-craglorn_base={-- Craglorn 
+craglorn_base={-- Craglorn
 {.747,.725,727,1,322},
 {.685,.599,727,2,323},
 {.284,.459,727,3,324},
@@ -1147,15 +1147,15 @@ craglorn_base={-- Craglorn
 {.146,.459,727,7,328},
 {.214,.575,727,8,329},
 {.813,.575,727,9,330},
-{.468,.663,727,10,331},
-{.321,.654,727,11,332},
-{.537,.540,727,12,333},
-{.282,.264,912,13,334},-- Upper Craglorn
-{.582,.425,912,14,335},
-{.400,.309,912,15,336},
-{.662,.331,912,16,337},
-{.086,.306,912,17,338},
-{.547,.251,912,18,339}},
+{.468,.663,727,1,331},-- Upper Craglorn
+{.321,.654,727,2,332},
+{.537,.540,727,3,333},
+{.282,.264,912,4,334},
+{.582,.425,912,5,335},
+{.400,.309,912,6,336},
+{.662,.331,912,7,337},
+{.086,.306,912,8,338},
+{.547,.251,912,9,339}},
 molavar_base={{.747,.352,727,1,322}},
 rkundzelft_base={{.715,.382,727,2,323}},
 kardala_base={{.612,.455,727,3,324}},
@@ -1190,37 +1190,37 @@ ava_whole={-- Cyrodiil
 {.721,.694,692,13,288},
 {.758,.347,692,14,289},
 {.806,.461,692,15,290},
-{.105,.267,693,16,291},-- Daggerfall
-{.153,.152,693,17,292},
-{.176,.371,693,18,293},
-{.467,.172,693,19,294},
-{.210,.397,693,20,295},
-{.375,.330,693,21,296},
-{.271,.229,693,22,297},
-{.294,.128,693,23,298},
-{.535,.224,693,24,299},
-{.421,.146,693,25,300},
-{.354,.134,693,26,301},
-{.154,.241,693,27,302},
-{.583,.194,693,28,303},
-{.502,.214,693,29,304},
-{.361,.221,693,30,305},
-{.574,.851,694,31,306},-- Aldmeri
-{.413,.842,694,32,307},
-{.311,.659,694,33,308},
-{.629,.681,694,34,309},
-{.482,.534,694,35,310},
-{.184,.458,694,36,311},
-{.259,.531,694,37,312},
-{.501,.761,694,38,313},
-{.330,.770,694,39,314},
-{.537,.810,694,40,315},
-{.289,.484,694,41,316},
-{.316,.562,694,42,317},
-{.362,.698,694,43,318},
-{.454,.725,694,44,319},
-{.205,.507,694,45,320},
-{.752,.296,748,46,321}},-- Mountain
+{.105,.267,693,1,291},-- Daggerfall
+{.153,.152,693,2,292},
+{.176,.371,693,3,293},
+{.467,.172,693,4,294},
+{.210,.397,693,5,295},
+{.375,.330,693,6,296},
+{.271,.229,693,7,297},
+{.294,.128,693,8,298},
+{.535,.224,693,9,299},
+{.421,.146,693,10,300},
+{.354,.134,693,11,301},
+{.154,.241,693,12,302},
+{.583,.194,693,13,303},
+{.502,.214,693,14,304},
+{.361,.221,693,15,305},
+{.574,.851,694,1,306},-- Aldmeri
+{.413,.842,694,2,307},
+{.311,.659,694,3,308},
+{.629,.681,694,4,309},
+{.482,.534,694,5,310},
+{.184,.458,694,6,311},
+{.259,.531,694,7,312},
+{.501,.761,694,8,313},
+{.330,.770,694,9,314},
+{.537,.810,694,10,315},
+{.289,.484,694,11,316},
+{.316,.562,694,12,317},
+{.362,.698,694,13,318},
+{.454,.725,694,14,319},
+{.205,.507,694,15,320},
+{.752,.296,748,1,321}},-- Mountain
 crackedwoodcave_base={{.355,.370,692,10,285}},-- Ebonheart
 kingscrest_base={{.725,.453,692,11,286}},
 muckvalleycavern_base={{.175,.696,692,12,287}},
@@ -1630,7 +1630,7 @@ bahrahasgloom_secret2_base={{.256,.524,1347,5,374}},
 bahrahasgloom_secret3_base={{.256,.524,1347,5,374}},
 sharktoothgrotto1_base={{.661,.386,1347,6,375}},
 sharktoothgrotto2_base={{.661,.386,1347,6,375}},
-goldcoast_base={-- Gold Coast 
+goldcoast_base={-- Gold Coast
 {.255,.582,1342,1,376},
 {.298,.192,1342,2,377},
 {.856,.507,1342,3,378},
@@ -1851,7 +1851,7 @@ southernelsweyr_base={
 {.918,.712,28,9},--Master Zoaraym's Tale, Part 2
 },
 --Western Skyrim provided by art1ink
-morthalburialcave_base={{.368,.713,22,5}},--The Crown of Freydis 
+morthalburialcave_base={{.368,.713,22,5}},--The Crown of Freydis
 solitudecity_base={{.774,.77,22,1}},--The Brothers' War
 frozencoast_base={{.23,.742,22,7}},--All About Giants
 lightlesshollow_mines01_base={{.705,.809,20,9}},--Varieties of Faith: The Nords
@@ -1866,7 +1866,7 @@ westernskryim_base={
 {.604,.425,22,1},--The Brothers' War
 {.264,.667,20,5},--Nords of Skyrim
 {.147,.507,22,4},--Orcs of Skyrim
-{.705,.614,22,5},--The Crown of Freydis 
+{.705,.614,22,5},--The Crown of Freydis
 {.744,.323,22,7},--All About Giants
 },
 belarata_base={{.668,.795,18,1}},
@@ -2121,7 +2121,7 @@ u36_galenisland_base={--Provided by art1ink
 u34_gonfalonbaycity_base={--Provided by art1ink
 {.92,.63,187668}},--High Isle CE Treasure Map I
 u34_systreszone_base={--Provided by art1ink
-{.156,.779,187906},--Knight Commander Clue (High Isle and Amenos) 
+{.156,.779,187906},--Knight Commander Clue (High Isle and Amenos)
 {.538,.629,188191,1},--Alchemy Survey (Provided by ApoAlaia)
 {.671,.343,188193,1},--Blacksmith Survey
 {.897,.373,188194,1},--Clothier Survey
@@ -2166,7 +2166,7 @@ murkmire_base={{.546,.378,145510},{.45,.408,145512}},
 summerset_base={{.335,.324,139008},{.204,.626,139009},{.598,.56,139007},{.486,.197,43748},{.367,.4,43750},{.356,.568,43751},{.169,.32,43752},{.672,.782,43753},{.701,.678,43749}},
 khenarthisroost_base={{.611,.757,43695},{.225,.314,43696},{.410,.584,43697},{.773,.337,43698},{.616,.832,44939},{.399,.366,45010}},
 auridon_base={
-{.512,.906,187892},--Summerset (Raid) Sacking Clue (Auridon) 
+{.512,.906,187892},--Summerset (Raid) Sacking Clue (Auridon)
 {.577,.328,187894},--Psijic Relicmaster Clue (Auridon, Wansalen)
 {.2,.217,153640,"staff"},{.493,.888,43625},{.485,.641,43626},{.441,.507,43627},{.664,.411,43628},{.5,.253,43629},{.335,.127,43630},{.685,.963,44927},{.545,.302,57744,1},{.447,.285,57733,1},{.548,.465,57741,1},{.635,.695,57687,1},{.408,.700,57738,1},{.399,.61,139422,4}},
 grahtwood_base={
@@ -2174,7 +2174,7 @@ grahtwood_base={
 {.395,.675,43631},{.649,.477,43632},{.629,.381,43633},{.473,.340,43634},{.355,.356,43635},{.469,.471,43636},{.312,.600,44937},{.767,.469,57747,1},{.314,.582,57750,1},{.457,.787,57754,1},{.612,.380,57771,1},{.425,.264,57816,1},{.389,.393,139425,4}},
 eldenrootgroundfloor_base={{.882,.410,43632}},
 greenshade_base={
-{.264,.144,187902},--Serpentguard Rider Clue (Greenshade) 
+{.264,.144,187902},--Serpentguard Rider Clue (Greenshade)
 {.654,.834,43637},{.722,.741,43638},{.363,.505,43639},{.340,.323,43640},{.250,.149,43641},{.597,.383,43642},{.593,.811,44938},{.556,.395,57757,1},{.764,.826,57774,1},{.599,.627,57788,1},{.502,.289,57802,1},{.299,.813,57819,1},{.231,.401,139427,4}},
 malabaltor_base={{.825,.446,153644,"2hsword"},{.202,.499,43643},{.054,.477,43644},{.501,.681,43645},{.653,.703,43646},{.800,.286,43647},{.662,.230,43648},{.123,.525,44940},{.802,.161,57777,1},{.277,.627,57760,1},{.832,.494,57791,1},{.584,.797,57805,1},{.585,.586,57822,1},{.413,.658,139430,4}},
 velynharbor_base={{.208,.358,43644},{.513,.564,44940}},
@@ -2185,7 +2185,7 @@ reapersmarch_base={
 rawlkha_base={{.075,.450,44941},{-1.209,.357,139432,4}},
 bleakrock_base={{.438,.406,43699},{.426,.220,43700},{.463,.649,44931}},
 bleakrockvillage_base={{.554,.671,44931}},
-balmora_base={{.256,.526,187888}},--House Embassy Clue (Vvardenfell) 
+balmora_base={{.256,.526,187888}},--House Embassy Clue (Vvardenfell)
 balfoyen_base={{.600,.709,43701},{.24,.53,43702},{.52,.42,44928}},
 stonefalls_base={
 {.940,.373,187726},--Blackfeather Knave Clue (Stonefalls, Crow's Wood)
@@ -2222,8 +2222,8 @@ sentinel_base={{.774,.050,44926}},
 kozanset_base={{.226,.596,43618}},
 evermore_base={{.191,.648,57781,1}},
 bangkorai_base={
-{.407,.484,190927},--Legion's Arrival Clue (Bangkorai) 
-{.522,.544,187904},--Knights of Saint Pelin Clue (Bangkorai) 
+{.407,.484,190927},--Legion's Arrival Clue (Bangkorai)
+{.522,.544,187904},--Knights of Saint Pelin Clue (Bangkorai)
 {.59,.4,153641,"2hhammer"},{.433,.270,43619},{.614,.208,43620},{.718,.383,43621},{.325,.455,43622},{.329,.693,43623},{.644,.692,43624},{.609,.759,44929},{.527,.162,57810,1},{.580,.376,57764,1},{.358,.384,57781,1},{.473,.615,57795,1},{.670,.702,57827,1},{0.467,0.693,139434,4}},
 coldharbour_base={
 {.657,.376,187896},--Ceporah's Insight Clue (Coldharbour, The Wailing Maw)
@@ -2234,13 +2234,13 @@ craglorn_base={{.286,.621,43721},{.418,.475,43722},{.705,.559,43723},{.655,.671,
 wansalen_base={{.311,.864,187894}},--Psijic Relicmaster Clue (Auridon, Wansalen)
 wailingmaw_base={{.394,.692,187896}},--Ceporah's Insight Clue (Coldharbour, The Wailing Maw)
 wrothgar_base={
-{.384,.809,187900},--Hagraven Matron Clue (Wrothgar) 
+{.384,.809,187900},--Hagraven Matron Clue (Wrothgar)
 {.479,.786,43727},{.764,.565,43728},{.272,.678,43729},{.444,.485,43730},{.730,.318,43731},{.185,.760,43732},{.461,.589,71065,1},{.506,.648,71066,1},{.624,.263,71067,1},{.133,.758,71068,1},{.478,.552,71069,1},{.808,.395,71070,1},{.606,.325,71080,1},{.545,.520,71081,1},{.820,.308,71082,1},{.235,.706,71083,1},{.787,.273,71084,1},{.188,.805,71085,1},{.205,.819,71086,1},{.437,.668,71087,1},{.689,.443,71088,1},{.823,.588,139441,4},{.444,.589,139442,4},{.193,.681,139443,4}},
 morkul_base={{-.067,.687,43730}},
 hewsbane_base={{.414,.844,43733},{.386,.580,43734}},
 goldcoast_base={{.644,.329,43735},{.488,.321,43736}},
 vvardenfell_base={
-{.367,.654,187888},--House Embassy Clue (Vvardenfell) 
+{.367,.654,187888},--House Embassy Clue (Vvardenfell)
 {.44,.243,126122,1},{.841,.731,126111,1},{.672,.627,126110,1},{.291,.323,126113,1},{.337,.774,126112,1},{.662,.528,43743},{.634,.700,43744},{.283,.571,43745},{.666,.872,43737},{.755,.315,43738},{.197,.430,43739},{.448,.693,43740},{.564,.256,43741},{.668,.719,43742},{.441,.244,12612,1},{.841,.731,12611,1},{.290,.325,12611,1},{.671,.626,12611,1},{.336,.773,12611,1},{.174,.409,139444,4}},
 clockwork_base={{.181,.597,43746},{.803,.424,43747}},
 }
@@ -2265,7 +2265,7 @@ UnknownPOI={
 [1414]={--Telvanni Peninsula
 [15]={194955,3},
 },
-[1383]={--Galen and Y'ffelon 
+[1383]={--Galen and Y'ffelon
 [8]={191625,3},
 [9]={191245,3},
 [10]={192005,3},
@@ -2785,7 +2785,7 @@ daggerfall_base={
 [1]={{.752,.125},{.805,.709},{.492,.720},{.682,.200},{.754,.498},{.714,.398},{.714,.274},{.897,.791},{.551,.128},{.499,.718}},
 [2]={{.843,.657},{.192,.228},{.198,.171},{.420,.667},{.778,.293}}},
 darkshadecaverns_base={
-[1]={{.507,.60},{.725,.268},{.515,.628},{.715,.270},{.516,.891},{.517,.865},{.594,.854},{.498,.875},{.485,.853},{.556,.891},{.510,.679},{.417,.744},{.650,.180},{.629,.677},{.433,.797},{.496,.640},{.606,.451},{.642,.563},{.667,.620},{.310,.201},{.724,.716},{.507,.732},{.661,.272},{.426,.530},{.579,.897},{.509,.147},{.647,.206},{.457,.831},{.590,.578}}},
+[1]={{.293,.282},{.507,.60},{.725,.268},{.515,.628},{.715,.270},{.516,.891},{.517,.865},{.594,.854},{.498,.875},{.485,.853},{.556,.891},{.510,.679},{.417,.744},{.650,.180},{.629,.677},{.433,.797},{.496,.640},{.606,.451},{.642,.563},{.667,.620},{.310,.201},{.724,.716},{.507,.732},{.661,.272},{.426,.530},{.579,.897},{.509,.147},{.647,.206},{.457,.831},{.590,.578}}},
 davonswatch_base={
 [1]={{.884,.470},{.060,.540},{.047,.374},{.098,.343},{.141,.440},{.383,.851},{.452,.304},{.051,.381},{.712,.229},{.107,.339}},
 [2]={{.778,.232},{.940,.399}}},
@@ -2848,7 +2848,7 @@ eldenrootgroundfloor_base={
 eldenrootservices_base={
 [1]={{.437,.070},{.429,.077},{.002,.330},{.009,.324}}},
 elsweyr_base={
-[1]={{.383,.570},{.324,.409},{.403,.301},{.417,.277}}},
+[1]={{.372,.288},{.383,.570},{.324,.409},{.403,.301},{.417,.277}}},
 emberflintmine_base={
 [1]={{.139,.611},{.189,.622},{.860,.299},{.762,.634},{.457,.701},{.690,.632},{.329,.644},{.537,.380},{.146,.611},{.736,.254},{.748,.625},{.789,.561},{.865,.305},{.784,.508},{.437,.832},{.449,.700},{.801,.521},{.517,.760},{.897,.488},{.173,.614},{.542,.416},{.424,.648},{.180,.635},{.145,.567},{.335,.648},{.753,.632},{.805,.560},{.138,.568},{.795,.565},{.701,.635}}},
 enduum_base={
@@ -3351,7 +3351,7 @@ softloamcavern_base={
 solitudecity_base={
 [1]={{.537,.37}}},
 southernelsweyr_base={
-[1]={{.241,.469},{.254,.413},{.312,.414},{.296,.521},{.539,.637},{.233,.309},{.216,.38},{.289,.466},{.367,.467},{.421,.453},{.372,.535},{.403,.586}},
+[1]={{.648,.639},{.241,.469},{.254,.413},{.312,.414},{.296,.521},{.539,.637},{.233,.309},{.216,.38},{.289,.466},{.367,.467},{.421,.453},{.372,.535},{.403,.586}},
 [2]={{.298,.462}}},
 spindleclutch_base={
 [1]={{.853,.459},{.401,.420},{.653,.323},{.286,.350},{.410,.834},{.505,.635},{.441,.612},{.424,.703},{.348,.647},{.772,.259},{.812,.506},{.635,.439},{.579,.266},{.347,.812},{.409,.866},{.341,.650},{.582,.164},{.404,.591},{.641,.434},{.277,.329},{.366,.867},{.627,.466},{.269,.331},{.067,.500},{.342,.688},{.641,.615},{.681,.547},{.369,.874},{.643,.606},{.634,.459},{.649,.316},{.466,.615},{.807,.509},{.288,.340},{.836,.406},{.502,.647},{.403,.582},{.293,.346},{.688,.553},{.422,.696},{.338,.681},{.624,.459},{.374,.860},{.408,.418},{.689,.544},{.780,.251},{.404,.871}}},
@@ -3496,7 +3496,7 @@ u34_firepotcave_base={
 u34_gonfalonbaycity_base={
 [1]={{.14,.369},{.394,.270}}},
 u34_systreszone_base={
-[1]={{.435,.862},{.396,.878},{.323,.837},{.183,.745},{.276,.803},{.311,.78},{.364,.80},{.807,.46},{.808,.495},{.775,.482},{.776,.446},{.77,.382},{.716,.388},{.678,.386},{.773,.264},{.768,.294},{.817,.199},{.841,.195},{.924,.293},{.901,.319},{.928,.323},{.879,.292},{.901,.271},{.633,.18},{.69,.17},{.692,.209},{.655,.257},{.29,.729},{.27,.678},{.234,.815},{.726,.420},{.751,.410},{.665,.229},{.675,.243},{.658,.366},{.622,.298},{.598,.429},{.574,.758},{.549,.738},{.838,.406},{.797,.412},{.782,.420},{.708,.288},{.541,.550},{.534,.590},{.769,.329},{.624,.352},{.401,.530},{.378,.517},{.903,.356},{.939,.319},{.490,.608},{.876,.383}}},
+[1]={{.391,.751},{.435,.862},{.396,.878},{.323,.837},{.183,.745},{.276,.803},{.311,.78},{.364,.80},{.807,.46},{.808,.495},{.775,.482},{.776,.446},{.77,.382},{.716,.388},{.678,.386},{.773,.264},{.768,.294},{.817,.199},{.841,.195},{.924,.293},{.901,.319},{.928,.323},{.879,.292},{.901,.271},{.633,.18},{.69,.17},{.692,.209},{.655,.257},{.29,.729},{.27,.678},{.234,.815},{.726,.420},{.751,.410},{.665,.229},{.675,.243},{.658,.366},{.622,.298},{.598,.429},{.574,.758},{.549,.738},{.838,.406},{.797,.412},{.782,.420},{.708,.288},{.541,.550},{.534,.590},{.769,.329},{.624,.352},{.401,.530},{.378,.517},{.903,.356},{.939,.319},{.490,.608},{.876,.383}}},
 u36_embervine_base={
 [1]={{.835,.777},{.665,.687}}},
 u36_embervine_int1_base={
@@ -3514,8 +3514,8 @@ u37_scrivenershall_sect3a_map={
 u37_scrivenershall_sect3b_map={
 [1]={{.627,.785},{.897,.637},{.317,.283},{.363,.661},{.166,.307}}},
 u38_apocrypha_base={
-[1]={{.626,.339},{.42,.519},{.192,.391},{.734,.398},{.364,.393},{.85,.764},{.623,.727},{.121,.273},{.132,.396},{.160,.206},{.164,.191},{.191,.288},{.202,.204},{.217,.225},{.239,.418},{.254,.395},{.338,.466},{.372,.521},{.387,.195},{.398,.534},{.436,.249},{.497,.682},{.546,.651},{.554,.682},{.589,.725},{.646,.399},{.652,.580},{.688,.540},{.721,.554},{.734,.741},{.765,.461},{.779,.670}},
-[2]={{.27,.40},{.505,.372}}},
+[1]={{.687,.612},{.303,.40},{.676,.763},{.811,.544},{.884,.732},{.626,.339},{.42,.519},{.192,.391},{.734,.398},{.364,.393},{.85,.764},{.623,.727},{.121,.273},{.132,.396},{.160,.206},{.164,.191},{.191,.288},{.202,.204},{.217,.225},{.239,.418},{.254,.395},{.338,.466},{.372,.521},{.387,.195},{.398,.534},{.436,.249},{.497,.682},{.546,.651},{.554,.682},{.589,.725},{.646,.399},{.652,.580},{.688,.540},{.721,.554},{.734,.741},{.765,.461},{.779,.670}},
+[2]={{.833,.583},{.27,.40},{.505,.372}}},
 u38_corpusclebight_01_base={
 [1]={{.332,.278}}},
 u38_eggmine_base={
@@ -3573,10 +3573,10 @@ u47hajxulsection2map={
 u47hajxulsection3map={
 [1]={{.644,.311},{.234,.606},{.468,.512}}},
 u48_overland_base={
-[1]={{.773,.448},{.377,.566},{.753,.309},{.801,.322},{.392,.583},{.409,.573},{.46,.737},{.57,.746},{.526,.758},{.473,.77},{.479,.596},{.345,.588},{.379,.538},{.821,.298},{.642,.562},{.661,.365},{.82,.528},{.774,.548},{.657,.709},{.633,.429},{.654,.65},{.806,.533},{.801,.637},{.752,.672},{.728,.666},{.704,.643},{.701,.613},{.493,.455},{.569,.352},{.788,.401},{.802,.286},{.789,.529},{.762,.500},{.733,.406},{.798,.405},{.833,.384},{.851,.365},{.867,.34},{.255,.453},{.259,.457},{.270,.472},{.271,.652},{.275,.651},{.284,.448},{.289,.566},{.296,.466},{.298,.437},{.301,.441},{.317,.457},{.321,.726},{.323,.723},{.325,.443},{.328,.646},{.330,.572},{.349,.626},{.352,.453},{.362,.399},{.370,.418},{.376,.704},{.378,.497},{.380,.525},{.386,.721},{.392,.456},{.394,.749},{.399,.763},{.407,.664},{.411,.437},{.420,.504},{.427,.366},{.428,.371},{.430,.424},{.443,.572},{.447,.692},{.450,.520},{.458,.663},{.462,.625},{.472,.766},{.475,.711},{.478,.558},{.492,.417},{.499,.627},{.504,.596},{.506,.661},{.516,.685},{.519,.718},{.524,.754},{.527,.554},{.534,.560},{.539,.399},{.542,.712},{.552,.562},{.555,.558},{.575,.624},{.581,.376},{.585,.691},{.598,.720},{.61,.433},{.611,.492},{.617,.472},{.625,.605},{.635,.451},{.641,.528},{.644,.377},{.645,.537},{.646,.663},{.654,.513},{.657,.697},{.671,.599},{.679,.631},{.682,.632},{.688,.466},{.69,.338},{.701,.631},{.704,.376},{.716,.460},{.719,.442},{.725,.689},{.727,.673},{.730,.339},{.732,.364},{.748,.502},{.752,.627},{.755,.284},{.756,.284},{.760,.651},{.763,.228},{.774,.637},{.777,.26},{.788,.316},{.794,.327},{.795,.409},{.801,.244},{.808,.257},{.810,.325},{.817,.260},{.824,.643},{.826,.624},{.831,.403},{.835,.303},{.839,.612}},
+[1]={{.353,.684},{.773,.448},{.377,.566},{.753,.309},{.801,.322},{.392,.583},{.409,.573},{.46,.737},{.57,.746},{.526,.758},{.473,.77},{.479,.596},{.345,.588},{.379,.538},{.821,.298},{.642,.562},{.661,.365},{.82,.528},{.774,.548},{.657,.709},{.633,.429},{.654,.65},{.806,.533},{.801,.637},{.752,.672},{.728,.666},{.704,.643},{.701,.613},{.493,.455},{.569,.352},{.788,.401},{.802,.286},{.789,.529},{.762,.500},{.733,.406},{.798,.405},{.833,.384},{.851,.365},{.867,.34},{.255,.453},{.259,.457},{.270,.472},{.271,.652},{.275,.651},{.284,.448},{.289,.566},{.296,.466},{.298,.437},{.301,.441},{.317,.457},{.321,.726},{.323,.723},{.325,.443},{.328,.646},{.330,.572},{.349,.626},{.352,.453},{.362,.399},{.370,.418},{.376,.704},{.378,.497},{.380,.525},{.386,.721},{.392,.456},{.394,.749},{.399,.763},{.407,.664},{.411,.437},{.420,.504},{.427,.366},{.428,.371},{.430,.424},{.443,.572},{.447,.692},{.450,.520},{.458,.663},{.462,.625},{.472,.766},{.475,.711},{.478,.558},{.492,.417},{.499,.627},{.504,.596},{.506,.661},{.516,.685},{.519,.718},{.524,.754},{.527,.554},{.534,.560},{.539,.399},{.542,.712},{.552,.562},{.555,.558},{.575,.624},{.581,.376},{.585,.691},{.598,.720},{.61,.433},{.611,.492},{.617,.472},{.625,.605},{.635,.451},{.641,.528},{.644,.377},{.645,.537},{.646,.663},{.654,.513},{.657,.697},{.671,.599},{.679,.631},{.682,.632},{.688,.466},{.69,.338},{.701,.631},{.704,.376},{.716,.460},{.719,.442},{.725,.689},{.727,.673},{.730,.339},{.732,.364},{.748,.502},{.752,.627},{.755,.284},{.756,.284},{.760,.651},{.763,.228},{.774,.637},{.777,.26},{.788,.316},{.794,.327},{.795,.409},{.801,.244},{.808,.257},{.810,.325},{.817,.260},{.824,.643},{.826,.624},{.831,.403},{.835,.303},{.839,.612}},
 [2]={{.71,.658},{.797,.621},{.579,.348},{.814,.541},{.634,.45},{.496,.515},{.793,.484},{.758,.323},{.309,.682},{.442,.762},{.397,.711},{.381,.576}}},
 u48_delve_sithis_crest_01={
-[1]={{.70,.107}}},
+[1]={{.693,.465},{.70,.107}}},
 u48_base_calindvalegardenspd={
 [1]={{.436,.806}}},
 u49_avz_parch_001={
@@ -3602,7 +3602,7 @@ ui_map_bloodrootext1_base={
 ui_map_bloodrootint2_base={
 [1]={{.494,.553},{.576,.648}}},
 ui_map_domdepthsofmal_base={
-[1]={{.569,.746},{.550,.430},{.611,.671},{.628,.802}}},
+[1]={{.644,.915},{.569,.746},{.550,.430},{.611,.671},{.628,.802}}},
 ui_map_domdepthsofmal2_base={
 [1]={{.491,.587},{.739,.517},{.439,.623}}},
 ui_map_domdepthsofmal3_base={
@@ -3889,7 +3889,7 @@ u36_galenisland_base={
 {.183,.666,1},--Dog Fighter
 {.591,.198,2},--Cat Pirate
 {.175,.663,3},--Cow City
-{.231,.644,4},-- Horse 
+{.231,.644,4},-- Horse
 {.247,.215,5},--Dog Under
 {.418,.359,6},--Cat Forge
 },
@@ -3908,7 +3908,7 @@ u36_vastyrcity_base={
 [3502]={--The Best of Friends
 {.401,.396,1},--Dog Fighter
 {.373,.385,3},--Cow City
-{.582,.315,4},-- Horse 
+{.582,.315,4},-- Horse
 }},
 u34_systreszone_base={--High Isle & Amenos
 [27]={{.129,.629,5},{.233,.759,5},{.249,.596,5},{.256,.485,5},{.269,.865,5},{.308,.439,5},{.424,.788,5},{.426,.437,5},{.434,.851,5},{.452,.657,5},{.493,.517,5},{.560,.629,5},{.580,.739,5},{.619,.339,5},{.745,.422,5},{.746,.336,5},{.789,.265,5},{.835,.304,5},{.835,.385,5},},--Lava Lasher
@@ -4409,7 +4409,7 @@ ccunderground_base={
 clockwork_base={
 [27]={{.201,.534,4},{.366,.695,4},{.843,.682,4},{.536,.694,4},{.739,.557,4},{.731,.506,4},{.725,.464,4},{.746,.49,4},{.766,.501,4},{.78,.48,4},{.749,.678,4},{.156,.547,4}},--Shadow Fissures
 [1958]={{0.177,0.596,12}},--Introspection
-},	
+},
 brassfortress_base={
 [1958]={{.646,.649,13}}},	--Reason
 bthanual_base={
@@ -4744,7 +4744,7 @@ local FishingZones={
 	u28_blackreach_base=2861,
 	u38_apocrypha_base=3636,
 	u48_overland_base_west=4404,
-	u48_overland_base_east=4460, 
+	u48_overland_base_east=4460,
 }
 local FishingAchievements={[471]=true,[472]=true,[473]=true,[474]=true,[475]=true,[477]=true,[478]=true,[479]=true,[480]=true,[481]=true,[483]=true,[484]=true,[485]=true,[486]=true,[487]=true,[489]=true,[490]=true,[491]=true,[492]=true,[493]=true,[916]=true,[1186]=true,[1339]=true,[1340]=true,[1351]=true,[1431]=true,[1882]=true,[2191]=true,[2240]=true,[2295]=true,[2412]=true,[2566]=true,[2655]=true,[2861]=true,[2981]=true,[3144]=true,[3269]=true,[3500]=true,[3636]=true,[3948]=true,[4404]=true,[4460]=true}
 local FishingBugFix={[473]={[3]="River"},[2027]={[8]="Oily"},[472]={[1]="Foul"}}
@@ -4850,7 +4850,7 @@ local PrecursorTooltip={
 local Instruments={
 [156666]=2,	--Lute of Blue Longing
 [156797]=3,	--Chime of the Endless
-[156798]=4,	--Tenderclaw 
+[156798]=4,	--Tenderclaw
 [156799]=5,	--Shadow of Rahjin
 [156800]=6,	--Lilytongue
 [156801]=7,--Sky talker
@@ -4956,7 +4956,7 @@ local CustomPins={	--Types
 	[15]={name="pinType_Time_Rifts",done=false,id={},pin={},maxDistance=0.05,level=101,texture="/"..AddonName.."/Treasure_1-2.dds",k=1.8},
 	[16]={name="pinType_Shrines",done=false,id={},pin={},maxDistance=0.05,level=101,texture="/esoui/art/icons/poi/poi_daedricruin_incomplete.dds",k=1.25},
 	[17]={name="pinType_Fishing_Nodes",done=false,id={},pin={},maxDistance=0.05,level=101,texture="/esoui/art/icons/achievements_indexicon_fishing_up.dds",k=1.25},
--- 	[17]={name="pinType_Fishing_Nodes_done",done=true,id={},pin={},maxDistance=0.05,level=101,texture="/esoui/art/icons/achievements_indexicon_fishing_up.dds",k=1.25},	
+-- 	[17]={name="pinType_Fishing_Nodes_done",done=true,id={},pin={},maxDistance=0.05,level=101,texture="/esoui/art/icons/achievements_indexicon_fishing_up.dds",k=1.25},
 	[18]={section=true,name="pinType_Clockwork_City",id={},pin={},texture="/esoui/art/treeicons/tutorial_idexicon_cwc_up.dds",	--"/art/fx/texture/clockworksigil.dds",
 		[1958]={name="pinType_Precursor_Maker",done=false,ach=true,maxDistance=0.05,level=101,texture="/esoui/art/menubar/gamepad/gp_playermenu_icon_settings.dds",k=1,def_texture="/esoui/art/icons/achievement_update16_001.dds"},
 		},
@@ -5027,7 +5027,7 @@ local CustomPins={	--Types
 		},
 	[32]={section=true,name="pinType_Seasons_of_the_Worm_Cult",id={},pin={},texture="/esoui/art/treeicons/tutorial_idexicon_goldroad_up.dds",
 		[4432]={name="pinType_Wanderers_of_Western_Solstice",done=false,ach=true,maxDistance=0.05,level=101,texture="/esoui/art/icons/achievement_u46_zone_flavor1.dds",k=1},
-		[4433]={name="pinType_So_Clean_in_Sunport",done=false,ach=true,maxDistance=0.05,level=101,texture="/esoui/art/icons/achievement_u46_zone_flavor2.dds",k=1},	
+		[4433]={name="pinType_So_Clean_in_Sunport",done=false,ach=true,maxDistance=0.05,level=101,texture="/esoui/art/icons/achievement_u46_zone_flavor2.dds",k=1},
 		[4434]={name="pinType_Solstice_Climbing_Club",done=false,ach=true,maxDistance=0.05,level=101,texture="/esoui/art/icons/achievement_u46_zone_flavor3.dds",k=1},
 		[4435]={name="pinType_Sanguine_s_Delights",done=false,ach=true,maxDistance=0.05,level=101,texture="/esoui/art/icons/achievement_u46_zone_flavor4.dds",k=1},
 		[4455]={name="pinType_Soul Shriven_on_Solstice",done=false,ach=true,maxDistance=0.05,level=101,texture="/esoui/art/icons/u48_zone_flavor1.dds",k=1},
@@ -5106,7 +5106,7 @@ local function customCreatePin(pinType, pinTag, xLoc, yLoc)
     pin:SetData(pinType, pinTag)
     pin:SetOriginalPosition(xLoc, yLoc)
     pin:SetLocation(xLoc, yLoc)
-        
+
     local customPinData = PinManager.customPins[pinType]
     if customPinData then
         PinManager:MapPinLookupToPinKey(customPinData.pinTypeString, pinType, pinTag, pinKey)
@@ -5192,7 +5192,7 @@ local MapPinCallback={
 		local mapData=UnknownPOI[GetZoneId(zoneIndex)]
 		for poiIndex=1,GetNumPOIs(zoneIndex) do
 			local poiType=GetPOIType(zoneIndex, poiIndex)
-			if poiType~=7 then -- no Houses			
+			if poiType~=7 then -- no Houses
 				local poiName = GetPOIInfo(zoneIndex, poiIndex)
 				if poiName~="" then
 					local normalizedX, normalizedY, _, icon, _, _, isDiscovered= GetPOIMapInfo(zoneIndex, poiIndex)
@@ -5200,15 +5200,15 @@ local MapPinCallback={
 					if icon:find("mundus") then extras = 1 end
 					if icon:find("crafting") then extras = 2 end
 					--check if data is missing
-					if extras==1 or extras==2 then if not mapData or not mapData[poiIndex] then extras=0 end end				
+					if extras==1 or extras==2 then if not mapData or not mapData[poiIndex] then extras=0 end end
 					local pinTag={[1]=i,name=poiName,texture=icon}
 					if extras==1 then	--Mundus
 						pinTag.desc=MundusDescription[ mapData[poiIndex] ]
-					elseif extras==2 then--Crafting station						
-						pinTag.name,pinTag.desc=GetSetDescription(mapData[poiIndex])	
+					elseif extras==2 then--Crafting station
+						pinTag.name,pinTag.desc=GetSetDescription(mapData[poiIndex])
 					end
 					--Unknown POI
-					if not isDiscovered and (normalizedX>0 or normalizedY>0) then	
+					if not isDiscovered and (normalizedX>0 or normalizedY>0) then
 						local id=_G[CustomPins[i].name] customCreatePin(id,pinTag,normalizedX,normalizedY)
 						local size=(BUI and BUI.name=="BanditsUserInterface" and BUI.init.MiniMap) and 40*BUI.Vars.PinScale/100 or 40 ZO_MapPin.PIN_DATA[id].size=size
 					elseif extras==1 or extras==2 then	--Mundus, Crafting station known
@@ -5249,7 +5249,7 @@ local MapPinCallback={
 		local workQueue = {}
 		local subzonesToProcess = {}
 
-		--Add the map we want target 
+		--Add the map we want target
 		if subzone == "u48_overland_base" then
 			table.insert(subzonesToProcess, "u48_overland_base_east")
 			table.insert(subzonesToProcess, "u48_overland_base_west")
@@ -5339,7 +5339,7 @@ local MapPinCallback={
 				end
 			end
 		end
-	end,	
+	end,
 	[76]=function(i,subzone)--Imperial City bosses
 		local mapData=ImperialCity[subzone]
 		if mapData then
@@ -5434,14 +5434,10 @@ local function MapPinAddCallback(i)
 		if i==1 or i==2 then mapData=Bosses[subzone] elseif i==3 or i==4 then mapData=SkyShards[subzone] end
 		if mapData then
 			for _,pinData in pairs(mapData) do
-				local AchName,Completed,Required
+				local AchName,Completed,Required=GetAchievementCriterion(pinData[3],pinData[4])
 				if i==3 or i==4 then
-					local SkyShardId=GetZoneSkyshardId(GetSkyshardAchievementZoneId(pinData[3]))
-					if subzone == "u48_overland_base" then SkyShardId=pinData[5] end
-					Completed=GetSkyshardDiscoveryStatus(SkyShardId,pinData[4])
+					Completed=GetSkyshardDiscoveryStatus(pinData[5] or GetZoneSkyshardId(GetSkyshardAchievementZoneId(pinData[3]),pinData[4]))
 					Required=2
-				else
-					AchName,Completed,Required=GetAchievementCriterion(pinData[3],pinData[4])
 				end
 				if (Completed==Required)==CustomPins[i].done then
 					customCreatePin(_G[CustomPins[i].name],{i,pinData[3],pinData[4],pinData[5]},pinData[1],pinData[2])
@@ -5496,6 +5492,10 @@ local function CompassPinAddCallback(i)
 		if mapData then
 			for _,pinData in pairs(mapData) do
 				local AchName,Completed,Required=GetAchievementCriterion(pinData[3],pinData[4])
+				if i==3 or i==4 then
+					Completed=GetSkyshardDiscoveryStatus(pinData[5] or GetZoneSkyshardId(GetSkyshardAchievementZoneId(pinData[3]),pinData[4]))
+					Required=2
+				end
 				if (Completed==Required)==CustomPins[i].done and AchName~="" then
 					COMPASS_PINS.pinManager:CreatePin(CustomPins[i].name,AchName,pinData[1],pinData[2])
 				end
@@ -5533,7 +5533,7 @@ local function CompassPinAddCallback(i)
 					elseif i==1383 then
 						local name,c1,r1=GetAchievementCriterion(pinData[3],pinData[4])
 						AchName=name
-						Completed=c1>=r1	
+						Completed=c1>=r1
 					elseif pinData[3] then
 						local name,c1,r1=GetAchievementCriterion(i,pinData[3])
 						AchName=name
@@ -5615,7 +5615,7 @@ local function ScanInventory()
 		if itemData and itemData.itemType==ITEMTYPE_TROPHY then
 			local itemId=GetItemId(BAG_BACKPACK,itemData.slotIndex)
 			for achId,achTable in ipairs(TrophyTable) do
-				if achTable[itemId] then 
+				if achTable[itemId] then
 					AchievementItems[achId][achTable[itemId] ]=true
 					break
 				end
@@ -5638,7 +5638,7 @@ end
 local function OnLootReceived(_, receivedBy, itemName, quantity, itemSound, lootType, self, _, questItemIcon, itemId)
 	if lootType~=LOOT_TYPE_ITEM and lootType~=LOOT_TYPE_QUEST_ITEM then return end
 	for achId,achTable in ipairs(TrophyTable) do
-		if achTable[itemId] then 
+		if achTable[itemId] then
 			AchievementItems[achId][achTable[itemId] ]=true
 			PinManager:RefreshCustomPins(_G[CustomPins[achId].name])
 			if COMPASS_PINS then COMPASS_PINS:RefreshPins(CustomPins[achId].name) end
@@ -5884,7 +5884,7 @@ end
 
 --Initialization
 local panelToFilter = {}
-local function AddPinFilter()	
+local function AddPinFilter()
 	local function GetCroppedAchievementInfo(id)
 		local name,_,_,icon=GetAchievementInfo(id)
 		local pos=string.find(name,"<<player")
@@ -5893,14 +5893,14 @@ local function AddPinFilter()
 	local function SetNameForMapPinGroup(i)
 		local mapPinGroup = _G[CustomPins[i].name]
 		local icon=zo_iconFormat((CustomPins[i].def_texture or CustomPins[i].texture),24,24)
-		local name=CustomPins[i].ach and GetCroppedAchievementInfo(i) or Loc(string.gsub(CustomPins[i].name,"pinType_",""))	
+		local name=CustomPins[i].ach and GetCroppedAchievementInfo(i) or Loc(string.gsub(CustomPins[i].name,"pinType_",""))
 		ZO_CreateStringId("SI_MAPFILTER" .. mapPinGroup, icon.." "..name)
 		return mapPinGroup
 	end
 	local function FilterCallback()
-	end	
+	end
 	for i=FILTER_COUNT,1,-1 do --revesed else they apear backwars in filter list
-		if CustomPins[i] then	
+		if CustomPins[i] then
 			local mapPinGroup = SetNameForMapPinGroup(i)
 			local function AddCheckBox(panel, filter)
 				panelToFilter[panel] = filter
@@ -5914,17 +5914,17 @@ local function AddPinFilter()
 			if PinsNirn[i] then	AddCheckBox(self.pvePanel, "pve") end
 			if PinsAva[i] then AddCheckBox(self.pvpPanel, "pvp") end
 			if PinsImperial[i] then AddCheckBox(self.imperialPvPPanel, "imperialPvP") end
-		end 
+		end
 	end
 end
 
 local filterIdToFilterIndex ={}
 ZO_PostHook(ZO_WorldMapFilterPanel_Shared, "GetPinFilter", function(self, mapPinGroup)
-    local i = filterIdToFilterIndex[mapPinGroup] 
+    local i = filterIdToFilterIndex[mapPinGroup]
 	if i then return SavedVars[i] end
 end)
 ZO_PostHook(ZO_WorldMapFilterPanel_Shared, "SetPinFilter", function(self, mapPinGroup, shown)
-    local i = filterIdToFilterIndex[mapPinGroup] 	
+    local i = filterIdToFilterIndex[mapPinGroup]
 	if i then
 		SavedVars[i] = shown
 		for pin,id in pairs(CustomPins[i].id) do
@@ -6003,14 +6003,14 @@ local PinTooltipCreator={
 			icon=CustomPins[21].texture
 			name="Volendrung spawn location"
 		end
-		name=(pinTag[3] and "["..pinTag[3].."] " or "")..name		
+		name=(pinTag[3] and "["..pinTag[3].."] " or "")..name
 		ZO_MapLocationTooltip_Gamepad:LayoutIconStringLine(ZO_MapLocationTooltip_Gamepad.tooltip, icon, zo_strformat("<<1>>", name), ZO_MapLocationTooltip_Gamepad.tooltip:GetStyle("mapLocationTooltipWayshrineHeader"))
 		if desc then
 			ZO_MapLocationTooltip_Gamepad:LayoutIconStringLine(ZO_MapLocationTooltip_Gamepad.tooltip, nil, zo_strformat("<<1>>", desc), ZO_MapLocationTooltip_Gamepad.tooltip:GetStyle("mapRecallCost"))
 		end
 		if desc1 then
 			ZO_MapLocationTooltip_Gamepad:LayoutIconStringLine(ZO_MapLocationTooltip_Gamepad.tooltip, nil, zo_strformat("<<1>>", desc1), ZO_MapLocationTooltip_Gamepad.tooltip:GetStyle("mapRecallCost"))
-		end		
+		end
 	end
 }
 
@@ -6045,7 +6045,7 @@ local function CreateFilter()
 			end
 			if not SavedVars[i] then SavedVars[i] = false end
 		end
-	end	
+	end
 end
 
 local function OnLoad(eventCode,addonName)
@@ -6069,19 +6069,19 @@ local function OnLoad(eventCode,addonName)
 			if loadIndex==6 then Load_ChestData() return end
 			if loadIndex==7 then Load_Achievements() return end
 			if loadIndex==8 then Load_FishingNodes() return end
-			if loadIndex==9 then 
-				EVENT_MANAGER:UnregisterForUpdate(AddonName.."_DelayedVarLoading") 
+			if loadIndex==9 then
+				EVENT_MANAGER:UnregisterForUpdate(AddonName.."_DelayedVarLoading")
 				CreateFilter()
 				AddPinFilter()
 				OnMapChanged()
 				CALLBACK_MANAGER:RegisterCallback("OnWorldMapChanged", OnMapChanged)
 				RegisterEvents()
-				return 
+				return
 			end
 		end)
-	
+
 	end,250)
-	
+
 	SLASH_COMMANDS["/loc"]=function()
 		local x,y=GetMapPlayerPosition("player")
 	    local fileName =  GetMapTileTexture():match("[^\\/]+$"):lower():gsub("%.dds$", ""):gsub("_[0-9]+$", "")
@@ -6107,12 +6107,12 @@ end
 		end
 		PinManager:RefreshCustomPins()
 	end
-	if LibHarvensAddonSettings then 
+	if LibHarvensAddonSettings then
 	LibHarvensAddonSettings:AddAddon("MapPins Pin Size"):AddSetting({
         type = LibHarvensAddonSettings.ST_SLIDER,
         label = "Pin Size \n Small <- -> Large",
 		tooltip = "Default: "..DefaultGlobal.pinsize,
-		default = DefaultGlobal.pinsize, 
+		default = DefaultGlobal.pinsize,
         setFunction = function(value)
            SetPinSize(value)
         end,
@@ -6134,8 +6134,8 @@ end
 	end
 	SLASH_COMMANDS["/mpshow"]=function(n)
 		n=tonumber(n)
-		if n then	
-			if SavedVars.Show[n] then 
+		if n then
+			if SavedVars.Show[n] then
 				SavedVars.Show[n]=nil
 			else
 				SavedVars.Show[n]=true
