@@ -1215,15 +1215,15 @@ craglorn_base={-- Craglorn
 {.146,.459,727,7,328},
 {.214,.575,727,8,329},
 {.813,.575,727,9,330},
-{.468,.663,727,1,331},-- Upper Craglorn
-{.321,.654,727,2,332},
-{.537,.540,727,3,333},
-{.282,.264,912,4,334},
-{.582,.425,912,5,335},
-{.400,.309,912,6,336},
-{.662,.331,912,7,337},
-{.086,.306,912,8,338},
-{.547,.251,912,9,339}},
+{.468,.663,727,10,331},
+{.321,.654,727,11,332},
+{.537,.540,727,12,333},
+{.282,.264,912,1,334},-- Upper Craglorn
+{.582,.425,912,2,335},
+{.400,.309,912,3,336},
+{.662,.331,912,4,337},
+{.086,.306,912,5,338},
+{.547,.251,912,6,339}},
 molavar_base={{.747,.352,727,1,322}},
 rkundzelft_base={{.715,.382,727,2,323}},
 kardala_base={{.612,.455,727,3,324}},
@@ -5022,7 +5022,7 @@ local CustomPins={	--Types
 	[14]={section=true,name="Summerset",id={},pin={},texture="/esoui/art/treeicons/tutorial_idexicon_summerset_up.dds",	--"/esoui/art/icons/store_summerset_collectable.dds",
 		[2099]={name="pinType_Summerset_Relics",done=false,ach=true,maxDistance=0.05,level=101,texture="/esoui/art/icons/quest_strosmkai_open_treasure_chest.dds",k=1},
 		[2211]={name="pinType_Message_in_Bottle",done=false,ach=true,maxDistance=0.05,level=100,texture="/esoui/art/icons/crafting_stoneware_bottle_003.dds",k=1},
-		[2171]={name="pinType_Summerset_world_event",done=false,ach=true,maxDistance=0.05,level=101,texture="/esoui/art/miscellaneous/help_icon.dds",k=1.25,def_texture="/esoui/art/icons/achievement_su_rds_01.dds"},
+		[2271]={name="pinType_Summerset_world_event",done=false,ach=true,maxDistance=0.05,level=101,texture="/esoui/art/miscellaneous/help_icon.dds",k=1.25,def_texture="/esoui/art/icons/achievement_su_rds_01.dds"},
 		},
 	[15]={name="pinType_Time_Rifts",done=false,id={},pin={},maxDistance=0.05,level=101,texture="/"..AddonName.."/Treasure_1-2.dds",k=1.8},
 	[16]={name="pinType_Shrines",done=false,id={},pin={},maxDistance=0.05,level=101,texture="/esoui/art/icons/poi/poi_daedricruin_incomplete.dds",k=1.25},
@@ -5193,7 +5193,7 @@ local MapPinCallback={
 			for _, pinData in pairs(mapData) do
 				local AchName, iconLore, done=GetLoreBookInfo(1, pinData[3], pinData[4])
 				if done==CustomPins[i].done then
-					CustomPins[i].texture = iconLore
+					--CustomPins[i].texture = iconLore
 					customCreatePin(_G[CustomPins[i].name],{i,pinData[3], pinData[4]},pinData[1],pinData[2])
 				end
 			end
