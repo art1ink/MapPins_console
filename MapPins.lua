@@ -32,17 +32,19 @@ local Localization={
 		Orsinium_world_event="Random encounters",
 		Summerset_world_event="Random encounters",
 		Random_Encounters="Random encounters",
+		Dynamic_Encounters="Dynamic Encounters",
+
 		--DLC
 		Orsinium="Orsinium",
 		Thieves_guild="Thieves guild",
 		Morrowind="Morrowind",
-		Summerset="Summerset",
 		Clockwork_City="Clockwork City",
+		Summerset="Summerset",	
 		Murkmire="Murkmire",
 		Elsweyr="Elsweyr",
-		Markarth="Markarth",
-		Blackwood="Blackwood",
 		Greymoor="Greymoor",
+		Markarth="Markarth",
+		Blackwood="Blackwood",	
 		High_Isle="High Isle",
 		Firesong="Firesong",
 		Necrom="Necrom",
@@ -76,17 +78,19 @@ local Localization={
 		Orsinium_world_event="Случайные встречи",
 		Summerset_world_event="Случайные встречи",
 		Random_Encounters="Случайные встречи",
+		Dynamic_Encounters="Случайные события",
+		
 		--DLC
 		Orsinium="Орсиниум",
 		Thieves_guild="Гильдия воров",
 		Morrowind="Моровинд",
-		Summerset="Саммерсет",
 		Clockwork_City="Заводной город",
+		Summerset="Саммерсет",
 		Murkmire="Мрачные Трясины",
 		Elsweyr="Эльсвейр",
-		Markarth="Маркарт",
-		Greymoor="Западный скайрим",
 		Blackwood="Черный лес",
+		Markarth="Маркарт",
+		Greymoor="Западный скайрим",	
 		High_Isle="Высокий Остров",
 		Firesong="Пламенная песнь",
 		Necrom="Некром",
@@ -97,7 +101,7 @@ local Localization={
 		--Water
 		Lake="Seewasser",Foul="Brackwasser",River="Flusswasser",Salt="Salzwasser",Oily="Ölwasser",Mystic="Mythenwasser",Running="Fließgewässer",
 		--Portals
-		Portals="Portale",Celestial_Rifts="Himmlische Risse",Dark_Fissures="Dunkle Risse",Oblivion_Portals="Oblivion Portale",Shadow_Fissures="Schattenrisse",Lava_Lashers="Lavaschlote",Soul_Reaper="Soul Reaper",
+		Portals="Portale",Celestial_Rifts="Himmlische Risse",Dark_Fissures="Dunkle Risse",Oblivion_Portals="Oblivion Portale",Shadow_Fissures="Schattenrisse",Lava_Lashers="Lavaschlote",Soul_Reaper="Seelenschnitter",
 		--Filters
 		Delve_bosses="Gewölbe-Anführer",Delve_bosses_done="Gewölbe-Anführer, besiegt",
 		Skyshards="Himmelsscherben",Skyshards_done="Himmelsscherben, gesammelt",
@@ -105,32 +109,44 @@ local Localization={
 		Treasure_Maps="Schatzkarten",
 		Treasure_Chests="Schatztruhen",
 		Unknown_POI="Unbekannter, markanter Ort",
-		Undaunted="Unerschrockene",
-		Thieves_guild="Thieves Guild",
+		Undaunted="Unerschrockene",	
 		Time_Rifts="Zeitrisse",
 		Shrines="Schreine",
 		Fishing_Nodes="Fischgründe",
-		Clockwork_City="Clockwork City",
 		Antiquities="Antiquitäten", Antiquity_Leads="Fundorte von Spuren",
 		Imperial_City="Kaiserstadt",
 		IC_Bosses="Anführer",
 		IC_Respawns="Allianz-Basen",
 		Cunning_Scamp="Listskampen",
-		Trove_Scamp="Gierskampen",
-		High_Isle="High Isle",
+		Trove_Scamp="Gierskampen",	
 		World_achievements="Weltweite Errungenschaften",
 		Orsinium_world_event="Zufällige Begegnungen",
 		Summerset_world_event="Zufällige Begegnungen",
 		Random_Encounters="Zufällige Begegnungen",
-		Necrom="Necrom",
-		Gold_Road="Gold Road",
+		Dynamic_Encounters="Dynamische Begegnungen",
+		
+		--DLC
+		Orsinium="Orsinium",
+		Thieves_guild="Diebesgilde",
+		Morrowind="Morrowind",
+		Clockwork_City="Stadt der Uhrwerke",
+		Summerset="Schatzkarte",	
+		Murkmire="Trübmoor",
+		Elsweyr="Elsweyr",
+		Greymoor="Greymoor",
+		Markarth="Markarth",
+		Blackwood="Dunkelforst",	
+		High_Isle="Hochinsel",
+		Firesong="Feuersang",
+		Necrom="Nekrom",
+		Gold_Road="Goldstraße",
 		Seasons_of_the_Worm_Cult="Saisons Des Wurmkults",
 		},
 	fr={
 		--Water
 		Lake="Lac",Foul="Sale",River="Rivière",Salt="Mer",Oily="Huile",Mystic="Mystique",Running="courante",
 		--Portals
-		Portals="Portails",Celestial_Rifts="Failles célestes",Dark_Fissures="Fissures noires",Oblivion_Portals="Portails d'Oblivion",Shadow_Fissures="Fissures d'ombres",Lava_Lashers="Fouetteurs de lave",Soul_Reaper="Soul Reaper",
+		Portals="Portails",Celestial_Rifts="Failles célestes",Dark_Fissures="Fissures noires",Oblivion_Portals="Portails d'Oblivion",Shadow_Fissures="Fissures d'ombres",Lava_Lashers="Fouetteurs de lave",Soul_Reaper="Faucheuse d'âme",
 		--Filters
 		Delve_bosses="Boss d'Antre",Delve_bosses_done="Boss d'Antre (fini)",
 		Skyshards="Éclats célestes",Skyshards_done="Éclats célestes (fini)",
@@ -150,19 +166,21 @@ local Localization={
 		Orsinium_world_event="Rencontres aléatoires",
 		Summerset_world_event="Rencontres aléatoires",
 		Random_Encounters="Rencontres aléatoires",
+		Dynamic_Encounters="Rencontres dynamiques",
+		
 		--DLC
 		Orsinium="Orsinium",
 		Thieves_guild="La Guilde des voleurs",
 		Morrowind="Morrowind",
-		Summerset="Le Couchant",
 		Clockwork_City="La Cité mécanique",
+		Summerset="Le Couchant",	
 		Murkmire="Tourbevase",
 		Elsweyr="Elsweyr",
-		Markarth="Markarth",
-		Firesong="Firesong",
-		Blackwood="Le Bois Noir",
 		Greymoor="Greymoor",
+		Markarth="Markarth",	
+		Blackwood="Le Bois Noir",
 		High_Isle="L'Île Haute",
+		Firesong="Firesong",
 		Necrom="Necrom",
 		Gold_Road="Gold Road",
 		Seasons_of_the_Worm_Cult="Saisons Du Culte Du Ver",
@@ -202,11 +220,11 @@ local Localization={
 		Clockwork_City="Cidade Mecânica",
 		Murkmire="Mangueturvo",
 		Elsweyr="Elsweyr",
-		Blackwood="Blackwood",
-		Markarth="Markarth",
-		Firesong="Firesong",
 		Greymoor="Greymoor",
+		Markarth="Markarth",
+		Blackwood="Blackwood",	
 		High_Isle="Alta Ilha",
+		Firesong="Firesong",
 		Necrom="Necrom",
 		Gold_Road="Gold Road",
 		Seasons_of_the_Worm_Cult="Seasons of the Worm Cult",
@@ -265,33 +283,33 @@ local Localization={
 		Treasure_Maps="Mappe del Tesoro",
 		Treasure_Chests="Forzieri del Tesoro",
 		Unknown_POI="POI Sconosciuto",
-		Undaunted="Temerari",
-		Orsinium="Orsinium",
-		Thieves_guild="Gilda dei Ladri",
-		Morrowind="Morrowind",
-		Summerset="Summerset",
+		Undaunted="Temerari",		
 		Time_Rifts="Fenditure Temporali",
 		Shrines="Tempi",
-		Fishing_Nodes="Zone di Pesca",
-		Clockwork_City="Città Meccanica",
-		Murkmire="Murkmire",
-		Elsweyr="Elsweyr",
+		Fishing_Nodes="Zone di Pesca",	
 		Volendrung="Volendrung",
-		Greymoor="Greymoor",
-		Antiquities="Antichità", Antiquity_Leads="Indizi di Antichità",
-		Blackwood="Blackwood",
-		Markarth="Markarth",
-		Firesong="Firesong",
-		Imperial_City="Città Imperiale",
-		IC_Bosses="Boss",
-		IC_Respawns="Respawn",
+		Antiquities="Antichità", Antiquity_Leads="Indizi di Antichità",		
+		Imperial_City="Città Imperiale", IC_Bosses="Boss", IC_Respawns="Respawn",
 		Cunning_Scamp="Furfante Astuto",
-		Trove_Scamp="Furfante Raccoglitore",
-		High_Isle="Isola Alta",
+		Trove_Scamp="Furfante Raccoglitore",		
 		World_achievements="Ricompense Globali",
 		Orsinium_world_event="Incontri Casuali",
 		Summerset_world_event="Incontri Casuali",
 		Random_Encounters="Incontri Casuali",
+		
+		--DLC
+		Orsinium="Orsinium",
+		Thieves_guild="Gilda dei Ladri",
+		Morrowind="Morrowind",
+		Clockwork_City="Città Meccanica",
+		Summerset="Summerset",
+		Murkmire="Murkmire",
+		Elsweyr="Elsweyr",
+		Greymoor="Greymoor",
+		Markarth="Markarth",
+		Blackwood="Blackwood",
+		High_Isle="Isola Alta",		
+		Firesong="Firesong",
 		Necrom="Necrom",
 		Gold_Road="Gold Road",
 		Seasons_of_the_Worm_Cult="Seasons of the Worm Cult",
@@ -320,19 +338,21 @@ local Localization={
 		Orsinium_world_event = "Encuentros aleatorios",
 		Summerset_world_event = "Encuentros aleatorios",
 		Random_Encounters = "Encuentros aleatorios",
+		Dynamic_Encounters="Encuentros dinámicos",
+		
 		-- DLC
 		Orsinium = "Orsinium",
 		Thieves_guild = "Gremio de ladrones",
 		Morrowind = "Morrowind",
-		Summerset = "Estivalia",
 		Clockwork_City = "Ciudad Mecánica",
+		Summerset = "Estivalia",
 		Murkmire = "Murkmire",
 		Elsweyr = "Elsweyr",
-		Blackwood = "Bosque Negro",
-		Markarth="Markarth",
-		Firesong="Firesong",
 		Greymoor = "Greymoor",
+		Markarth="Markarth",
+		Blackwood = "Bosque Negro",
 		High_Isle = "Isla Alta",
+		Firesong="Firesong",
 		Necrom = "Necrom",
 		Gold_Road = "Gold Road",
 		Seasons_of_the_Worm_Cult="Temporadas del Culto del Gusano",
@@ -341,7 +361,7 @@ local Localization={
 		--Water
 		Lake="湖泊",Foul="脏水",River="河流",Salt="咸水",Oily="油污",Mystic="神秘",Running="Running",
 		--Portals
-		Portals="传送门",Celestial_Rifts="天界裂缝",Dark_Fissures="黑暗裂缝",Oblivion_Portals="湮灭传送门",Shadow_Fissures="阴影裂缝",Lava_Lashers="岩浆驯服者",Soul_Reaper="Soul Reaper",
+		Portals="传送门",Celestial_Rifts="天界裂缝",Dark_Fissures="黑暗裂缝",Oblivion_Portals="湮灭传送门",Shadow_Fissures="阴影裂缝",Lava_Lashers="岩浆驯服者",Soul_Reaper="灵魂收割装置",
 		--Filters
 		Delve_bosses="世界BOSS",Delve_bosses_done="世界BOSS(已完成)",
 		Skyshards="天空碎片",Skyshards_done="天空碎片 (已完成)",
@@ -361,21 +381,69 @@ local Localization={
 		Orsinium_world_event="奥辛纽姆赞助者",
 		Summerset_world_event="透过现象看本质",
 		Random_Encounters="随机遭遇",
+		Dynamic_Encounters="动态遭遇战",
+		
 		--DLC
 		Orsinium="奥辛纽姆",
 		Thieves_guild="盗贼公会",
 		Morrowind="晨风",
-		Summerset="夏暮岛",
 		Clockwork_City="发条城",
+		Summerset="夏暮岛",
 		Murkmire="幽暗沼泽",
 		Elsweyr="艾斯维尔",
-		Blackwood="黑木",
 		Greymoor="灰沼",
+		Markarth="马卡斯城",
+		Blackwood="黑木",
 		High_Isle="高岛",
+		Firesong="焱歌",
 		Necrom="死灵之地",
 		Gold_Road="黄金大道",
 		Seasons_of_the_Worm_Cult="蠕虫教的四季",
 		},
+		jp={
+		--Water
+		Lake="湖",Foul="汚水",River="川",Salt="塩水",Oily="油",Mystic="秘術",Running="Running",
+		--Portals
+		Portals="ポータル",Celestial_Rifts="セレスティアルのリフトs",Dark_Fissures="闇の裂け目",Oblivion_Portals="オブリビオンのポータル",Shadow_Fissures="影の亀",Lava_Lashers="溶岩の管理者",Soul_Reaper="ソウルリーパー",
+		--Filters
+		Delve_bosses="洞窟ボスを",Delve_bosses_done="洞窟ボスを (完了)",
+		Skyshards="スカイシャード",Skyshards_done="スカイシャード (完了)",
+		Lore_books="歴史書",Lore_books_done="歴史書 (完了)",
+		Treasure_Maps="宝の地図",
+		Treasure_Chests="宝箱",
+		Unknown_POI="不明なポイ",
+		Undaunted="アンドーンテッド",
+		Time_Rifts="タイムクラック",
+		Shrines="神社",
+		Fishing_Nodes="釣りスポット",
+		Volendrung="ヴォレンドラング",
+		Antiquities="古遺物",Antiquity_Leads="アンティークの手がかり",
+		Imperial_City="帝都",IC_Bosses="上司",IC_Respawns="リスポーン",
+		Cunning_Scamp="狡猾なスキャンプ",Trove_Scamp="トローヴスキャンプ",
+		World_achievements="世界的な功績",
+		Orsinium_world_event="ランダムエンカウンター",
+		Summerset_world_event="ランダムエンカウンター",
+		Random_Encounters="ランダムエンカウンター",
+		Dynamic_Encounters="ダイナミックエンカウンター",
+
+		--DLC
+		Orsinium="オルシニウム",
+		Thieves_guild="盗賊ギルド",
+		Morrowind="モロウウィンド",
+		Clockwork_City="クロックワーク・シティ",
+		Summerset="サマーセット",
+		Murkmire="マークマイア",
+		Elsweyr="エルスウェア",
+		Greymoor="グレイムーア",
+		Markarth="マルカルス",
+		Blackwood="ブラックウッド",
+		High_Isle="ハイ・アイル",
+		Firesong="ファイアソング",
+		Necrom="ネクロム",
+		Gold_Road="ゴールドロード",
+		Seasons_of_the_Worm_Cult="虫の教団の季節 パート2",			
+		},	
+		
 	}
 local lang=GetCVar("language.2") if not Localization[lang] then lang="en" end
 local function Loc(string)
@@ -4170,6 +4238,7 @@ auridon_base={
 [872]={{.421,.333,2},{.434,.510,2},{.550,.790,2},{.706,.767,2}},
 [704]={{.601,.944,3}},
 [1383]={{.707,.509,1379,1}},
+[33]={{.648,.834,4621}},-- Farm Aflame
 },
 balfoyen_base={
 [872]={{.242,.673,7},{.382,.641,7}}},
@@ -4225,11 +4294,12 @@ fortamol_base={
 [873]={{.947,-.004}},
 },
 glenumbra_base={
-[27]={{.738,.293,2},{.717,.145,2},{.404,.558,2},{.224,.522,2},{.310,.653,2},{.327,.335,2},{.358,.708,2},{.376,.793,2},{.406,.521,2},{.421,.370,2},{.506,.727,2},{.539,.646,2},{.550,.216,2},{.619,.222,2},{.782,.334,2}},
+[27]={{.638,.385,2},{.738,.293,2},{.717,.145,2},{.404,.558,2},{.224,.522,2},{.310,.653,2},{.327,.335,2},{.358,.708,2},{.376,.793,2},{.406,.521,2},{.421,.370,2},{.506,.727,2},{.539,.646,2},{.550,.216,2},{.619,.222,2},{.782,.334,2}},
 [1383]={{.238,.769,1380,1}},
 [872]={{.256,.466,14},{.780,.394,14},{.364,.847,14},{.573,.322,14}},
 [704]={{.280,.723,1}},
 [873]={{.361,.368},{.362,.744},{.460,.618},{.576,.374},{.635,.487},{.761,.245}},
+[33]={{.663,.301,4620}}, -- Vampire Hunt
 },
 grahtwood_base={
 [27]={{.242,.183,2},{.331,.533,2},{.367,.256,2},{.403,.685,2},{.352,.523,2},{.425,.255,2},{.454,.792,2},{.501,.361,2},{.576,.748,2},{.591,.334,2},{.595,.284,2},{.661,.682,2},{.711,.543,2},{.466,.399,2}},--Dark Fissures
@@ -4325,6 +4395,7 @@ stonefalls_base={
 [1383]={{.254,.626,1381,1}},
 [872]={{.394,.462,8},{.484,.723,8},{.491,.620,8},{.946,.432,8}},
 [704]={{.918,.339,2}},
+[33]={{.367,.439,4622}}, -- Safely Delivered
 },
 stormhaven_base={
 [27]={{.803,.496,2},{.719,.53,2},{.408,.499,2},{.252,.283,2},{.475,.594,2},{.722,.426,2},{.579,.45,2},{.481,.397,2},{.705,.477,2},{.856,.486,2},{.353,.575,2},{.364,.384,2},{.376,.562,2},{.220,.522,2},{.272,.441,2},{.226,.283,2}},
@@ -4914,7 +4985,7 @@ local PortalsNames={
 [5]=Loc("Lava_Lashers"),
 [6]=Loc("Soul_Reaper")
 }
-local FILTER_COUNT=32 --Amount of filters
+local FILTER_COUNT=33 --Amount of filters
 local CustomPins={	--Types
 	[1]={name="pinType_Delve_bosses",done=false,id={},pin={},maxDistance=0.05,level=30,texture="/esoui/art/icons/poi/poi_groupboss_incomplete.dds",k=1.25},--tint=ZO_ColorDef:New(1,1,1,1),
 	[2]={name="pinType_Delve_bosses_done",done=true,id={},pin={},maxDistance=0.05,level=30,texture="/esoui/art/icons/poi/poi_groupboss_complete.dds",k=1.25},
@@ -5034,9 +5105,10 @@ local CustomPins={	--Types
 		[4456]={name="pinType_We_Were_Undaunted",done=false,ach=true,maxDistance=0.05,level=101,texture="/esoui/art/icons/u48_zone_flavor2.dds",k=1},
 		[4457]={name="pinType_The_Legend_of_Atlorn_the_Lost",done=false,ach=true,maxDistance=0.05,level=101,texture="/esoui/art/icons/u48_zone_flavor3.dds",k=1},
 		},
+	[33]={name="pinType_Dynamic_Encounter",id={},pin={},maxDistance=0.05,level=100,texture="/esoui/art/icons/mapkey/mapkey_dynamic_world_event.dds",k=1.2},
 	}
 local PinsAva={[1]=true,[2]=true,[3]=true,[4]=true,[5]=true,[6]=true,[7]=true,[8]=true,[17]=true,[21]=true}
-local PinsNirn={[1]=true,[2]=true,[3]=true,[4]=true,[5]=true,[6]=true,[7]=true,[8]=true,[9]=true,[10]=true,[11]=true,[12]=true,[13]=true,[14]=true,[15]=true,[16]=true,[17]=true,[18]=true,[19]=true,[20]=true,[22]=true,[23]=true,[24]=true,[25]=true,[27]=true,[28]=true,[29]=true,[30]=true,[31]=true,[32]=true}
+local PinsNirn={[1]=true,[2]=true,[3]=true,[4]=true,[5]=true,[6]=true,[7]=true,[8]=true,[9]=true,[10]=true,[11]=true,[12]=true,[13]=true,[14]=true,[15]=true,[16]=true,[17]=true,[18]=true,[19]=true,[20]=true,[22]=true,[23]=true,[24]=true,[25]=true,[27]=true,[28]=true,[29]=true,[30]=true,[31]=true,[32]=true,[33]=true}
 local PinsImperial={[3]=true,[5]=true,[7]=true,[8]=true,[17]=true,[26]=true}
 --	/script local name,_,_,icon=GetAchievementInfo(3295) CHAT_ROUTER:AddSystemMessage(icon)
 --	/script CHAT_ROUTER:AddSystemMessage(ZO_AchievementsContentsCategoriesScrollChildZO_IconHeader12Icon:GetTextureFileName())
@@ -5312,6 +5384,17 @@ local MapPinCallback={
 			if mapData then
 				for i1,pinData in pairs(mapData) do
 					customCreatePin(_G[CustomPins[i].name],{[1]=i,name=PortalsNames[pinData[3]]},pinData[1],pinData[2])
+				end
+			end
+		end
+	end,
+	[33]=function(i,subzone)--Dynamic Encounters
+		local mapData=Achievements[subzone]
+		if mapData then
+			mapData=mapData[i]
+			if mapData then
+				for i1,pinData in pairs(mapData) do
+					customCreatePin(_G[CustomPins[i].name],{[1]=i,name=Loc("Dynamic_Encounters")},pinData[1],pinData[2])
 				end
 			end
 		end
@@ -5958,7 +6041,7 @@ local PinTooltipCreator={
 		local name,desc,desc1,icon
 		if pinTag[1]==15 then
 			icon=CustomPins[15].texture
-			name="Time Rift"
+			name=Loc("Time_Rifts")
 		elseif (pinTag[1]==1 or pinTag[1]==2) and pinTag[4] then
 			name,desc,_,icon=GetAchievementInfo(pinTag[2])
 			desc1="  Set items:"
@@ -5971,17 +6054,9 @@ local PinTooltipCreator={
 			desc=zo_strformat("|t24:24:<<4>>|t <<1>>\n", GetAchievementInfo(873))--Lightbringer
 			..zo_strformat("|t24:24:<<4>>|t <<1>>\n", GetAchievementInfo(871))--Give to Poor
 			..zo_strformat("|t24:24:<<4>>|t <<1>>", GetAchievementInfo(869))--Crime Pays
-		elseif pinTag[1]==70 then
-			icon=CustomPins[70].texture
-			name=pinTag.name
-		elseif pinTag[1]==27 then	--Portals
+		-- Handles Portals, Dynamic Encounters and Imperial Pins
+		elseif pinTag[1]==27 or pinTag[1]==33 or pinTag[1]==70 or pinTag[1]==74 or pinTag[1]==76 then
 			icon=CustomPins[ pinTag[1] ].texture
-			name=pinTag.name
-		elseif pinTag[1]==74 then
-			icon=CustomPins[ pinTag[1] ].texture
-			name=pinTag.name
-		elseif pinTag[1]==76 then
-			icon=CustomPins[76].texture
 			name=pinTag.name
 		elseif pinTag[1]<=4 then	-- Tooltip for Bosses & Skyshards
 			name,desc,_,icon=GetAchievementInfo(pinTag[2])
