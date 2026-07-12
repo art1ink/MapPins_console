@@ -5105,7 +5105,7 @@ local CustomPins={	--Types
 		[4456]={name="pinType_We_Were_Undaunted",done=false,ach=true,maxDistance=0.05,level=101,texture="/esoui/art/icons/u48_zone_flavor2.dds",k=1},
 		[4457]={name="pinType_The_Legend_of_Atlorn_the_Lost",done=false,ach=true,maxDistance=0.05,level=101,texture="/esoui/art/icons/u48_zone_flavor3.dds",k=1},
 		},
-	[33]={name="pinType_Dynamic_Encounter",id={},pin={},maxDistance=0.05,level=100,texture="/esoui/art/icons/mapkey/mapkey_dynamic_world_event.dds",k=1.2},
+	[33]={name="pinType_Dynamic_Encounters",id={},pin={},maxDistance=0.05,level=100,texture="/esoui/art/icons/mapkey/mapkey_dynamic_world_event.dds",k=1.2},
 	}
 local PinsAva={[1]=true,[2]=true,[3]=true,[4]=true,[5]=true,[6]=true,[7]=true,[8]=true,[17]=true,[21]=true}
 local PinsNirn={[1]=true,[2]=true,[3]=true,[4]=true,[5]=true,[6]=true,[7]=true,[8]=true,[9]=true,[10]=true,[11]=true,[12]=true,[13]=true,[14]=true,[15]=true,[16]=true,[17]=true,[18]=true,[19]=true,[20]=true,[22]=true,[23]=true,[24]=true,[25]=true,[27]=true,[28]=true,[29]=true,[30]=true,[31]=true,[32]=true,[33]=true}
@@ -6076,7 +6076,7 @@ local PinTooltipCreator={
 			desc=pinTag.desc
 		elseif pinTag[1]==21 then
 			icon=CustomPins[21].texture
-			name="Volendrung spawn location"
+			name=Loc("Volendrung").." spawn location"
 		end
 		name=(pinTag[3] and "["..pinTag[3].."] " or "")..name
 		ZO_MapLocationTooltip_Gamepad:LayoutIconStringLine(ZO_MapLocationTooltip_Gamepad.tooltip, icon, zo_strformat("<<1>>", name), ZO_MapLocationTooltip_Gamepad.tooltip:GetStyle("mapLocationTooltipWayshrineHeader"))
