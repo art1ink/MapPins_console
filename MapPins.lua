@@ -4102,7 +4102,7 @@ blackreach_base={
 {.919,.455,13},	--Pan Flute of Morachellis 156807
 {.502,.358,14},	--Reman War Drum 156808
 {.275,.674,15}},	--Ateian Fife 160510
-[2959]={--Mining Sample Collector
+[2759]={--Mining Sample Collector
 {.482,.781,1},--Kelbarn's Mining Samples	7373
 {.073,.413,2},--Inguya's Mining Samples	7375
 {.622,.303,3},--Reeh-La's Mining Samples	7377
@@ -4445,7 +4445,7 @@ summerset_base={
 --Message in Bottle
 [2211]={{.366,.4,1},{.689,.539,1},{.247,.547,1},{.346,.445,1},{.273,.427,1},{.272,.508,1},{.732,.74,1},{.454,.73,1}},
 --A Book and its Cover
-[2271]={{.328,.487,5},{.513,.217,5},{.561,.288,5},{.22,.389,5},{.544,.235,5},{.652,.604,5},{.446,.468,5},{.549,.364,5},{0.297,0.3,5},{.626,.532,5}},
+[2171]={{.328,.487,5},{.513,.217,5},{.561,.288,5},{.22,.389,5},{.544,.235,5},{.652,.604,5},{.446,.468,5},{.549,.364,5},{0.297,0.3,5},{.626,.532,5}},
 [70]={{.397,.504,102,3}},--Alinor Allemande--Provided by remosito
 },
 shimmerene_base={
@@ -4556,7 +4556,7 @@ craglorn_base={{.177,.222,9},{.394,.383,9},{.242,.579,9},{.77,.687,9},{.654,.604
 }
 local PinManager,CompassPinManager
 local UpdatingMapPin,UpdatingCompassPin,PinId={},{},{}
-local SavedVars,DefaultVars={},{[1]=true,[2]=true,[3]=true,[4]=false,[5]=true,[6]=false,[7]=true,[8]=true,[9]=false,[10]=false,[11]=false,[12]=false,[13]=false,[14]=false,[15]=false,[16]=false,[17]=false,[18]=false,[19]=false,[21]=true,TimeBreachClosed={},Show={}}
+local SavedVars,DefaultVars={},{[1]=true,[2]=true,[3]=true,[4]=false,[5]=true,[6]=false,[7]=true,[8]=true,[9]=false,[10]=false,[11]=false,[12]=false,[13]=false,[14]=false,[15]=false,[16]=false,[17]=false,[18]=false,[19]=false,[21]=true,TimeBreachClosed={},Show={},ColorLore=false,AllFish=false}
 local SavedGlobal,DefaultGlobal={},{pinsize=20}
 local ChestsRange,ChestsLooted,LastZone,LastAchivement,PsijicSkillLine=.08,0,0,0,4
 local ChronoglerTablet={[6771]=1,[141719]=2,[141720]=3,[141721]=4,[141722]=5,[141723]=6,[141724]=7,[141725]=8,[141726]=9,[141728]=11,[141727]=10,[141729]=12}
@@ -5022,7 +5022,7 @@ local CustomPins={	--Types
 	[14]={section=true,name="Summerset",id={},pin={},texture="/esoui/art/treeicons/tutorial_idexicon_summerset_up.dds",	--"/esoui/art/icons/store_summerset_collectable.dds",
 		[2099]={name="pinType_Summerset_Relics",done=false,ach=true,maxDistance=0.05,level=101,texture="/esoui/art/icons/quest_strosmkai_open_treasure_chest.dds",k=1},
 		[2211]={name="pinType_Message_in_Bottle",done=false,ach=true,maxDistance=0.05,level=100,texture="/esoui/art/icons/crafting_stoneware_bottle_003.dds",k=1},
-		[2271]={name="pinType_Summerset_world_event",done=false,ach=true,maxDistance=0.05,level=101,texture="/esoui/art/miscellaneous/help_icon.dds",k=1.25,def_texture="/esoui/art/icons/achievement_su_rds_01.dds"},
+		[2171]={name="pinType_Summerset_world_event",done=false,ach=true,maxDistance=0.05,level=101,texture="/esoui/art/miscellaneous/help_icon.dds",k=1.25,def_texture="/esoui/art/icons/achievement_su_rds_01.dds"},
 		},
 	[15]={name="pinType_Time_Rifts",done=false,id={},pin={},maxDistance=0.05,level=101,texture="/"..AddonName.."/Treasure_1-2.dds",k=1.8},
 	[16]={name="pinType_Shrines",done=false,id={},pin={},maxDistance=0.05,level=101,texture="/esoui/art/icons/poi/poi_daedricruin_incomplete.dds",k=1.25},
@@ -5141,7 +5141,7 @@ local function GetSetDescription(setData)
 end
 
 local function GetFishingAchievement(subzone)
---	/script local AchName=GetAchievementCriterion(2295,7) CHAT_ROUTER:AddSystemMessage(AchName)
+	if SavedVars.AllFish then return {[1]=true,[2]=true,[3]=true,[4]=true,[5]=true} end
 	local id=FishingZones[subzone] or FishingZones[GetCurrentMapZoneIndex()]
 	if id then
 		local total={Lake=0,Foul=0,River=0,Salt=0,Oily=0,Mystic=0,Running=0}
@@ -5193,7 +5193,7 @@ local MapPinCallback={
 			for _, pinData in pairs(mapData) do
 				local AchName, iconLore, done=GetLoreBookInfo(1, pinData[3], pinData[4])
 				if done==CustomPins[i].done then
-					--CustomPins[i].texture = iconLore
+					if SavedVars.ColorLore then CustomPins[i].texture = iconLore end
 					customCreatePin(_G[CustomPins[i].name],{i,pinData[3], pinData[4]},pinData[1],pinData[2])
 				end
 			end
@@ -6027,6 +6027,59 @@ local function OnMapChanged()
 	end
 end
 
+local function SetPinSize(pinSize)
+	SavedGlobal.pinsize=pinSize
+	for i,id in pairs(PinId) do
+		if ZO_MapPin.PIN_DATA[id] and CustomPins[i].k then ZO_MapPin.PIN_DATA[id].size=pinSize*CustomPins[i].k end
+	end
+	PinManager:RefreshCustomPins()
+end
+local function CreateSettingMenu()
+	local LHAS = LibHarvensAddonSettings
+	if not LHAS then return end
+	local LHAS_Menu = LHAS:AddAddon("|c4B8BFEMap Pins|r")
+	LHAS_Menu:AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Pin Size \n Small <- -> Large",
+		tooltip = "Default: "..DefaultGlobal.pinsize,
+		default = DefaultGlobal.pinsize,
+        setFunction = function(value)
+           SetPinSize(value)
+        end,
+        getFunction = function()
+            return SavedGlobal.pinsize
+        end,
+        min = 16,
+        max = 40,
+        step = 1,
+    })
+	LHAS_Menu:AddSetting({
+        type = LHAS.ST_CHECKBOX,
+        label = "Show All Fish", 
+		tooltip = "When Off will only show fish you need to collect.",
+		default = DefaultVars.AllFish, 
+        setFunction = function(value)
+           SavedVars.AllFish = value
+		   PinManager:RefreshCustomPins(_G["pinType_Fishing_Nodes"])
+        end,
+        getFunction = function()
+            return SavedVars.AllFish
+        end,
+    })
+	LHAS_Menu:AddSetting({
+        type = LHAS.ST_CHECKBOX,
+        label = "Color Lorebooks", 
+		default = DefaultVars.ColorLore, 
+        setFunction = function(value)
+           SavedVars.ColorLore = value
+		   PinManager:RefreshCustomPins(_G["pinType_Lore_books"])
+        end,
+        getFunction = function()
+            return SavedVars.ColorLore
+        end,
+    })
+end
+
 local PinTooltipSupres={
 [7]=true,
 [16]=true,
@@ -6122,7 +6175,6 @@ local function CreateFilter()
 		end
 	end
 end
-
 local function OnLoad(eventCode,addonName)
 	if addonName~=AddonName then return end
 	EVENT_MANAGER:UnregisterForEvent(AddonName,EVENT_ADD_ON_LOADED)
@@ -6147,6 +6199,7 @@ local function OnLoad(eventCode,addonName)
 			if loadIndex==9 then
 				EVENT_MANAGER:UnregisterForUpdate(AddonName.."_DelayedVarLoading")
 				CreateFilter()
+				CreateSettingMenu()
 				AddPinFilter()
 				OnMapChanged()
 				CALLBACK_MANAGER:RegisterCallback("OnWorldMapChanged", OnMapChanged)
@@ -6175,30 +6228,6 @@ local function OnLoad(eventCode,addonName)
 		CHAT_ROUTER:AddSystemMessage(fileName .. '={' .. formattedCoords .. '},')
 end
 --	SLASH_COMMANDS["/mpdm"]=function() SavedGlobal.dm=not SavedGlobal.dm d("Map Pins developer mode is now "..(SavedGlobal.dm and "Enabled" or "Disabled")) end
-	local function SetPinSize(pinSize)
-		SavedGlobal.pinsize=pinSize
-		for i,id in pairs(PinId) do
-			if ZO_MapPin.PIN_DATA[id] and CustomPins[i].k then ZO_MapPin.PIN_DATA[id].size=pinSize*CustomPins[i].k end
-		end
-		PinManager:RefreshCustomPins()
-	end
-	if LibHarvensAddonSettings then
-	LibHarvensAddonSettings:AddAddon("MapPins Pin Size"):AddSetting({
-        type = LibHarvensAddonSettings.ST_SLIDER,
-        label = "Pin Size \n Small <- -> Large",
-		tooltip = "Default: "..DefaultGlobal.pinsize,
-		default = DefaultGlobal.pinsize,
-        setFunction = function(value)
-           SetPinSize(value)
-        end,
-        getFunction = function()
-            return SavedGlobal.pinsize
-        end,
-        min = 16,
-        max = 40,
-        step = 1
-    })
-	end
 	SLASH_COMMANDS["/pinsize"]=function(n)
 		n=tonumber(n)
 		if n and n>=16 and n<=40 then
@@ -6216,6 +6245,11 @@ end
 				SavedVars.Show[n]=true
 			end
 		end
+	end
+	SLASH_COMMANDS["/mpallfish"]=function()
+		SavedVars.AllFish = not SavedVars.AllFish 
+		d(tostring(SavedVars.AllFish))
+		PinManager:RefreshCustomPins(_G["pinType_Fishing_Nodes"])
 	end
 --[[	Helper scripts POI
 	SLASH_COMMANDS["/makebase"]=function()
