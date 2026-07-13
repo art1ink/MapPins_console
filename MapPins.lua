@@ -6037,7 +6037,7 @@ end
 local function CreateSettingMenu()
 	local LHAS = LibHarvensAddonSettings
 	if not LHAS then return end
-	local LHAS_Menu = LHAS:AddAddon("|c4B8BFEMap Pins|r")
+	local LHAS_Menu = LHAS:AddAddon("Map Pins Addon")
 	LHAS_Menu:AddSetting({
         type = LibHarvensAddonSettings.ST_SLIDER,
         label = "Pin Size \n Small <- -> Large",
