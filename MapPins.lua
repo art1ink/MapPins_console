@@ -823,14 +823,14 @@ u48_overland_base={--Seasons of the Worm Cult (Western and Eastern Solstice) by 
 {.659,.366,4461,7,579},--16
 {.619,.505,4461,8,580},--17
 {.724,.686,4461,9,587}},--18
-u48_base_calindvalegardenspd={{.367,.51,4461,6,574}},--15
-u46_base_lotwc={{.369,.792,4461,7,575}},--16
-u48_ssl_delve_base_1={{.205,.478,4461,8,576}},--17
-u48_delve_sithis_crest_01={{.797,.493,4461,9,577}},--18
-u46_base_cotp={{.401,.524,4405,1,569}},
-u46_base_sanguinehdlv={{.464,.604,4405,2,570}},
-u46_carapacecaverns_base={{.706,.785,4405,3,571}},
-u46_base_lostvillage={{.864,.463,4405,4,572}},
+u48_base_calindvalegardenspd={{.367,.51,4461,2,574}},--11
+u46_base_lotwc={{.369,.792,4461,3,575}},--12
+u48_ssl_delve_base_1={{.205,.478,4461,4,576}},--13
+u48_delve_sithis_crest_01={{.797,.493,4461,5,577}},--14
+u46_base_cotp={{.401,.524,4405,6,569}},
+u46_base_sanguinehdlv={{.464,.604,4405,7,570}},
+u46_carapacecaverns_base={{.706,.785,4405,8,571}},
+u46_base_lostvillage={{.864,.463,4405,9,572}},
 westwealdoverland_base={--Gold Road Provided by art1ink
 {.631,.647,3949,1,546},
 {.154,.561,3949,2,547},
@@ -1046,8 +1046,8 @@ tombofserpents_base={{.12,.359,2461,18,447}},
 predatorrise_base={{.631,.273,2461,14,443}},
 abodeofignominy_base={{.75,.788,2461,15,444}},
 desertwind_base={{.379,.845,2461,13,442}},
-thetangle_base={{.102,.613,2461,17,442}},
-thescab_base={{.56,.496,2461,16,441}},
+thetangle_base={{.102,.613,2461,17,446}},
+thescab_base={{.56,.496,2461,12,441}},
 stitches_base={{.618,.491,2461,5,434}},
 orcrestsewer_base={{.58,.586,2461,11,440}},
 orcrest_base={{.416,.584,2461,11,440}},
@@ -1236,12 +1236,12 @@ balamath_base={{.643,.575,727,9,330}},
 thaliasretreat_base={{.463,.292,727,10,331}},
 cryptoftarishzizone_base={{.830,.446,727,11,332}},
 hircineshaunt_base={{.329,.661,727,12,333}},
-serpentsnest_base={{.632,.507,912,13,334}},
-ilthagsundertower_base={{.370,.147,912,14,335}},
-lothna_base={{.416,.425,912,15,336}},
-howlingsepulchersoverland_base={{.528,.534,912,16,337}},
-fearfang_base={{.572,.510,912,17,338}},
-exarchsstronghold_base={{.626,.558,912,18,339}},
+serpentsnest_base={{.632,.507,912,1,334}},
+ilthagsundertower_base={{.370,.147,912,2,335}},
+lothna_base={{.416,.425,912,3,336}},
+howlingsepulchersoverland_base={{.528,.534,912,4,337}},
+fearfang_base={{.572,.510,912,5,338}},
+exarchsstronghold_base={{.626,.558,912,6,339}},
 ava_whole={-- Cyrodiil
 {.810,.167,692,1,276},-- Ebonheart
 {.887,.329,692,2,277},
@@ -1295,19 +1295,19 @@ muckvalleycavern_base={{.175,.696,692,12,287}},
 newtcave_base={{.380,.324,692,13,288}},
 quickwatercave_base={{.396,.549,692,14,289}},
 vahtacen_base={{.14,.78,692,15,290}},
-capstonecave_base={{.694,.134,693,25,300}},-- Daggerfall
-echocave_base={{.421,.227,693,26,301}},
-lipsandtarn_base={{.733,.196,693,27,302}},
-redrubycave_base={{.760,.291,693,28,303}},
-toadstoolhollowlower_base={{.40,.64,693,29,304}},
-toadstoolhollow_base={{.48,.53,693,30,305}},
-underpallcave_base={{.770,.441,693,31,306}},
-bloodmaynecave_base={{.153,.486,694,40,315}},-- Aldmeri
-breakneckcave_base={{.488,.242,694,41,316}},
-haynotecave_base={{.539,.186,694,42,317}},
-nisincave_base={{.194,.723,694,43,318}},
-potholecavern_base={{.60,.45,694,44,319}},
-serpenthollowcave_base={{.257,.637,694,45,320}},
+capstonecave_base={{.694,.134,693,10,300}},-- Daggerfall
+echocave_base={{.421,.227,693,11,301}},
+lipsandtarn_base={{.733,.196,693,12,302}},
+redrubycave_base={{.760,.291,693,13,303}},
+toadstoolhollowlower_base={{.40,.64,693,14,304}},
+toadstoolhollow_base={{.48,.53,693,15,305}},
+underpallcave_base={{.770,.441,694,1,306}},
+bloodmaynecave_base={{.153,.486,694,10,315}},-- Aldmeri
+breakneckcave_base={{.488,.242,694,11,316}},
+haynotecave_base={{.539,.186,694,12,317}},
+nisincave_base={{.194,.723,694,13,318}},
+potholecavern_base={{.60,.45,694,14,319}},
+serpenthollowcave_base={{.257,.637,694,15,320}},
 wailingprison1_base={{34,-2,2521,1,259}},
 imperialcity_base={{.611,.637,1160,1,340},{.839,.381,1160,2,341},{.393,.360,1160,3,342},{.415,.346,1160,4,343},{.158,.541,1160,5,344},{.467,.671,1160,6,345}},-- Imperial City
 imperialsewers_ebon1_base={{.447,.330,1160,7,346},{.414,.402,1160,8,347},{.9,.621,1160,9,348},{.754,.550,1160,10,349},{.197,.631,1160,11,350},{.320,.557,1160,12,351},{.525,.548,1160,13,352}},
@@ -1605,7 +1605,7 @@ bleakrock_base={-- Bleakrock Isle
 {.774,.438,398,1,1},
 {.498,.225,398,2,2},
 {.278,.402,398,3,3}},
-hozzinsfolley_base={{.329,.809,398,3,2}},
+hozzinsfolley_base={{.329,.809,398,2,2}},
 stormhaven_base={-- Stormhaven
 {.150,.348,515,1,195},
 {.220,.203,515,2,196},
@@ -1733,7 +1733,7 @@ nchuleftingth3_base={{.901,.444,1843,11,392}},
 nchuleftingth4_base={{.721,.39,1843,11,392}},
 nchuleftingth5_base={{.309,.595,1843,11,392}},
 cavernsofkogoruhnfw03_base={{.400,.442,1843,12,393}},
-khartagpoint_base={{.608,.461,1843,13,397}},
+khartagpoint_base={{.608,.461,1843,13,394}},
 ashalmawia02_base={{.336,.931,1843,14,395}},
 zainsipilu_base={{.778,.255,1843,15,396}},
 matusakin_base={{.531,.732,1843,16,397}},
