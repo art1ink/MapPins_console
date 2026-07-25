@@ -13,7 +13,9 @@ local function Loc(string)
 	return Localization[lang][string] or Localization[lang]["en"] or string
 end
 --Data base
-local Bosses={
+local Bosses
+local function Load_Bosses()
+Bosses={
 u48_base_calindvalegardenspd={
 {.557,.575,4471},--Brooding Infernium (Group Event)
 {.452,.762,4472,1},--Stone Raiser
@@ -360,8 +362,11 @@ khartagpoint_base={{.757,.195,1858,1}},
 ashalmawia02_base={{.349,.315,1859,1}},
 hallsofregulation_2_base={{.728,.402,2016,1}},
 }
+end
 local BossesAchievements={[4472]=true,[4471]=true,[4272]=true,[4271]=true,[4265]=true,[4264]=true,[4262]=true,[4261]=true,[4260]=true,[4259]=true,[4258]=true,[4257]=true,[4003]=true,[4002]=true,[4001]=true,[4000]=true,[3959]=true,[3958]=true,[3957]=true,[3956]=true,[3955]=true,[3954]=true,[3660]=true,[3659]=true,[3658]=true,[3657]=true,[3625]=true,[3624]=true,[3623]=true,[3622]=true,[3621]=true,[3620]=true,[3548]=true,[3490]=true,[3489]=true,[3284]=true,[3283]=true,[3282]=true,[3281]=true,[3280]=true,[3279]=true,[3278]=true,[3277]=true,[3276]=true,[3275]=true,[3197]=true,[3136]=true,[3135]=true,[3076]=true,[2997]=true,[2996]=true,[2995]=true,[2994]=true,[2971]=true,[2853]=true,[2852]=true,[2718]=true,[2717]=true,[2715]=true,[2714]=true,[2644]=true,[2643]=true,[2642]=true,[2641]=true,[2640]=true,[2639]=true,[2558]=true,[2557]=true,[2445]=true,[2444]=true,[2443]=true,[2442]=true,[2441]=true,[2440]=true,[2401]=true,[2400]=true,[2399]=true,[2398]=true,[2397]=true,[2396]=true,[2287]=true,[2286]=true,[2182]=true,[2181]=true,[2096]=true,[2095]=true,[2017]=true,[2016]=true,[2007]=true,[1863]=true,[1862]=true,[1861]=true,[1860]=true,[1859]=true,[1858]=true,[1857]=true,[1856]=true,[1855]=true,[1854]=true,[1846]=true,[1691]=true,[1523]=true,[1427]=true,[1426]=true,[1425]=true,[1356]=true,[1355]=true,[1302]=true,[1301]=true,[1300]=true,[1299]=true,[1298]=true,[1297]=true,[1239]=true,[1238]=true,[1236]=true,[1235]=true,[1064]=true,[1063]=true,[1062]=true,[1061]=true,[1059]=true,[1058]=true,[1057]=true,[1056]=true,[1055]=true,[1054]=true,[1053]=true,[1052]=true,[1051]=true,[1050]=true,[1049]=true,[901]=true,[900]=true,[899]=true,[898]=true,[897]=true,[896]=true,[895]=true,[894]=true,[893]=true,[892]=true,[891]=true,[890]=true,[889]=true,[888]=true,[887]=true,[886]=true,[885]=true,[884]=true,[874]=true,[747]=true,[746]=true,[745]=true,[744]=true,[743]=true,[742]=true,[741]=true,[740]=true,[739]=true,[738]=true,[737]=true,[736]=true,[735]=true,[734]=true,[733]=true,[732]=true,[731]=true,[730]=true,[714]=true,[713]=true,[708]=true,[707]=true,[578]=true,[577]=true,[576]=true,[575]=true,[574]=true,[573]=true,[567]=true,[559]=true,[558]=true,[555]=true,[553]=true,[550]=true,[544]=true,[543]=true,[542]=true,[541]=true,[540]=true,[539]=true,[470]=true,[469]=true,[468]=true,[460]=true,[458]=true,[457]=true,[456]=true,[455]=true,[454]=true,[453]=true,[445]=true,[437]=true,[436]=true,[435]=true,[434]=true,[433]=true,[432]=true,[423]=true,[420]=true,[419]=true,[416]=true,[414]=true,[412]=true,[396]=true,[390]=true,[388]=true,[381]=true,[380]=true,[379]=true,[378]=true,[377]=true,[376]=true,[374]=true,[372]=true,[371]=true,[370]=true,[368]=true,[334]=true,[333]=true,[332]=true,[331]=true,[330]=true,[329]=true,[300]=true,[298]=true,[297]=true,[293]=true,[292]=true,[291]=true,[290]=true,[289]=true,[288]=true,[286]=true,[282]=true,[281]=true,[274]=true,[269]=true,[268]=true,[267]=true,[266]=true,[265]=true,[264]=true,[256]=true,[255]=true,[254]=true,[253]=true,[252]=true,[251]=true,[250]=true,[249]=true,[248]=true,[247]=true,[246]=true,[245]=true,[232]=true,[231]=true,[230]=true,[229]=true,[228]=true,[227]=true,[226]=true,[225]=true,[224]=true,[223]=true,[222]=true,[221]=true,[220]=true,[219]=true,[218]=true,[217]=true,[216]=true,[215]=true,[208]=true,[207]=true,[206]=true,[205]=true,[203]=true,[202]=true,}
-local SkyShards={
+local SkyShards
+local function Load_SkyShards()
+SkyShards={
 blackreach_base={
 {.767,.370,2687,16,469},
 {.084,.366,2687,18,471},
@@ -756,10 +761,13 @@ alikr_base={
 {.222,.568,556,14,240},
 {.901,.521,556,15,241}},
 }
+end
 local SkyShardsAchievements={[4461]=true,[4405]=true,[3949]=true,[3672]=true,[3499]=true,[3270]=true,[3140]=true,[2982]=true,[2857]=true,[2687]=true,[2562]=true,[2521]=true,[2461]=true,[2291]=true,[556]=true,[695]=true,[405]=true,[557]=true,[408]=true,[398]=true,[686]=true,[727]=true,[912]=true,[694]=true,[693]=true,[692]=true,[547]=true,[688]=true,[409]=true,[682]=true,[683]=true,[431]=true,[684]=true,[748]=true,[685]=true,[554]=true,[687]=true,[397]=true,[515]=true,[407]=true,[689]=true,[1160]=true,[1320]=true,[1347]=true,[1342]=true,[1843]=true,[1844]=true,[1845]=true}
 local SkyshardZoneAchievements={[3]={409},[19]={515},[20]={554},[41]={397},[57]={547},[58]={684},[92]={557},[101]={688},[103]={689},[104]={556},[108]={683},[117]={687},[181]={692,693,694,748},[280]={398},[281]={405},[347]={686},[381]={695},[382]={685},[383]={682},[534]={407},[535]={408},[537]={431},[584]={1160},[684]={1320},[726]={2291},[809]={2521},[816]={1347},[823]={1342},[849]={1843},[888]={727,912},[980]={1844},[1011]={1845},[1086]={2461},[1133]={2562},[1160]={2687},[1207]={2857},[1261]={2982},[1286]={3140},[1318]={3270},[1383]={3499},[1413]={3672},[1443]={3949},[1502]={4405,4461},}
 local dumbSkyshardFix={[1161]=1160,[1208]=1207,[1414]=1413,[1027]=1011,[1282]=1286,}
-local Lorebooks={
+local Lorebooks
+local function Load_Lorebooks()
+Lorebooks={
 u48_overland_base={--Solstice. Provided by art1ink
 {.759,.302,16,9},--Sithis
 {.506,.613,25,3},--The Lay of Firsthold
@@ -1128,7 +1136,10 @@ vvardenfell_base={{.404,.809,20,3},{.882,.612,20,3},{.34,.528,20,3},{.502,.244,8
 --["coldharbour"]={{.683,.806}},
 hewsbane_base={{.382,.595,11,3},{.446,.592,18,5}},
 }
-local TreasureMaps={
+end
+local TreasureMaps
+local function Load_TreasureMaps()
+TreasureMaps={
 u48_overland_base={--Provided by Gamer1986PAN
 {.330,.572,217926},--Solstice Treasure Map I
 {.396,.767,217927},--Solstice Treasure Map II
@@ -1308,7 +1319,10 @@ vvardenfell_base={
 {.44,.243,126122,1},{.841,.731,126111,1},{.672,.627,126110,1},{.291,.323,126113,1},{.337,.774,126112,1},{.662,.528,43743},{.634,.700,43744},{.283,.571,43745},{.666,.872,43737},{.755,.315,43738},{.197,.430,43739},{.448,.693,43740},{.564,.256,43741},{.668,.719,43742},{.441,.244,12612,1},{.841,.731,12611,1},{.290,.325,12611,1},{.671,.626,12611,1},{.336,.773,12611,1},{.174,.409,139444,4}},
 clockwork_base={{.181,.597,43746},{.803,.424,43747}},
 }
-local UnknownPOI={
+end
+local UnknownPOI
+local function Load_UnknownPOI()
+UnknownPOI={
 [1502]={--Seasons of the Worm Cult
 [51]={215492,5},
 [74]={215112,3},
@@ -1558,6 +1572,7 @@ local UnknownPOI={
 [2]={155888,6},
 },
 }
+end
 --function ShowPoiIcons()for i,icon in pairs(UnknownPOItexture) do d("["..i.."]|t26:26:"..icon.."|t")end end
 local MundusDescription={
 [13940]="Increases Weapon Damage",
@@ -1574,7 +1589,9 @@ local MundusDescription={
 [13984]="Increases Critical Strike damage",
 [13985]="Increases Maximum Stamina",
 }
-local ChestData={
+local ChestData
+local function Load_ChestData()
+ChestData={
 --anvilcity={[1]={{.906,.060}},[2]={{.399,.413},{.463,.197},{.834,.371},{.464,.330},{.208,.237},{.580,.559},{.468,.365},{.531,.194},{.324,.162},{.363,.503},{.327,.489}}},
 ["aba-loria_base"]={
 [1]={{.339,.543},{.149,.472},{.602,.205},{.248,.588},{.438,.297},{.880,.542},{.445,.302},{.782,.630},{.674,.720},{.785,.637},{.160,.471},{.495,.447},{.096,.305},{.125,.398},{.780,.586},{.237,.755},{.256,.579},{.234,.835},{.674,.558},{.419,.865},{.682,.557},{.601,.213},{.348,.226},{.775,.642},{.162,.461},{.346,.545},{.592,.387},{.118,.396},{.232,.760},{.888,.544},{.397,.160},{.346,.550},{.102,.314},{.400,.153},{.749,.568},{.888,.537},{.478,.446},{.104,.300},{.775,.576},{.438,.313},{.757,.573}}},
@@ -2818,9 +2835,12 @@ zainsipilu_base={
 zthenganaz_base={
 [1]={{.749,.683},{.152,.169},{.511,.547},{.753,.675},{.629,.848},{.746,.683},{.571,.489},{.335,.396},{.195,.732},{.604,.523},{.770,.425},{.327,.396},{.467,.745},{.159,.165},{.629,.320},{.778,.255},{.506,.549},{.857,.430},{.257,.650},{.444,.851},{.283,.343},{.637,.346},{.520,.850},{.635,.696},{.204,.187},{.452,.853},{.782,.246},{.570,.499},{.531,.849},{.631,.689}}},
 }
+end
 local CustomChestData,CustomThievesTrove={},{}
 local PoiData={}
-local Achievements={
+local Achievements
+local function Load_Achievements()
+Achievements={
 imperialsewers_aldmeri1_base={--Cunning Scamp Exterminator and Trove Scamp Exterminator	Provided by art1ink.
 [1270]={{.846,.653},{.895,.659},{.894,.626},{.815,.655},{.882,.67},{.871,.636},{.701,.513},{.73,.504},{.706,.543},{.718,.554},{.735,.567},{.761,.572},{.774,.568},{.784,.588},{.774,.597},{.756,.59},{.732,.589}},
 [1272]={{.846,.653},{.895,.659},{.894,.626},{.815,.655},{.882,.67},{.871,.636},{.701,.513},{.73,.504},{.706,.543},{.718,.554},{.735,.567},{.761,.572},{.774,.568},{.784,.588},{.774,.597},{.756,.59},{.732,.589}}},
@@ -3473,6 +3493,7 @@ brassfortress_base={
 bthanual_base={
 [1958]={{.518,.464,14}}},	--Staff
 }
+end
 --[[	Unwanted achievements
 marchodsacrifices_base={{.76,.554},{.737,.5},{.759,.554}},	--Behemoth Sigil
 southernelsweyr_base={	--Topal Corsair
@@ -3596,7 +3617,9 @@ local FishIcon={
 	[3]="/esoui/art/icons/crafting_fishing_merringar.dds",	--Salt
 	[4]="/esoui/art/icons/crafting_fishing_perch.dds"	--Lake
 	}
-local FishingNodes={
+local FishingNodes
+local function Load_FishingNodes()
+FishingNodes={
 alcairecastle_base={{.552,.523,4},{.675,.656,2},{.74,.725,2},{.836,.796,2}},
 aldcroft_base={{.368,.229,2},{.432,.544,4},{.622,.114,2},{.722,.792,3},{.723,.609,3},{.805,.475,3}},
 alikr_base={{.098,.519,3},{.112,.469,3},{.112,.476,3},{.125,.469,3},{.126,.493,3},{.137,.48,3},{.174,.455,3},{.176,.445,3},{.184,.437,3},{.191,.434,3},{.197,.434,3},{.198,.442,3},{.213,.445,3},{.216,.407,3},{.22,.444,3},{.229,.442,3},{.231,.404,3},{.249,.389,3},{.263,.388,3},{.274,.361,3},{.282,.393,3},{.302,.409,3},{.319,.421,3},{.328,.387,3},{.329,.415,3},{.33,.387,3},{.334,.377,3},{.338,.445,4},{.343,.401,3},{.364,.394,3},{.404,.637,4},{.404,.629,4},{.408,.631,4},{.42,.622,4},{.424,.618,4},{.429,.533,1},{.43,.577,4},{.445,.515,1},{.445,.544,1},{.497,.346,3},{.529,.345,3},{.572,.28,3},{.597,.272,3},{.61,.604,1},{.622,.615,1},{.744,.571,1},{.856,.557,1},{.865,.547,1}},
@@ -3736,6 +3759,7 @@ windhelm_base={{.787,.54,3},{.79,.447,3},{.833,.558,3},{.861,.504,3},{.866,.416,
 woodhearth_base={{.1,.46,3},{.224,.556,3},{.309,.067,1},{.345,.666,3},{.376,.532,3},{.405,.787,3},{.441,.527,3},{.518,.604,4},{.531,.935,3},{.595,.806,3},{.696,.866,3},{.767,.98,3}},
 wrothgar_base={{.194,.673,3},{.195,.772,4},{.198,.678,3},{.203,.789,2},{.203,.785,4},{.224,.798,4},{.225,.674,3},{.237,.779,4},{.238,.674,3},{.239,.667,3},{.244,.765,2},{.244,.818,4},{.249,.75,2},{.255,.826,4},{.262,.694,3},{.271,.669,3},{.28,.657,3},{.292,.686,3},{.306,.693,3},{.307,.67,3},{.318,.626,3},{.32,.654,3},{.321,.665,3},{.322,.6,3},{.322,.678,3},{.324,.641,3},{.326,.618,3},{.336,.679,2},{.337,.578,3},{.339,.644,2},{.339,.599,2},{.34,.734,4},{.341,.721,4},{.345,.747,4},{.346,.614,2},{.355,.568,3},{.356,.723,4},{.358,.631,2},{.361,.654,2},{.361,.849,1},{.367,.555,3},{.369,.652,2},{.373,.71,4},{.38,.559,3},{.384,.672,4},{.385,.547,3},{.386,.693,4},{.387,.515,3},{.39,.705,4},{.393,.522,3},{.394,.685,4},{.395,.542,3},{.403,.5,3},{.404,.549,2},{.407,.489,3},{.407,.552,2},{.407,.518,2},{.408,.729,1},{.414,.728,1},{.415,.498,3},{.418,.482,3},{.426,.75,1},{.428,.5,2},{.43,.523,2},{.431,.763,1},{.433,.752,1},{.442,.495,2},{.443,.771,1},{.444,.482,3},{.456,.791,1},{.457,.785,1},{.458,.781,1},{.46,.521,2},{.462,.787,1},{.464,.786,1},{.477,.443,3},{.482,.437,3},{.49,.436,3},{.49,.512,2},{.499,.424,3},{.499,.512,4},{.509,.407,3},{.522,.419,3},{.522,.391,3},{.526,.522,4},{.533,.43,4},{.533,.462,2},{.534,.419,3},{.535,.332,4},{.535,.364,4},{.536,.514,2},{.544,.373,4},{.545,.542,2},{.545,.555,2},{.547,.512,2},{.549,.4,3},{.551,.493,2},{.553,.412,4},{.556,.581,2},{.56,.391,4},{.563,.402,4},{.563,.417,4},{.564,.383,4},{.564,.383,4},{.568,.393,4},{.569,.424,4},{.572,.373,4},{.576,.638,2},{.584,.677,2},{.592,.655,2},{.598,.658,2},{.615,.656,2},{.618,.66,2},{.636,.662,2},{.644,.569,4},{.649,.547,4},{.651,.563,4},{.696,.685,2},{.714,.682,2},{.741,.355,2},{.754,.366,2},{.758,.306,2},{.76,.473,2},{.765,.487,2},{.765,.461,2},{.769,.415,2},{.77,.431,2},{.773,.393,2},{.781,.497,2},{.785,.499,2},{.79,.539,2},{.791,.504,2},{.791,.519,2},{.8,.565,2},{.804,.56,2},{.809,.555,2},{.819,.337,2},{.822,.342,2},{.827,.409,2},{.83,.559,2},{.834,.563,2},{.834,.411,2},{.835,.488,2},{.84,.564,2},{.849,.479,2},{.867,.539,2},{.869,.548,2},{.874,.47,2}}
 }
+end
 local FishingZones={
 	[2]=471,--Glenumbra
 	[4]=472,--Stormhaven
@@ -5211,15 +5235,31 @@ local function OnLoad(eventCode,addonName)
 	SavedGlobal=ZO_SavedVars:NewAccountWide("MP_SavedGlobal",1,nil,DefaultGlobal)
 	PinManager=ZO_WorldMap_GetPinManager()
 	if not SavedVars.Show then SavedVars.Show={} end
-	
-	CreateFilter()		-- Setup/Call AddCustomPin for filters
-	CreateSettingMenu()	-- Create LHAS Settings Menu
-	AddPinFilter()		-- Added out filters to the filter controls
-	
-	zo_callLater(RegisterEvents,100)	-- setup the events that need fire
-	
-	OnMapChanged()		
-	CALLBACK_MANAGER:RegisterCallback("OnWorldMapChanged", OnMapChanged)
+	zo_callLater(function()
+		local loadIndex=0
+		EVENT_MANAGER:RegisterForUpdate(AddonName.."_DelayedVarLoading", 5, function()
+			loadIndex=loadIndex+1
+			if loadIndex==1 then Load_Bosses() return end
+			if loadIndex==2 then Load_SkyShards() return end
+			if loadIndex==3 then Load_Lorebooks() return end
+			if loadIndex==4 then Load_TreasureMaps() return end
+			if loadIndex==5 then Load_UnknownPOI() return end
+			if loadIndex==6 then Load_ChestData() return end
+			if loadIndex==7 then Load_Achievements() return end
+			if loadIndex==8 then Load_FishingNodes() return end
+			if loadIndex==9 then
+				EVENT_MANAGER:UnregisterForUpdate(AddonName.."_DelayedVarLoading")
+				CreateFilter()		-- Setup/Call AddCustomPin for filters
+				CreateSettingMenu()	-- Create LHAS Settings Menu
+				AddPinFilter()		-- Added out filters to the filter controls
+				OnMapChanged()
+				CALLBACK_MANAGER:RegisterCallback("OnWorldMapChanged", OnMapChanged)
+				RegisterEvents()	-- setup the events that need fire
+				return
+			end
+		end)
+
+	end,250)
 	
 	SLASH_COMMANDS["/loc"]=function()
 		local x,y=GetMapPlayerPosition("player")
