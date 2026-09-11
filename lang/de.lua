@@ -32,7 +32,7 @@ MapPins_Localization["de"] = {--provided by Neverlands 1.98
 		Thieves_guild="Diebesgilde",
 		Morrowind="Morrowind",
 		Clockwork_City="Stadt der Uhrwerke",
-		Summerset="Schatzkarte",	
+		Summerset="Sommersend",	
 		Murkmire="Trübmoor",
 		Elsweyr="Elsweyr",
 		Greymoor="Greymoor",
@@ -42,5 +42,5 @@ MapPins_Localization["de"] = {--provided by Neverlands 1.98
 		Firesong="Feuersang",
 		Necrom="Nekrom",
 		Gold_Road="Goldstraße",
-		Seasons_of_the_Worm_Cult="Saisons Des Wurmkults",
+		Seasons_of_the_Worm_Cult="Saisons des Wurmkults",
 		}
