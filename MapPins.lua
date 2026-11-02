@@ -770,8 +770,8 @@ alikr_base={
 {.901,.521,556,15,241}},
 }
 end
-local SkyShardsAchievements={[4657]=true,[4461]=true,[4405]=true,[3949]=true,[3672]=true,[3499]=true,[3270]=true,[3140]=true,[2982]=true,[2857]=true,[2687]=true,[2562]=true,[2521]=true,[2461]=true,[2291]=true,[556]=true,[695]=true,[405]=true,[557]=true,[408]=true,[398]=true,[686]=true,[727]=true,[912]=true,[694]=true,[693]=true,[692]=true,[547]=true,[688]=true,[409]=true,[682]=true,[683]=true,[431]=true,[684]=true,[748]=true,[685]=true,[554]=true,[687]=true,[397]=true,[515]=true,[407]=true,[689]=true,[1160]=true,[1320]=true,[1347]=true,[1342]=true,[1843]=true,[1844]=true,[1845]=true}
-local SkyshardZoneAchievements={[3]={409},[19]={515},[20]={554},[41]={397},[57]={547},[58]={684},[92]={557},[101]={688},[103]={689},[104]={556},[108]={683},[117]={687},[181]={692,693,694,748},[280]={398},[281]={405},[347]={686},[381]={695},[382]={685},[383]={682},[534]={407},[535]={408},[537]={431},[584]={1160},[684]={1320},[726]={2291},[809]={2521},[816]={1347},[823]={1342},[849]={1843},[888]={727,912},[980]={1844},[1011]={1845},[1086]={2461},[1133]={2562},[1160]={2687},[1207]={2857},[1261]={2982},[1286]={3140},[1318]={3270},[1383]={3499},[1413]={3672},[1443]={3949},[1502]={4405,4461},[1533]={4657},}
+local SkyShardsAchievements={[4767]=true,[4657]=true,[4461]=true,[4405]=true,[3949]=true,[3672]=true,[3499]=true,[3270]=true,[3140]=true,[2982]=true,[2857]=true,[2687]=true,[2562]=true,[2521]=true,[2461]=true,[2291]=true,[556]=true,[695]=true,[405]=true,[557]=true,[408]=true,[398]=true,[686]=true,[727]=true,[912]=true,[694]=true,[693]=true,[692]=true,[547]=true,[688]=true,[409]=true,[682]=true,[683]=true,[431]=true,[684]=true,[748]=true,[685]=true,[554]=true,[687]=true,[397]=true,[515]=true,[407]=true,[689]=true,[1160]=true,[1320]=true,[1347]=true,[1342]=true,[1843]=true,[1844]=true,[1845]=true}
+local SkyshardZoneAchievements={[3]={409},[19]={515},[20]={554},[36]={4767},[41]={397},[57]={547},[58]={684},[92]={557},[101]={688},[103]={689},[104]={556},[108]={683},[117]={687},[181]={692,693,694,748},[280]={398},[281]={405},[347]={686},[381]={695},[382]={685},[383]={682},[534]={407},[535]={408},[537]={431},[584]={1160},[684]={1320},[726]={2291},[809]={2521},[816]={1347},[823]={1342},[849]={1843},[888]={727,912},[980]={1844},[1011]={1845},[1086]={2461},[1133]={2562},[1160]={2687},[1207]={2857},[1261]={2982},[1286]={3140},[1318]={3270},[1383]={3499},[1413]={3672},[1443]={3949},[1502]={4405,4461},[1533]={4657},}
 local dumbSkyshardFix={[1161]=1160,[1208]=1207,[1414]=1413,[1027]=1011,[1282]=1286,}
 local Lorebooks
 local function Load_Lorebooks()
@@ -3778,6 +3778,7 @@ u48_overland_base_west={
 {.285,.48,1},{.289,.484,1},{.295,.48,1},{.385,.453,1},{.444,.713,1},{.451,.522,1},{.452,.694,1},{.456,.692,1},{.456,.7,1},{.456,.524,1},{.475,.531,1},{.476,.53,1},{.501,.527,1},
 {.256,.676,3},{.26,.46,3},{.265,.465,3},{.268,.529,3},{.27,.656,3},{.272,.707,3},{.273,.446,3},{.276,.489,3},{.281,.505,3},{.282,.554,3},{.284,.512,3},{.286,.62,3},{.291,.713,3},{.292,.644,3},{.298,.439,3},{.298,.574,3},{.309,.732,3},{.311,.598,3},{.322,.637,3},{.324,.443,3},{.331,.66,3},{.337,.389,3},{.344,.761,3},{.347,.632,3},{.351,.658,3},{.375,.626,3},{.378,.654,3},{.379,.415,3},{.383,.639,3},{.384,.764,3},{.394,.384,3},{.403,.416,3},{.414,.771,3},{.42,.367,3},{.432,.746,3},{.433,.432,3},{.435,.385,3},{.436,.491,3},{.437,.773,3},{.462,.766,3},{.473,.41,3},{.48,.468,3},{.502,.766,3},{.528,.759,3},{.544,.762,3},{.552,.727,3},{.57,.76,3},{.58,.721,3},{.599,.733,3},
 {.393,.617,4},{.397,.598,4},{.398,.714,4},{.401,.561,4},{.406,.573,4},{.407,.619,4},{.408,.586,4},{.418,.614,4},{.43,.582,4},{.436,.565,4},{.436,.558,4},{.438,.545,4},{.438,.575,4},{.442,.535,4},{.444,.563,4},{.448,.568,4},{.454,.54,4},{.456,.594,4},{.464,.545,4},{.477,.594,4},{.479,.571,4},{.491,.592,4},{.506,.556,4},{.507,.567,4},{.509,.634,4},{.512,.599,4},{.517,.603,4},{.522,.622,4},{.545,.532,4},{.579,.615,4}},
+u51_jerallpass_base={{.303,.373,2},{.317,.396,2},{.343,.389,2},{.366,.401,2},{.355,.354,1},{.357,.334,1},{.538,.368,4},{.626,.52,2},{.66,.552,4},{.688,.472,1},{.722,.457,1},{.688,.472,1},{.756,.47,1},{.79,.521,2},{.837,.521,2},{.728,.562,2},{.497,.337,4},{.416,.442,4},{.394,.432,4},{.544,.631,2},{.457,.683,2},{.447,.647,4},{.426,.621,4},{.208,.338,4},{.203,.308,4},{.385,.615,4},{.529,.695,2},},
 velynharbor_base={{.226,.616,3},{.247,.687,3},{.266,.38,3},{.284,.789,3},{.429,.237,3},{.482,.145,1},{.505,.543,3},{.511,.366,3},{.555,.288,1},{.646,.097,1},{.733,.238,3},{.804,.191,3}},
 villageofthelost_base={{.199,.467,1},{.213,.528,1},{.355,.275,1},{.388,.764,1},{.42,.635,1},{.453,.472,1},{.771,.396,1}},
 vulkhelguard_base={{.356,.714,3},{.363,.704,3},{.497,.705,3},{.572,.646,3},{.671,.623,3},{.784,.771,3},{.838,.732,3}},
@@ -3802,6 +3803,7 @@ local FishingZones={
 	[2]=471,--Glenumbra
 	[4]=472,--Stormhaven
 	[5]=473,--Rivenspire
+	[8]=4766,--Jerall
 	[9]=477,--Stonefalls
 	[10]=478,--Deshaan
 	[11]=486,--Malabal Tor
@@ -3862,7 +3864,7 @@ local FishingZones={
 	u48_overland_base_west=4404,
 	u48_overland_base_east=4460,
 }
-local FishingAchievements={[471]=true,[472]=true,[473]=true,[474]=true,[475]=true,[477]=true,[478]=true,[479]=true,[480]=true,[481]=true,[483]=true,[484]=true,[485]=true,[486]=true,[487]=true,[489]=true,[490]=true,[491]=true,[492]=true,[493]=true,[916]=true,[1186]=true,[1339]=true,[1340]=true,[1351]=true,[1431]=true,[1882]=true,[2191]=true,[2240]=true,[2295]=true,[2412]=true,[2566]=true,[2655]=true,[2861]=true,[2981]=true,[3144]=true,[3269]=true,[3500]=true,[3636]=true,[3948]=true,[4404]=true,[4460]=true}
+local FishingAchievements={[471]=true,[472]=true,[473]=true,[474]=true,[475]=true,[477]=true,[478]=true,[479]=true,[480]=true,[481]=true,[483]=true,[484]=true,[485]=true,[486]=true,[487]=true,[489]=true,[490]=true,[491]=true,[492]=true,[493]=true,[916]=true,[1186]=true,[1339]=true,[1340]=true,[1351]=true,[1431]=true,[1882]=true,[2191]=true,[2240]=true,[2295]=true,[2412]=true,[2566]=true,[2655]=true,[2861]=true,[2981]=true,[3144]=true,[3269]=true,[3500]=true,[3636]=true,[3948]=true,[4404]=true,[4460]=true,[4691]=true,[4766]=true}
 local FishingBugFix={[473]={[3]="River"},[2027]={[8]="Oily"},[472]={[1]="Foul"}}
 local Volendrung={ava_whole={
 --ALLIANCE_ALDMERI_DOMINION
@@ -4155,6 +4157,7 @@ local CustomPins={	--Types
 local PinsAva={[1]=true,[2]=true,[3]=true,[4]=true,[5]=true,[6]=true,[7]=true,[8]=true,[17]=true,[21]=true}
 local PinsNirn={[1]=true,[2]=true,[3]=true,[4]=true,[5]=true,[6]=true,[7]=true,[8]=true,[9]=true,[10]=true,[11]=true,[12]=true,[13]=true,[14]=true,[15]=true,[16]=true,[17]=true,[18]=true,[19]=true,[20]=true,[22]=true,[23]=true,[24]=true,[25]=true,[27]=true,[28]=true,[29]=true,[30]=true,[31]=true,[32]=true,[33]=true}
 local PinsImperial={[3]=true,[5]=true,[7]=true,[8]=true,[17]=true,[26]=true}
+local PinsJerall={[3]=true,[4]=true,[5]=true,[6]=true,[7]=true,[8]=true,[17]=true}
 --	/script local name,_,_,icon=GetAchievementInfo(3295) CHAT_ROUTER:AddSystemMessage(icon)
 --	/script CHAT_ROUTER:AddSystemMessage(ZO_AchievementsContentsCategoriesScrollChildZO_IconHeader12Icon:GetTextureFileName())
 --	/script CHAT_ROUTER:AddSystemMessage(GetCollectibleIcon(912))
@@ -4318,6 +4321,8 @@ local MapPinCallback={
 				local poiName = GetPOIInfo(zoneIndex, poiIndex)
 				if poiName~="" then
 					local normalizedX, normalizedY, _, icon, _, _, isDiscovered= GetPOIMapInfo(zoneIndex, poiIndex)
+					-- fix till they give it a texture
+					if poiName=="Moranda" then icon="esoui/art/icons/poi/poi_ayleidruin_incomplete.dds" end
 					local extras=0 -- 1= mundus, 2= SetCrafting
 					if icon:find("mundus") then extras = 1 end
 					if icon:find("crafting") then extras = 2 end
@@ -5086,6 +5091,7 @@ local function AddPinFilter()
 			if PinsNirn[i] then	AddCheckBox(self.pvePanel, "pve") end
 			if PinsAva[i] then AddCheckBox(self.pvpPanel, "pvp") end
 			if PinsImperial[i] then AddCheckBox(self.imperialPvPPanel, "imperialPvP") end
+			if PinsJerall[i] then AddCheckBox(self.jerallPvPPanel, "jerallPvP") end	
 		end
 	end
 end
