@@ -5091,7 +5091,7 @@ local function AddPinFilter()
 			if PinsNirn[i] then	AddCheckBox(self.pvePanel, "pve") end
 			if PinsAva[i] then AddCheckBox(self.pvpPanel, "pvp") end
 			if PinsImperial[i] then AddCheckBox(self.imperialPvPPanel, "imperialPvP") end
-			if PinsJerall[i] then AddCheckBox(self.jerallPvPPanel, "jerallPvP") end	
+			if PinsJerall[i] and self.jerallPvPPanel then AddCheckBox(self.jerallPvPPanel, "jerallPvP") end	
 		end
 	end
 end
