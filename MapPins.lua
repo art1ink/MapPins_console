@@ -367,14 +367,6 @@ local BossesAchievements={[4472]=true,[4471]=true,[4272]=true,[4271]=true,[4265]
 local SkyShards
 local function Load_SkyShards()
 SkyShards={
-u51_navaladventure_01_01={{.772,.442,4690,1,590}},--1
-u51_navaladventure_01_01={{.533,.218,4690,2,589}},--2
-u51_navaladventure_01_01={{.353,.491,4690,3,591}},--3
-u51_navaladventure_01_02={{.207,.455,4690,4,592}},--4
---5 594
-u51_navaladventure_01_03={{.563,.220,4690,6,593}},--6
---u51_navaladventure_01_04={{.382,.649,4690}},--7
---u51_navaladventure_01_01={{.514,.476,4690}},--8
 blackreach_base={
 {.767,.370,2687,16,469},
 {.084,.366,2687,18,471},
@@ -2879,6 +2871,11 @@ local PoiData={}
 local Achievements
 local function Load_Achievements()
 Achievements={
+u51_navaladventure_01_01={[4690]={{.772,.442,1},{.533,.218,2},{.353,.491,3},{.514,.476,8}}},
+u51_navaladventure_01_02={[4690]={{.207,.455,4}}},
+u51_navaladventure_01_03={[4690]={{.670,.649,5},{.563,.220,6}}},
+u51_navaladventure_01_04={[4690]={{.382,.649,7}}},
+
 imperialsewers_aldmeri1_base={--Cunning Scamp Exterminator and Trove Scamp Exterminator	Provided by art1ink.
 [1270]={{.846,.653},{.895,.659},{.894,.626},{.815,.655},{.882,.67},{.871,.636},{.701,.513},{.73,.504},{.706,.543},{.718,.554},{.735,.567},{.761,.572},{.774,.568},{.784,.588},{.774,.597},{.756,.59},{.732,.589}},
 [1272]={{.846,.653},{.895,.659},{.894,.626},{.815,.655},{.882,.67},{.871,.636},{.701,.513},{.73,.504},{.706,.543},{.718,.554},{.735,.567},{.761,.572},{.774,.568},{.784,.588},{.774,.597},{.756,.59},{.732,.589}}},
@@ -4032,7 +4029,7 @@ local PortalsNames={
 [5]=Loc("Lava_Lashers"),
 [6]=Loc("Soul_Reaper")
 }
-local FILTER_COUNT=33 --Amount of filters
+local FILTER_COUNT=34 --Amount of filters
 local CustomPins={	--Types
 	[1]={name="pinType_Delve_bosses",done=false,id={},pin={},maxDistance=0.05,level=30,texture="/esoui/art/icons/poi/poi_groupboss_incomplete.dds",k=1.25},--tint=ZO_ColorDef:New(1,1,1,1),
 	[2]={name="pinType_Delve_bosses_done",done=true,id={},pin={},maxDistance=0.05,level=30,texture="/esoui/art/icons/poi/poi_groupboss_complete.dds",k=1.25},
@@ -4045,7 +4042,7 @@ local CustomPins={	--Types
 	[8]={name="pinType_Unknown_POI",done=false,id={},pin={},maxDistance=0.05,level=10,texture=function(self) return self.m_PinTag.texture end,def_texture="/esoui/art/icons/poi/poi_areaofinterest_incomplete.dds",size=40,tint=ZO_ColorDef:New(.7,.7,.7,.6)},
 	[9]={section=true,name="Undaunted",id={},pin={},texture="/esoui/art/icons/crafting_beer_003.dds",
 		[704]={name="pinType_This_One's_On_Me",done=false,ach=true,maxDistance=0.05,level=101,texture="/esoui/art/icons/crafting_beer_003.dds",k=1},
-		[1082]={name="pinType_Undaunted_Rescuer",done=false,ach=true,maxDistance=0.05,level=101,texture="/esoui/art/icons/ability_warrior_007.dds",k=1}
+		[1082]={name="pinType_Undaunted_Rescuer",done=false,ach=true,maxDistance=0.05,level=101,texture="/esoui/art/icons/ability_warrior_007.dds",k=1},
 		},
 	[10]={section=true,name="World_achievements",id={},pin={},texture="/esoui/art/progression/progression_indexicon_world_up.dds",
 		[872]={name="pinType_I_like_M'aiq",done=false,ach=true,maxDistance=0.05,level=101,texture="/esoui/art/icons/achievement_066.dds",k=1},
@@ -4153,9 +4150,12 @@ local CustomPins={	--Types
 		[4457]={name="pinType_The_Legend_of_Atlorn_the_Lost",done=false,ach=true,maxDistance=0.05,level=101,texture="/esoui/art/icons/u48_zone_flavor3.dds",k=1},
 		},
 	[33]={name="pinType_Dynamic_Encounters",id={},pin={},maxDistance=0.05,level=100,texture="/esoui/art/icons/mapkey/mapkey_dynamic_world_event.dds",k=1.2},
+	[34]={section=true,name="pinType_Seasons",id={},pin={},texture="/esoui/art/treeicons/tutorial_idexicon_goldroad_up.dds",		
+		[4690]={name="pinType_Wave_Tossed_Missives",done=false,ach=true,maxDistance=0.05,level=101,texture="/esoui/art/icons/achievement_su_flavor_01.dds",k=1}	
+		},
 	}
 local PinsAva={[1]=true,[2]=true,[3]=true,[4]=true,[5]=true,[6]=true,[7]=true,[8]=true,[17]=true,[21]=true}
-local PinsNirn={[1]=true,[2]=true,[3]=true,[4]=true,[5]=true,[6]=true,[7]=true,[8]=true,[9]=true,[10]=true,[11]=true,[12]=true,[13]=true,[14]=true,[15]=true,[16]=true,[17]=true,[18]=true,[19]=true,[20]=true,[22]=true,[23]=true,[24]=true,[25]=true,[27]=true,[28]=true,[29]=true,[30]=true,[31]=true,[32]=true,[33]=true}
+local PinsNirn={[1]=true,[2]=true,[3]=true,[4]=true,[5]=true,[6]=true,[7]=true,[8]=true,[9]=true,[10]=true,[11]=true,[12]=true,[13]=true,[14]=true,[15]=true,[16]=true,[17]=true,[18]=true,[19]=true,[20]=true,[22]=true,[23]=true,[24]=true,[25]=true,[27]=true,[28]=true,[29]=true,[30]=true,[31]=true,[32]=true,[33]=true,[34]=true}
 local PinsImperial={[3]=true,[5]=true,[7]=true,[8]=true,[17]=true,[26]=true}
 local PinsJerall={[3]=true,[4]=true,[5]=true,[6]=true,[7]=true,[8]=true,[17]=true}
 --	/script local name,_,_,icon=GetAchievementInfo(3295) CHAT_ROUTER:AddSystemMessage(icon)
@@ -4599,7 +4599,7 @@ local function MapPinAddCallback(i)
 						local Completed=GetSkyshardDiscoveryStatus(skyshardId)
 						if (Completed==2)==CustomPins[i].done then
 							local normalizedX,normalizedY,inMap=GetNormalizedPositionForSkyshardId(skyshardId)
-							if inMap and normalizedX > 0 and normalizedX < 1 and normalizedY > 0 and normalizedY < 1 then
+							if inMap then
 								PinManager:CreatePin(_G[CustomPins[i].name],{i,AchievementId,criterionIndex,skyshardId},normalizedX,normalizedY)
 							end
 						end
@@ -5059,7 +5059,6 @@ local function RegisterEvents()
 end
 
 --Initialization
-local panelToFilter = {}
 local function AddPinFilter()
 	local function GetCroppedAchievementInfo(id)
 		local name,_,_,icon=GetAchievementInfo(id)
@@ -5076,11 +5075,26 @@ local function AddPinFilter()
 	local function FilterCallback()
 		RegisterEvents()
 	end
+	if WORLD_MAP_FILTERS then	
+		for i=1,FILTER_COUNT do
+			if CustomPins[i] then	
+				local mapPinGroup = SetNameForMapPinGroup(i)	
+				local function AddCheckBox(panel, filter)
+					panel:AddPinFilterCheckBox(mapPinGroup, FilterCallback)
+				end
+				local self = WORLD_MAP_FILTERS
+				if PinsNirn[i] then	AddCheckBox(self.pvePanel, "pve") end
+				if PinsAva[i] then AddCheckBox(self.pvpPanel, "pvp") end
+				if PinsImperial[i] then AddCheckBox(self.imperialPvPPanel, "imperialPvP") end
+				if PinsJerall[i] and self.jerallPvPPanel then AddCheckBox(self.jerallPvPPanel, "jerallPvP") end	
+			end
+		end
+	end
+	
 	for i=FILTER_COUNT,1,-1 do --revesed else they apear backwars in filter list
 		if CustomPins[i] then
 			local mapPinGroup = SetNameForMapPinGroup(i)
 			local function AddCheckBox(panel, filter)
-				panelToFilter[panel] = filter
 				local orgBuild = panel.PostBuildControls
 				function panel.PostBuildControls(panel)
 					panel:AddPinFilterCheckBox(mapPinGroup, FilterCallback)
@@ -5190,11 +5204,22 @@ local PinTooltipCreator={
 		if pinTag[1]==15 then
 			icon=CustomPins[15].texture
 			name=Loc("Time_Rifts")
-		elseif (pinTag[1]==1 or pinTag[1]==2) and pinTag[4] then
+		elseif pinTag[1]==1 or pinTag[1]==2 then -- Bosses
+		name,desc,_,icon=GetAchievementInfo(pinTag[2])
+		if pinTag[3] then desc=GetAchievementCriterion(pinTag[2], pinTag[3]) end
+		if pinTag[4] then
 			name,desc,_,icon=GetAchievementInfo(pinTag[2])
 			desc1="  Set items:"
 			for _,id in pairs(pinTag[4]) do
 				desc1=desc1..("\n|H1:item:%d:359:50:0:0:0:0:0:0:0:0:0:0:0:0:1:0:0:0:10000:0|h|h"):format(id)
+			end
+		end
+		elseif pinTag[1]==3 or pinTag[1]==4 then -- Skyshards
+			name,desc,_,icon=GetAchievementInfo(pinTag[2])
+			if pinTag[3] then desc=GetAchievementCriterion(pinTag[2], pinTag[3]) end
+			if pinTag[4] then 
+				local hint=GetSkyshardHint(pinTag[4]) 
+				if hint and hint ~=desc then desc=hint end			
 			end
 		elseif pinTag[1]==873 then	--Lightbringer
 			icon=CustomPins[873].texture
@@ -5206,9 +5231,6 @@ local PinTooltipCreator={
 		elseif pinTag[1]==27 or pinTag[1]==33 or pinTag[1]==70 or pinTag[1]==74 or pinTag[1]==76 then
 			icon=CustomPins[ pinTag[1] ].texture
 			name=pinTag.name
-		elseif pinTag[1]<=4 then	-- Tooltip for Bosses & Skyshards
-			name,desc,_,icon=GetAchievementInfo(pinTag[2])
-			if pinTag[3] then desc=GetAchievementCriterion(pinTag[2], pinTag[3]) end
 		elseif pinTag[1]>FILTER_COUNT then	--Main tooltip for achievements
 			name,desc,_,icon=GetAchievementInfo(pinTag[1])
 			if pinTag[2] then desc=GetAchievementCriterion(pinTag[1], pinTag[2]) pinTag[3]=pinTag[2] end
@@ -5227,6 +5249,7 @@ local PinTooltipCreator={
 			name=Loc("Volendrung").." spawn location"
 		end
 		name=(pinTag[3] and "["..pinTag[3].."] " or "")..name
+	if IsInGamepadPreferredMode() then
 		ZO_MapLocationTooltip_Gamepad:LayoutIconStringLine(ZO_MapLocationTooltip_Gamepad.tooltip, icon, zo_strformat("<<1>>", name), ZO_MapLocationTooltip_Gamepad.tooltip:GetStyle("mapLocationTooltipWayshrineHeader"))
 		if desc then
 			ZO_MapLocationTooltip_Gamepad:LayoutIconStringLine(ZO_MapLocationTooltip_Gamepad.tooltip, nil, zo_strformat("<<1>>", desc), ZO_MapLocationTooltip_Gamepad.tooltip:GetStyle("mapRecallCost"))
@@ -5234,6 +5257,17 @@ local PinTooltipCreator={
 		if desc1 then
 			ZO_MapLocationTooltip_Gamepad:LayoutIconStringLine(ZO_MapLocationTooltip_Gamepad.tooltip, nil, zo_strformat("<<1>>", desc1), ZO_MapLocationTooltip_Gamepad.tooltip:GetStyle("mapRecallCost"))
 		end
+	else
+		InformationTooltip:AddLine(zo_strformat("<<1>> <<2>>",zo_iconFormat(icon,24,24), name), "ZoFontGameOutline", ZO_SELECTED_TEXT:UnpackRGB())
+		if desc then
+			ZO_Tooltip_AddDivider(InformationTooltip)
+			InformationTooltip:AddLine(zo_strformat("<<1>>", desc), "", ZO_HIGHLIGHT_TEXT:UnpackRGB())
+		end
+		if desc1 then
+			ZO_Tooltip_AddDivider(InformationTooltip)
+			InformationTooltip:AddLine(zo_strformat("<<1>>", desc1), "", ZO_HIGHLIGHT_TEXT:UnpackRGB())
+		end
+	end
 	end
 }
 
